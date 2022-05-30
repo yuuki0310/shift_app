@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=yes, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="keywords" content="">
+<title>shift_app</title>
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<script src="js/css3-mediaqueries.js"></script>
+<![endif]-->
+<script src="js/jquery1.7.2.min.js"></script>
+<script src="js/script.js"></script>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <div id="header">
+    <div class="inner">
+      <!-- ロゴ -->
+      <div class="logo">
+      <a>shift_app<br><span>Your Company Slogan</span></a>
+      </div>
+      <!-- / ロゴ -->
+      
+      <!-- メインナビゲーション -->
+      <nav id="mainNav">
+        <a class="menu" id="menu"><span>MENU</span></a>
+        <div class="panel">
+          <ul>
+            <li class="active"><a>トップページ<br><span>Top</span></a></li>
+          </ul>
+        </div>
+      </nav>
+      <!-- メインナビゲーション -->
+      
+    </div>
+  </div>
+  <!-- / ヘッダー -->
+
+  <%= yield %>
+</body>
+</html>
