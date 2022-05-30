@@ -1,0 +1,3 @@
+class EmployerWeek < ApplicationRecord
+  
+end
