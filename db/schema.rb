@@ -10,18 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_30_140730) do
+ActiveRecord::Schema.define(version: 2022_06_01_095724) do
 
-  create_table "employer_weeks", force: :cascade do |t|
+  create_table "store_infos", force: :cascade do |t|
+    t.integer "working_time"
+    t.integer "count"
+    t.string "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "mon"
-    t.string "tue"
-    t.string "wed"
-    t.string "thu"
-    t.string "fri"
-    t.string "sat"
-    t.string "sun"
+    t.string "weeklyday"
   end
 
 end
