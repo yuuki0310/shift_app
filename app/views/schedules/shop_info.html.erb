@@ -1,11 +1,11 @@
 <div id="wrapper">
-  <%= form_tag("/schedules/week_set") do %>
+  <% form_for @week do |f| %>
     <%# <p>基本人数</p>
     <input type="number"> %>
     <h1>1週間設定</h1>
     <div>
       <p>曜日</p>
-      <%= options_for_select("weeklyday", [
+      <%= f.options_for_select("weeklyday", [
         ["月曜日", "mon"],
         ["火曜日", "tue"],
         ["水曜日", "wed"],
