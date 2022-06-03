@@ -1,0 +1,18 @@
+<div id="wrapper">
+  <%= form_for(@week) do |f| %>
+    <p>基本人数</p>
+    <%# <input type="number"> %>
+    <h1>1週間設定</h1>
+    <div>
+      <p>曜日</p>
+      <%= f.select :weeklyday, [["月曜日", "mon"], ["火曜日", "tue"],["水曜日", "wed"], ["木曜日", "thu"], ["金曜日", "fri"], ["土曜日", "sat"], ["日曜日", "sun"]], {}, {multiple: true, size: 7} %>
+      <p>時間</p>
+      <%= f.number_field :working_time, min: 1, max: 24 %>
+      <p>から</p>
+      <%= f.number_field :working_time, min: 1, max: 24 %>
+      <p>人数</p>
+      <%= f.number_field :count, min: 1 %>
+      <%= f.submit "追加" %>
+    </div>
+  <% end %>
+</div>

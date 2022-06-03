@@ -1,2 +1,3 @@
 class StoreInfo < ApplicationRecord
+  
 end
