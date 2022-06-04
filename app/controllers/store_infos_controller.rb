@@ -1,10 +1,19 @@
 class StoreInfosController < ApplicationController
-  def new
-    @week = StoreInfo.new()
-    # redirect_to("/")
+
+  def storeInfo_params
+    params.require(:store_info).permit(:weeklyday, :working_time, :count, :user_id)
   end
 
-  def create
-    @week = StoreInfo.new()
+  def new
+    @week = StoreInfo.new
   end
+  
+  def create
+    StoreInfo.create(storeInfo_params)
+    redirect_to("/")
+  end
+
+  def update
+  end
+
 end
