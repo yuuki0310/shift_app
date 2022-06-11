@@ -1,0 +1,2 @@
+class Weeklyday < ApplicationRecord
+end

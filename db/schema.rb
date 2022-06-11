@@ -10,15 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_01_095724) do
+ActiveRecord::Schema.define(version: 2022_06_11_105953) do
 
-  create_table "store_infos", force: :cascade do |t|
-    t.integer "working_time"
+  create_table "store_schedules", force: :cascade do |t|
+    t.integer "store_id"
+    t.integer "weeklyday_id"
+    t.time "working_time_from"
+    t.time "working_time_to"
     t.integer "count"
-    t.string "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "weeklyday"
+  end
+
+  create_table "stores", force: :cascade do |t|
+    t.string "name"
+    t.string "owner"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "weeklydays", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

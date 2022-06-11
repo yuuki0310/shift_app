@@ -8,14 +8,14 @@
       <%# weeklyday = [["月曜日", "mon"], ["火曜日", "tue"],["水曜日", "wed"], ["木曜日", "thu"], ["金曜日", "fri"], ["土曜日", "sat"], ["日曜日", "sun"]] %>
 
       <%#= f.select :weeklyday, [["月曜日", "mon"], ["火曜日", "tue"],["水曜日", "wed"], ["木曜日", "thu"], ["金曜日", "fri"], ["土曜日", "sat"], ["日曜日", "sun"]], {}, {multiple: true, size: 7} %>
-      <% weeklyday.each do |w| %>
-        <%= f.label :weeklyday, w %>
-        <%= f.check_box :weeklyday ,{ multiple: true, include_hidden: false }, w, nil %>
+      <% weeklyday.each.with_index do |w, i| %>
+        <%= f.label :weeklyday_id, w %>
+        <%= f.check_box :weeklyday_id ,{ multiple: true, include_hidden: false }, i+1, nil %>
       <% end %>
       <p>時間</p>
-      <%= f.number_field :working_time, min: 1, max: 24 %>
+      <%= f.time_field :working_time_from, min: 1, max: 24 %>
       <p>から</p>
-      <%= f.number_field :working_time, min: 1, max: 24 %>
+      <%= f.time_field :working_time_to, min: 1, max: 24 %>
       <p>人数</p>
       <%= f.number_field :count, min: 1 %>
       <%= f.submit "追加" %>

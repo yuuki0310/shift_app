@@ -1,0 +1,2 @@
+class StoreSchedule < ApplicationRecord
+end
