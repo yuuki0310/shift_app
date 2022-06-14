@@ -11,7 +11,7 @@
         <%= f.check_box :weeklyday_id ,{ multiple: true, include_hidden: false }, i+1, nil %>
       <% end %>
 
-      <%= f.collection_check_boxes(:weeklyday_ids, Weeklyday.all, :id, :name, include_hidden: false) %>
+      <%= f.collection_check_boxes(:weeklyday_id, Weeklyday.all, :id, :name, include_hidden: false) %>
       <p>時間</p>
       <%= f.time_field :working_time_from, min: 1, max: 24 %>
       <p>から</p>

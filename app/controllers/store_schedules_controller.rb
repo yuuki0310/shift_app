@@ -1,7 +1,7 @@
 class StoreSchedulesController < ApplicationController
 
   def storeSchedule_params
-    params.require(:store_schedule).permit(:working_time_from, :working_time_to, :count, :store_id, weeklyday_ids: [])
+    params.require(:store_schedule).permit(:working_time_from, :working_time_to, :count, :store_id)
   end
 
   def new
@@ -9,7 +9,10 @@ class StoreSchedulesController < ApplicationController
   end
   
   def create
-    StoreSchedule.create(storeSchedule_params)
+    params.require(:store_schedule).permit(weeklyday_id: [])[:weeklyday_id].each do |weeklyday_id|
+      StoreSchedule.create(storeSchedule_params)
+    end
+
     redirect_to("/")
   end
 
