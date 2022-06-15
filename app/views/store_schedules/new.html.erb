@@ -1,16 +1,9 @@
 <div id="wrapper">
-  <%= form_for(@week) do |f| %>
+  <%= form_for(@store_schedule) do |f| %>
     <p>基本人数</p>
     <h1>1週間設定</h1>
     <div>
       <p>曜日</p>
-      <% weeklyday = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日", ] %>
-      <%#= f.select :weeklyday, [["月曜日", "mon"], ["火曜日", "tue"],["水曜日", "wed"], ["木曜日", "thu"], ["金曜日", "fri"], ["土曜日", "sat"], ["日曜日", "sun"]], {}, {multiple: true, size: 7} %>
-      <% weeklyday.each.with_index do |w, i| %>
-        <%= f.label :weeklyday_id, w %>
-        <%= f.check_box :weeklyday_id ,{ multiple: true, include_hidden: false }, i+1, nil %>
-      <% end %>
-
       <%= f.collection_check_boxes(:weeklyday_id, Weeklyday.all, :id, :name, include_hidden: false) %>
       <p>時間</p>
       <%= f.time_field :working_time_from, min: 1, max: 24 %>
@@ -21,4 +14,20 @@
       <%= f.submit "追加" %>
     </div>
   <% end %>
+  <table class="table" border="1">
+    <tr>
+      <th></th>
+      <th>月曜日</th>
+      <th>火曜日</th>
+      <th>水曜日</th>
+      <th>木曜日</th>
+      <th>金曜日</th>
+      <th>土曜日</th>
+      <th>日曜日</th>
+    </tr>
+    <tr>
+      <td>田中</td>
+      <td>27</td>
+    </tr>
+  </table>
 </div>
