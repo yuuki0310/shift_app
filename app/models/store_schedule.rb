@@ -1,4 +1,4 @@
 class StoreSchedule < ApplicationRecord
-  # belongs_to :store
-  # belongs_to :Weeklyday
+  belongs_to :store
+  belongs_to :Weeklyday
 end
