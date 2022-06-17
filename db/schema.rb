@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_17_104005) do
+ActiveRecord::Schema.define(version: 2022_06_17_172314) do
 
   create_table "store_schedules", force: :cascade do |t|
     t.time "working_time_from"
@@ -36,9 +36,7 @@ ActiveRecord::Schema.define(version: 2022_06_17_104005) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "Store_id_id"
     t.integer "store_id"
-    t.index ["Store_id_id"], name: "index_users_on_Store_id_id"
     t.index ["store_id"], name: "index_users_on_store_id"
   end
 
