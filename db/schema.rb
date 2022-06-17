@@ -10,30 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_15_104229) do
+ActiveRecord::Schema.define(version: 2022_06_17_104005) do
 
   create_table "store_schedules", force: :cascade do |t|
-    t.integer "store_id"
-    t.integer "weeklyday_id"
     t.time "working_time_from"
     t.time "working_time_to"
     t.integer "count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "store_id"
+    t.integer "weeklyday_id"
+    t.index ["store_id"], name: "index_store_schedules_on_store_id"
+    t.index ["weeklyday_id"], name: "index_store_schedules_on_weeklyday_id"
   end
 
   create_table "stores", force: :cascade do |t|
     t.string "name"
-    t.integer "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "owner_id"
+    t.index ["owner_id"], name: "index_stores_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.integer "store_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "Store_id_id"
+    t.integer "store_id"
+    t.index ["Store_id_id"], name: "index_users_on_Store_id_id"
+    t.index ["store_id"], name: "index_users_on_store_id"
   end
 
   create_table "weeklydays", force: :cascade do |t|
