@@ -3,7 +3,7 @@ class StoreSchedulesController < ApplicationController
   def storeSchedule_params
     params.require(:store_schedule).permit(:working_time_from, :working_time_to, :count, :store_id, weeklyday_id: [])
   end
-
+  
   def new
     @store_schedule = StoreSchedule.new
   end

@@ -6,9 +6,9 @@
       <p>曜日</p>
       <%= f.collection_check_boxes(:weeklyday_id, Weeklyday.all, :id, :name, include_hidden: false) %>
       <p>時間</p>
-      <%= f.time_field :working_time_from, min: 1, max: 24 %>
+      <%= f.time_field :working_time_from %>
       <p>から</p>
-      <%= f.time_field :working_time_to, min: 1, max: 24 %>
+      <%= f.time_field :working_time_to %>
       <p>人数</p>
       <%= f.number_field :count, min: 1 %>
       <%= f.submit "追加" %>
