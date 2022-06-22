@@ -2,6 +2,11 @@
   <%= form_for(@store_schedule) do |f| %>
     <p>基本人数</p>
     <h1>1週間設定</h1>
+    <% @store_schedule.errors.full_messages.each do |message| %>
+      <div class="form-error">
+        <%= message %>
+      </div>
+    <% end %>
     <div>
       <p>曜日</p>
       <%= f.collection_check_boxes(:weeklyday_id, Weeklyday.all, :id, :name, include_hidden: false) %>

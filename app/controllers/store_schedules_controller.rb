@@ -10,17 +10,16 @@ class StoreSchedulesController < ApplicationController
   
   def create
     params.require(:store_schedule).permit(weeklyday_id: [])[:weeklyday_id].each do |weeklyday_id|
-      store_schedule = StoreSchedule.new(
-        store_id: 1,
+      @store_schedule = StoreSchedule.new(
+        store_id: @current_user.id,
         weeklyday_id: weeklyday_id,
         working_time_from: storeSchedule_params[:working_time_from],
         working_time_to: storeSchedule_params[:working_time_to],
         count: storeSchedule_params[:count]
       )
-      store_schedule.save
+      @store_schedule.save
     end
-    session[:user_id] = 1
-    redirect_to("/")
+    redirect_to("/store_schedules/new")
   end
 
   def update
