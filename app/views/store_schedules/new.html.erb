@@ -30,9 +30,10 @@
       <th>土曜日</th>
       <th>日曜日</th>
     </tr>
-    <tr>
-      <td>田中</td>
-      <td>27</td>
-    </tr>
+    <% @working_times.each do |working_time| %>
+      <tr>
+        <td><%= working_time %></td>
+      </tr>
+    <% end %>
   </table>
 </div>
