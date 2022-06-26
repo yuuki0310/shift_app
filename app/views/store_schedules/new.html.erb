@@ -30,9 +30,24 @@
       <th>土曜日</th>
       <th>日曜日</th>
     </tr>
-    <% @working_times.each do |working_time| %>
+    <% @working_times.sort.each_with_index do |working_time, i| %>
       <tr>
-        <td><%= working_time %></td>
+        <th><%= working_time.strftime( "%H:%M" ) %></th>
+        <% @weeklydays.each do |weeklyday| %>
+          <td>
+            <%  working_time_from_weeklyday = @current_user.store.store_schedules.find_by(working_time_from: working_time, weeklyday_id: weeklyday.id) %>
+            <%  working_time_to_weeklyday = @current_user.store.store_schedules.find_by(working_time_to: working_time, weeklyday_id: weeklyday.id) %>
+            <% if working_time_from_weeklyday && working_time_to_weeklyday %>
+              <%= "┿	  #{working_time_from_weeklyday.count}人" %>
+            <% elsif working_time_from_weeklyday %>
+              <%= "┯	  #{working_time_from_weeklyday.count}人" %>
+            <% elsif working_time_to_weeklyday %>
+              ┷	
+            <% elsif bar_line(weeklyday.id, working_time) %>
+              │
+            <% end %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </table>

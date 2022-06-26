@@ -1,5 +1,7 @@
 class StoreSchedulesController < ApplicationController
 
+  helper_method :bar_line
+
   def storeSchedule_params
     params.require(:store_schedule).permit(:working_time_from, :working_time_to, :count, :store_id, weeklyday_id: []).merge(store_id: @current_user.store.id)
   end
@@ -11,7 +13,18 @@ class StoreSchedulesController < ApplicationController
       @working_times.push(store_schedule.working_time_from)
       @working_times.push(store_schedule.working_time_to)
     end
-    @working_times.sort!
+    @working_times.uniq!
+    @weeklydays = Weeklyday.all
+    def bar_line(weeklyday, working_time)
+      store_schedules = @current_user.store.store_schedules.where(weeklyday_id: weeklyday)
+      store_schedules.each do |store_schedule|
+        if store_schedule.working_time_from < working_time && working_time < store_schedule.working_time_to
+          return true
+          break
+        end
+      end
+      return false
+    end
   end
   
   def create
