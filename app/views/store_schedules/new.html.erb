@@ -37,7 +37,7 @@
             <%  working_time_from_weeklyday = @current_user.store.store_schedules.find_by(working_time_from: working_time, weeklyday_id: weeklyday.id) %>
             <%  working_time_to_weeklyday = @current_user.store.store_schedules.find_by(working_time_to: working_time, weeklyday_id: weeklyday.id) %>
             <% if working_time_from_weeklyday && working_time_to_weeklyday %>
-              <td  style="border-bottom:none;"><%= "┿	  #{working_time_from_weeklyday.count}人" %></td>
+              <td  style="border-bottom:none;"><%= "┿   #{working_time_from_weeklyday.count}人" %></td>
             <% elsif working_time_from_weeklyday %>
               <td style="border-bottom:none;"><%= "┯	  #{working_time_from_weeklyday.count}人" %></td>
             <% elsif working_time_to_weeklyday %>
