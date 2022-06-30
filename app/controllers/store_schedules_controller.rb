@@ -13,7 +13,8 @@ class StoreSchedulesController < ApplicationController
       @working_times.push(store_schedule.working_time_from)
       @working_times.push(store_schedule.working_time_to)
     end
-    @working_times.uniq!
+    @working_times.uniq!.sort!
+
     @weeklydays = Weeklyday.all
     def bar_line(weeklyday, working_time)
       store_schedules = @current_user.store.store_schedules.where(weeklyday_id: weeklyday)
@@ -34,10 +35,16 @@ class StoreSchedulesController < ApplicationController
         @store_schedule = StoreSchedule.new(storeSchedule_params.merge(weeklyday_id: weeklyday_id))
         @store_schedule.save
       end
-      if @store_schedule.save == false
-        render("store_schedules/new")
-      else
+      if @store_schedule.save
         redirect_to("/store_schedules/new")
+      else
+        # @working_times = []
+        # @current_user.store.store_schedules.each do |store_schedule|
+        #   @working_times.push(store_schedule.working_time_from)
+        #   @working_times.push(store_schedule.working_time_to)
+        # end
+        # @working_times.uniq!.sort!
+        render :new
       end
     else
       @store_schedule = StoreSchedule.create(storeSchedule_params)
