@@ -16,6 +16,24 @@
 
  @charset "utf-8";
 
+/* 追加CSS
+-------------------------------------------------------------- */
+
+.field_with_errors{
+	display: inline;
+}
+
+.form-error{
+	color: red;
+}
+
+.time p{
+	display: inline;
+}
+.working_time{
+	display: inline;
+}
+
 
 /* =Reset default browser CSS.
 Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
