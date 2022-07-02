@@ -13,12 +13,12 @@
     <tr>
       <th><%= working_time.strftime( "%H:%M" ) %></th>
       <% @weeklydays.each do |weeklyday| %>
-          <%  working_time_from_weeklyday = @current_user.store.store_schedules.find_by(working_time_from: working_time, weeklyday_id: weeklyday.id) %>
-          <%  working_time_to_weeklyday = @current_user.store.store_schedules.find_by(working_time_to: working_time, weeklyday_id: weeklyday.id) %>
+          <%  working_time_from_weeklyday = @current_user.user_schedules.find_by(working_time_from: working_time, weeklyday_id: weeklyday.id) %>
+          <%  working_time_to_weeklyday = @current_user.user_schedules.find_by(working_time_to: working_time, weeklyday_id: weeklyday.id) %>
           <% if working_time_from_weeklyday && working_time_to_weeklyday %>
-            <td><%= "┿   #{working_time_from_weeklyday.count}人" %></td>
+            <td><%= "┿" %></td>
           <% elsif working_time_from_weeklyday %>
-            <td><%= "┯	  #{working_time_from_weeklyday.count}人" %></td>
+            <td><%= "┯" %></td>
           <% elsif working_time_to_weeklyday %>
             <td style="border-bottom:1px solid #1f1f1f;">┷</td>
           <% elsif bar_line(weeklyday.id, working_time) %>

@@ -274,24 +274,35 @@ table.table{
 border-collapse:collapse;
 width:100%;
 margin:10px auto;
+border:1px solid #1f1f1f;
 }
 
 table.table th,table.table td{
 padding:5px;
 border:1px solid #1f1f1f;
+font-size: 1rem;
 }
 
 table.table th{
-text-align:right;
-font-weight:bold;
-letter-spacing:1px;
-white-space:nowrap;
-color:#fff;
-background:#555;
-border-left:#1f1f1f 5px solid
+	text-align:right;
+	font-weight:bold;
+	letter-spacing:1px;
+	white-space:nowrap;
+	color:#fff;
+	background:#555;
+	border-left:#1f1f1f 5px solid;
 }
 
-table.table td{border-left:#1f1f1f 3px double}
+table.table td{
+	border: none;
+	border-left:#1f1f1f 3px double;
+}
+
+/* .vertical_line{
+	height: 1em;
+	width: 5px;
+	border-left: #1f1f1f 5px solid;
+} */
 
 
 

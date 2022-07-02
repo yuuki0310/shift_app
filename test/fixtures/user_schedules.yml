@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  weeklyday: one
+  working_time_from: 2022-07-02 18:33:30
+  working_time_to: 2022-07-02 18:33:30
+
+two:
+  user: two
+  weeklyday: two
+  working_time_from: 2022-07-02 18:33:30
+  working_time_to: 2022-07-02 18:33:30

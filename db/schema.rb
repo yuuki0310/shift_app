@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_17_172314) do
+ActiveRecord::Schema.define(version: 2022_07_02_093330) do
 
   create_table "store_schedules", force: :cascade do |t|
     t.time "working_time_from"
@@ -30,6 +30,17 @@ ActiveRecord::Schema.define(version: 2022_06_17_172314) do
     t.datetime "updated_at", null: false
     t.integer "owner_id"
     t.index ["owner_id"], name: "index_stores_on_owner_id"
+  end
+
+  create_table "user_schedules", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "weeklyday_id"
+    t.time "working_time_from"
+    t.time "working_time_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_schedules_on_user_id"
+    t.index ["weeklyday_id"], name: "index_user_schedules_on_weeklyday_id"
   end
 
   create_table "users", force: :cascade do |t|

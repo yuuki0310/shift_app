@@ -1,7 +1,7 @@
 <div id="wrapper">
-  <%= form_for(@store_schedule) do |f| %>
+  <%= form_for(@user_schedule) do |f| %>
     <h2>基本人数</h2>
-    <% @store_schedule.errors.full_messages.each do |message| %>
+    <% @user_schedule.errors.full_messages.each do |message| %>
       <div class="form-error">
         <%= message %>
       </div>
@@ -16,8 +16,6 @@
         <p>〜</p>
         <%= f.time_field :working_time_to, class: "working_time" %>
       </div>
-      <h1>人数</h1>
-      <%= f.number_field :count, min: 1 %>
       <%= f.submit "追加" %>
     </div>
   <% end %>

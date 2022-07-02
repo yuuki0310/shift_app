@@ -46,8 +46,11 @@ class StoreSchedulesController < ApplicationController
       end
     else
       @store_schedule = StoreSchedule.create(storeSchedule_params)
-      render("store_schedules/new")
+      render :new
     end
+  end
+
+  def destroy
   end
 
   def update
