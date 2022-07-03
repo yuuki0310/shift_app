@@ -10,6 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require simple_calendar
  *= require_tree .
  *= require_self
  */
@@ -33,7 +34,6 @@
 .working_time{
 	display: inline;
 }
-
 
 /* =Reset default browser CSS.
 Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
@@ -293,7 +293,7 @@ table.table th{
 	border-left:#1f1f1f 5px solid;
 }
 
-table.table td{
+table.weekly_scheduled td{
 	border: none;
 	border-left:#1f1f1f 3px double;
 }

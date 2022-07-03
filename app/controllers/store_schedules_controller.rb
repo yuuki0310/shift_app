@@ -1,6 +1,6 @@
 class StoreSchedulesController < ApplicationController
 
-  helper_method :bar_line
+  helper_method :bar_line, :calendar_wday
 
   def storeSchedule_params
     params.require(:store_schedule).permit(:working_time_from, :working_time_to, :count, :store_id, weeklyday_id: []).merge(store_id: @current_user.store.id)
@@ -29,6 +29,13 @@ class StoreSchedulesController < ApplicationController
   def new
     @store_schedule = StoreSchedule.new
     weekly_scheduled
+    def calendar_wday(date)
+      if date.wday == 0
+        return 7
+      else
+        return date.wday
+      end
+    end
   end
   
   def create
