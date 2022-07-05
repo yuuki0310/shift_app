@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  date: 2022-07-05
+  working_time_from: 2022-07-05 14:57:36
+  working_time_to: 2022-07-05 14:57:36
+
+two:
+  user: two
+  date: 2022-07-05
+  working_time_from: 2022-07-05 14:57:36
+  working_time_to: 2022-07-05 14:57:36

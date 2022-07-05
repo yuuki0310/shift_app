@@ -25,17 +25,11 @@ class StoreSchedulesController < ApplicationController
       return false
     end
   end
-  
+
   def new
     @store_schedule = StoreSchedule.new
     weekly_scheduled
-    def calendar_wday(date)
-      if date.wday == 0
-        return 7
-      else
-        return date.wday
-      end
-    end
+    @store_month_schedule = StoreMonthSchedule.new
   end
   
   def create
@@ -55,6 +49,8 @@ class StoreSchedulesController < ApplicationController
       @store_schedule = StoreSchedule.create(storeSchedule_params)
       render :new
     end
+
+    @store_month_schedule = StoreMonthSchedule.new
   end
 
   def destroy

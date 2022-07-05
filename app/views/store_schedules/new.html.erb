@@ -22,23 +22,4 @@
     </div>
   <% end %>
   <%= render "weekly_scheduled" %>
-  <%= month_calendar do |date| %>
-    <%= date.day %>
-    <% schedules = @current_user.store.store_schedules.where(weeklyday_id: calendar_wday(date)) %>
-    <% schedules.each do |schedule| %>
-      <% working_times = [ ] %>
-      <% working_times.push(schedule.working_time_from) %>
-      <% working_times.push(schedule.working_time_to).sort! %>
-      <table>
-        <% working_times.each_with_index do |working_time, i| %>
-          <tr>
-            <td><%= working_time.strftime( "%H:%M" ) %></td>
-            <% if i % 2 == 0 %>
-              <td rowspan="2"><%= schedule.count %>人</td>
-            <% end %>
-          </tr>
-        <% end %>
-      </table>
-    <% end %>
-  <% end %> 
 </div>

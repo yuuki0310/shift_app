@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_02_093330) do
+ActiveRecord::Schema.define(version: 2022_07_05_105044) do
+
+  create_table "store_month_schedules", force: :cascade do |t|
+    t.integer "store_id"
+    t.date "date"
+    t.time "working_time_from"
+    t.time "working_time_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "count"
+    t.index ["store_id"], name: "index_store_month_schedules_on_store_id"
+  end
 
   create_table "store_schedules", force: :cascade do |t|
     t.time "working_time_from"
@@ -30,6 +41,16 @@ ActiveRecord::Schema.define(version: 2022_07_02_093330) do
     t.datetime "updated_at", null: false
     t.integer "owner_id"
     t.index ["owner_id"], name: "index_stores_on_owner_id"
+  end
+
+  create_table "use_uunabl_sschedules", force: :cascade do |t|
+    t.integer "user_id"
+    t.date "date"
+    t.time "working_time_from"
+    t.time "working_time_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_use_uunabl_sschedules_on_user_id"
   end
 
   create_table "user_schedules", force: :cascade do |t|

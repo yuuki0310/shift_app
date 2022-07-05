@@ -1,0 +1,39 @@
+<div id="wrapper">
+    <% @store_month_schedule.errors.full_messages.each do |message| %>
+      <div class="form-error">
+        <%= message %>
+      </div>
+    <% end %>
+  <%= form_for(@store_month_schedule) do |f| %>
+    <%= f.date_select :date, {discard_year: true} %>
+    <h1>時間</h1>
+    <div class="time">
+      <%= f.time_field :working_time_from, class: "working_time" %>
+      <p>〜</p>
+      <%= f.time_field :working_time_to, class: "working_time" %>
+      <h1>人数</h1>
+      <%= f.number_field :count, min: 1 %>
+      <%= f.submit "追加" %>
+    </div>
+  <% end %>
+
+  <%= month_calendar do |date| %>
+    <%= date.day %>
+    <% schedules = @current_user.store.store_schedules.where(weeklyday_id: calendar_wday(date)) %>
+    <% schedules.each do |schedule| %>
+      <% working_times = [] %>
+      <% working_times.push(schedule.working_time_from) %>
+      <% working_times.push(schedule.working_time_to).sort! %>
+      <table>
+        <% working_times.each_with_index do |working_time, i| %>
+          <tr>
+            <td><%= working_time.strftime( "%H:%M" ) %></td>
+            <% if i % 2 == 0 %>
+              <td rowspan="2"><%= schedule.count %>人</td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+  <% end %> 
+</div>
