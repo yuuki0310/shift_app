@@ -1,0 +1,2 @@
+module StoreSchedulesHelper
+end

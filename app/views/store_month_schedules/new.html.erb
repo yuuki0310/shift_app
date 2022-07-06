@@ -19,21 +19,37 @@
 
   <%= month_calendar do |date| %>
     <%= date.day %>
+    <% date_schedules = StoreMonthSchedule.where(date: date, store_id: @current_user.store_id) %>
     <% schedules = @current_user.store.store_schedules.where(weeklyday_id: calendar_wday(date)) %>
-    <% schedules.each do |schedule| %>
-      <% working_times = [] %>
-      <% working_times.push(schedule.working_time_from) %>
-      <% working_times.push(schedule.working_time_to).sort! %>
-      <table>
-        <% working_times.each_with_index do |working_time, i| %>
+    <% if date_schedules.present? %>
+      <% date_schedules.each do |date_schedule| %>
+      <% if schedules.working_time_from < date_schedule.working_time_from && date_schedule.working_time_from < schedules.working_time_to ||
+        schedules.working_time_from < date_schedule.working_time_to && date_schedule.working_time_to < schedules.working_time_to ||
+        schedules.working_time_from == date_schedule.working_time_from && schedules.working_time_to == date_schedule.working_time_to %>
+        
+      <% end %>
+        <table>
           <tr>
-            <td><%= working_time.strftime( "%H:%M" ) %></td>
-            <% if i % 2 == 0 %>
-              <td rowspan="2"><%= schedule.count %>人</td>
-            <% end %>
+            <td><%= date_schedule.working_time_from.strftime( "%H:%M" ) %></td>
+            <td rowspan="2"><%= date_schedule.count %>人</td>
           </tr>
-        <% end %>
-      </table>
+          <tr>
+            <td><%= date_schedule.working_time_to.strftime( "%H:%M" ) %></td>
+          </tr>
+        </table>
+      <% end %>
+    <% else %>
+      <% schedules.each do |schedule| %>
+        <table>
+          <tr>
+            <td><%= schedule.working_time_from.strftime( "%H:%M" ) %></td>
+            <td rowspan="2"><%= schedule.count %>人</td>
+          </tr>
+          <tr>
+            <td><%= schedule.working_time_to.strftime( "%H:%M" ) %></td>
+          </tr>
+        </table>
+      <% end %>
     <% end %>
   <% end %> 
 </div>

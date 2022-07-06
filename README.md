@@ -26,3 +26,4 @@ Things you may want to cover:
 _weekly_scheduledの線の描写
 一週間設定の複数曜日設定した時のエラー処理(save)
 一週間設定の複数曜日設定した時のエラー時に、１つしか曜日が渡されない
+helperを使ってviewをdryに書く
