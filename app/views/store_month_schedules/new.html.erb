@@ -19,38 +19,18 @@
 
   <%= month_calendar do |date| %>
     <%= date.day %>
-    <% date_schedules = StoreMonthSchedule.where(date: date, store_id: @current_user.store_id) %>
-    <% schedules = @current_user.store.store_schedules.where(weeklyday_id: calendar_wday(date)) %>
-    <% if date_schedules.present? %>
-      <% date_schedules.each do |date_schedule| %>
-      <% if schedules.working_time_from < date_schedule.working_time_from && date_schedule.working_time_from < schedules.working_time_to ||
-        schedules.working_time_from < date_schedule.working_time_to && date_schedule.working_time_to < schedules.working_time_to ||
-        schedules.working_time_from == date_schedule.working_time_from && schedules.working_time_to == date_schedule.working_time_to %>
-        
-        
-      <% end %>
-        <table>
-          <tr>
-            <td><%= date_schedule.working_time_from.strftime( "%H:%M" ) %></td>
-            <td rowspan="2"><%= date_schedule.count %>人</td>
-          </tr>
-          <tr>
-            <td><%= date_schedule.working_time_to.strftime( "%H:%M" ) %></td>
-          </tr>
-        </table>
-      <% end %>
-    <% else %>
-      <% schedules.each do |schedule| %>
-        <table>
-          <tr>
-            <td><%= schedule.working_time_from.strftime( "%H:%M" ) %></td>
-            <td rowspan="2"><%= schedule.count %>人</td>
-          </tr>
-          <tr>
-            <td><%= schedule.working_time_to.strftime( "%H:%M" ) %></td>
-          </tr>
-        </table>
-      <% end %>
+    <%#= date_table(date) %>
+    <% date_table(date).each do |dt| %>
+      <table>
+        <tr>
+          <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
+          <td rowspan="2"><%= dt.count %>人</td>
+        </tr>
+        <tr>
+          <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
+        </tr>
+      </table>
     <% end %>
+
   <% end %> 
 </div>
