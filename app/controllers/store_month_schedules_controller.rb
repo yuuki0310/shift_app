@@ -19,21 +19,23 @@ class StoreMonthSchedulesController < ApplicationController
     date_tables = []
     date_schedules = @current_user.store.store_month_schedules.where(date: date)
     weekly_schedules = @current_user.store.store_schedules.where(weeklyday_id: calendar_wday(date))
+    weekly_schedules.each do |wekkly_schedule|
+      date_tables.push(wekkly_schedule)
+    end
     if date_schedules.present?
       date_schedules.each do |date_schedule|
+        date_tables.push(date_schedule)
         weekly_schedules.each do |wekkly_schedule|
           if wekkly_schedule.working_time_from < date_schedule.working_time_from && date_schedule.working_time_from < wekkly_schedule.working_time_to || \
             wekkly_schedule.working_time_from < date_schedule.working_time_to && date_schedule.working_time_to < wekkly_schedule.working_time_to || \
             wekkly_schedule.working_time_from == date_schedule.working_time_from && wekkly_schedule.working_time_to == date_schedule.working_time_to
-            date_tables.push(date_schedule)
-          else
-            date_tables.push(wekkly_schedule)
+            date_tables.delete(wekkly_schedule)
           end
         end
       end
-      date_tables.uniq!
-    else
-      date_tables = weekly_schedules
+    end
+    date_tables.sort! do |a, b|
+      a[:working_time_from].to_time <=> b[:working_time_from].to_time
     end
     return date_tables
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_05_105044) do
+ActiveRecord::Schema.define(version: 2022_07_09_113054) do
 
   create_table "store_month_schedules", force: :cascade do |t|
     t.integer "store_id"
@@ -43,16 +43,6 @@ ActiveRecord::Schema.define(version: 2022_07_05_105044) do
     t.index ["owner_id"], name: "index_stores_on_owner_id"
   end
 
-  create_table "use_uunabl_sschedules", force: :cascade do |t|
-    t.integer "user_id"
-    t.date "date"
-    t.time "working_time_from"
-    t.time "working_time_to"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_use_uunabl_sschedules_on_user_id"
-  end
-
   create_table "user_schedules", force: :cascade do |t|
     t.integer "user_id"
     t.integer "weeklyday_id"
@@ -62,6 +52,16 @@ ActiveRecord::Schema.define(version: 2022_07_05_105044) do
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_schedules_on_user_id"
     t.index ["weeklyday_id"], name: "index_user_schedules_on_weeklyday_id"
+  end
+
+  create_table "user_unable_schedules", force: :cascade do |t|
+    t.integer "user_id"
+    t.date "date"
+    t.time "working_time_from"
+    t.time "working_time_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_unable_schedules_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

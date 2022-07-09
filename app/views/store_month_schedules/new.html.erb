@@ -19,7 +19,6 @@
 
   <%= month_calendar do |date| %>
     <%= date.day %>
-    <%#= date_table(date) %>
     <% date_table(date).each do |dt| %>
       <table>
         <tr>
@@ -31,6 +30,5 @@
         </tr>
       </table>
     <% end %>
-
   <% end %> 
 </div>
