@@ -1,0 +1,2 @@
+module UserUnableSchedulesHelper
+end
