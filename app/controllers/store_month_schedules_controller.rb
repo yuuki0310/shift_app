@@ -42,7 +42,6 @@ class StoreMonthSchedulesController < ApplicationController
 
   def new
     @store_month_schedule = StoreMonthSchedule.new
-    # @date_schedules = StoreMonthSchedule.all
   end
   
   def create
