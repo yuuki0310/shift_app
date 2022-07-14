@@ -33,6 +33,16 @@ class UserUnableSchedulesController < ApplicationController
         end
       end
     end
+    user_schedules = @current_user.user_schedules.where(weeklyday_id: calendar_wday(date))
+    date_tables.each do |date_table|
+      user_schedules.each do |user_schedule|
+        unless user_schedule.working_time_from < date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
+          user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to < user_schedule.working_time_to || \
+          user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to then
+          date_tables.delete(date_table)
+        end
+      end
+    end
     user_unable_schedules = @current_user.user_unable_schedules.where(date: date)
     if user_unable_schedules
       user_unable_schedules.each do |user_unable_schedule|
