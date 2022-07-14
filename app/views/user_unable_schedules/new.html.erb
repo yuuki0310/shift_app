@@ -1,27 +1,28 @@
 <div id="wrapper">
   <%= month_calendar do |date| %>
-    <% month = date.month %>
-    <%= date.day %>
-    <% date_table(date).each do |dt| %>
-      <table>
-        <tr>
-          <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
-          <td rowspan="2">
-            <%= dt.count %>人
-            <%= form_for(@user_unable_schedule) do |f| %>
-              <%= f.hidden_field :date, value: date %>
-              <%= f.hidden_field :working_time_from, value: dt.working_time_from %>
-              <%= f.hidden_field :working_time_to, value: dt.working_time_to %>
-              <%= f.submit "削除" %>
-            <% end %>
-          </td>
-        </tr>
-        <tr>
-          <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
-        </tr>
-      </table>
-    <% end %>
-  <%= month %>
+    <div class="date">
+      <% month = date.month %>
+      <%= date.day %>
+      <% date_table(date).each do |dt| %>
+        <table>
+          <tr>
+            <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
+            <td rowspan="2">
+              <%= dt.count %>人
+              <%= form_for(@user_unable_schedule) do |f| %>
+                <%= f.hidden_field :date, value: date %>
+                <%= f.hidden_field :working_time_from, value: dt.working_time_from %>
+                <%= f.hidden_field :working_time_to, value: dt.working_time_to %>
+                <%= f.submit "削除" %>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
+          </tr>
+        </table>
+      <% end %>
+    </div>
   <% end %> 
   <%# @user_unable_schedules = UserUnableSchedule.where(user_id: @current_user.id, date: month.all_month) %>
   <% @user_unable_schedules.each do |user_unable_schedule| %>

@@ -35,6 +35,13 @@
 	display: inline;
 }
 
+.prev-month .date{
+  display: none;
+}
+.next-month .date{
+  display: none;
+}
+
 /* =Reset default browser CSS.
 Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
 -------------------------------------------------------------- */
