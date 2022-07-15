@@ -64,6 +64,7 @@ class UserUnableSchedulesController < ApplicationController
   def new
     @user_unable_schedule = UserUnableSchedule.new
     @user_unable_schedules = UserUnableSchedule.where(user: @current_user.id)
+    @submission = Submission.new
   end
   
   def create

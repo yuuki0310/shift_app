@@ -1,4 +1,13 @@
 <div id="wrapper">
+<% if Submission.find_by(user_id: @current_user.id) %>
+  <%= form_for(@submission, url: '/submission/destroy', method: "delete") do |f| %>
+    <%= f.submit "再編集" %> 
+  <% end %>
+<% else %>
+  <%= form_for(@submission, url: '/submission') do |f| %>
+    <%= f.submit "提出" %> 
+  <% end %>
+<% end %>
   <%= month_calendar do |date| %>
     <div class="date">
       <% month = date.month %>
@@ -13,7 +22,9 @@
                 <%= f.hidden_field :date, value: date %>
                 <%= f.hidden_field :working_time_from, value: dt.working_time_from %>
                 <%= f.hidden_field :working_time_to, value: dt.working_time_to %>
-                <%= f.submit "削除" %>
+                <% unless Submission.find_by(user_id: @current_user.id) %>
+                  <%= f.submit "削除" %>
+                <% end %>
               <% end %>
             </td>
           </tr>
@@ -31,7 +42,9 @@
       <%= user_unable_schedule.working_time_from.strftime( "%H:%M" ) %>
       ~
       <%= user_unable_schedule.working_time_to.strftime( "%H:%M" ) %>
-      <%= button_to '復元', "/user_unable_schedules/#{user_unable_schedule.id}", method: :delete %>
+      <% unless Submission.find_by(user_id: @current_user.id) %>
+        <%= button_to '復元', "/user_unable_schedules/#{user_unable_schedule.id}", method: :delete %>
+      <% end %>
     </div>
   <% end %>
 </div>

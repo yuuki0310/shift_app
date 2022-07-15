@@ -54,6 +54,7 @@ class StoreSchedulesController < ApplicationController
   end
 
   def destroy
+    
   end
 
   def update

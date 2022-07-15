@@ -16,7 +16,15 @@
           <%  working_time_from_weeklyday = @current_user.store.store_schedules.find_by(working_time_from: working_time, weeklyday_id: weeklyday.id) %>
           <%  working_time_to_weeklyday = @current_user.store.store_schedules.find_by(working_time_to: working_time, weeklyday_id: weeklyday.id) %>
           <% if working_time_from_weeklyday && working_time_to_weeklyday %>
-            <td><%= "┿   #{working_time_from_weeklyday.count}人" %></td>
+            <td>
+              <%= "┿   #{working_time_from_weeklyday.count}人" %>
+
+
+
+              <%= form_for(working_time_from_weeklyday, url: '/store_schedules/destroy', method: "delete") do |f| %>
+                <%= f.submit "削除" %> 
+              <% end %>
+            </td>
           <% elsif working_time_from_weeklyday %>
             <td><%= "┯	  #{working_time_from_weeklyday.count}人" %></td>
           <% elsif working_time_to_weeklyday %>

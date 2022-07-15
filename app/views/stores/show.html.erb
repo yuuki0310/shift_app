@@ -1,0 +1,16 @@
+<div id="wrapper">
+  <h1><%= @store.name %></h1>
+  <h2>オーナー</h2>
+  <%= @store.owner.name %>
+  <h1>メンバー</h1>
+  <% @store.users.each do |member| %>
+    <div>
+      <%= member.name %>
+      <% if member.submission %>
+        提出済
+      <% else %>
+        <font color="red">未提出</font>
+      <% end %>
+    </div>
+  <% end %>
+</div>
