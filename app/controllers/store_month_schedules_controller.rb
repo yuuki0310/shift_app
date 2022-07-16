@@ -54,4 +54,8 @@ class StoreMonthSchedulesController < ApplicationController
       render :new
     end
   end
+  def destroy
+    StoreMonthSchedule.destroy(params[:id])
+    redirect_to new_store_store_month_schedule_path
+  end
 end

@@ -62,15 +62,19 @@ class UserUnableSchedulesController < ApplicationController
   end
 
   def new
+    @user = User.find(params[:user_id])
     @user_unable_schedule = UserUnableSchedule.new
     @user_unable_schedules = UserUnableSchedule.where(user: @current_user.id)
-    @submission = Submission.new
+    if Submission.find_by(user_id: params[:user_id])
+      @submission = Submission.find_by(user_id: params[:user_id])
+    else
+      @submission = Submission.new
+    end
   end
-  
   def create
     @user_unable_schedule = UserUnableSchedule.new(userUnableSchedule_params)
     if @user_unable_schedule.save
-      redirect_to("/user_unable_schedules/new")
+      redirect_to new_user_user_unable_schedule_path
     else
       render :new
     end
@@ -79,6 +83,6 @@ class UserUnableSchedulesController < ApplicationController
   def destroy
     @user_unable_schedule  = UserUnableSchedule.find(params[:id])
     @user_unable_schedule.destroy
-    redirect_to("/user_unable_schedules/new")
+    redirect_to new_user_user_unable_schedule_path
   end
 end

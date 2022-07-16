@@ -18,18 +18,12 @@
           <% if working_time_from_weeklyday && working_time_to_weeklyday %>
             <td>
               <%= "┿   #{working_time_from_weeklyday.count}人" %>
-              <%= form_for([@store, working_time_from_weeklyday], url: store_store_schedule_path(@store, working_time_from_weeklyday) , method: "delete") do |f| %>
-                <%= f.hidden_field :id, value: working_time_from_weeklyday.id %>
-                <%= f.submit "削除" %> 
-              <% end %>
+              <%= button_to '削除', store_store_schedule_path(@store, working_time_from_weeklyday), method: :delete %>
             </td>
           <% elsif working_time_from_weeklyday %>
-            <td>
+            <td style="border-top:1px solid #1f1f1f;">
               <%= "┯	  #{working_time_from_weeklyday.count}人" %>
-              <%= form_for([@store, working_time_from_weeklyday], url: store_store_schedule_path(@store, working_time_from_weeklyday) , method: "delete") do |f| %>
-                <%= f.hidden_field :id, value: working_time_from_weeklyday.id %>
-                <%= f.submit "削除" %> 
-              <% end %>
+              <%= button_to '削除', store_store_schedule_path(@store, working_time_from_weeklyday), method: :delete %>
             </td>
           <% elsif working_time_to_weeklyday %>
             <td style="border-bottom:1px solid #1f1f1f;">┷</td>

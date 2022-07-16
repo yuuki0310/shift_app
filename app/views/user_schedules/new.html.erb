@@ -1,5 +1,5 @@
 <div id="wrapper">
-  <%= form_for(@user_schedule) do |f| %>
+  <%= form_for([@user, @user_schedule]) do |f| %>
     <h2>基本人数</h2>
     <% @user_schedule.errors.full_messages.each do |message| %>
       <div class="form-error">
@@ -15,8 +15,8 @@
         <%= f.time_field :working_time_from, class: "working_time" %>
         <p>〜</p>
         <%= f.time_field :working_time_to, class: "working_time" %>
+        <%= f.submit "追加" %>
       </div>
-      <%= f.submit "追加" %>
     </div>
   <% end %>
   <%= render "weekly_scheduled" %>

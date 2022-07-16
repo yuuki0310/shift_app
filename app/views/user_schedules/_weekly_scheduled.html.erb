@@ -1,4 +1,4 @@
-<table class="table" border="1">
+<table class="table weekly_scheduled" border="1">
   <tr>
     <th></th>
     <th>月曜日</th>
@@ -13,12 +13,18 @@
     <tr>
       <th><%= working_time.strftime( "%H:%M" ) %></th>
       <% @weeklydays.each do |weeklyday| %>
-          <%  working_time_from_weeklyday = @current_user.user_schedules.find_by(working_time_from: working_time, weeklyday_id: weeklyday.id) %>
-          <%  working_time_to_weeklyday = @current_user.user_schedules.find_by(working_time_to: working_time, weeklyday_id: weeklyday.id) %>
+          <%  working_time_from_weeklyday = UserSchedule.find_by(working_time_from: working_time, weeklyday_id: weeklyday.id, user_id: params[:user_id]) %>
+          <%  working_time_to_weeklyday = UserSchedule.find_by(working_time_to: working_time, weeklyday_id: weeklyday.id, user_id: params[:user_id]) %>
           <% if working_time_from_weeklyday && working_time_to_weeklyday %>
-            <td><%= "┿" %></td>
+            <td>
+              <%= "┿" %>
+              <%= button_to '削除', "/users/#{@user.id}/user_schedules/#{working_time_from_weeklyday.id}", method: :delete %>
+            </td>
           <% elsif working_time_from_weeklyday %>
-            <td><%= "┯" %></td>
+            <td style="border-top:1px solid #1f1f1f;">
+              <%= "┯" %>
+              <%= button_to '削除', "/users/#{@user.id}/user_schedules/#{working_time_from_weeklyday.id}", method: :delete %>
+            </td>
           <% elsif working_time_to_weeklyday %>
             <td style="border-bottom:1px solid #1f1f1f;">┷</td>
           <% elsif bar_line(weeklyday.id, working_time) %>

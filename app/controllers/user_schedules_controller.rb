@@ -27,11 +27,13 @@ class UserSchedulesController < ApplicationController
   end
 
   def new
+    @user = User.find(params[:user_id])
     @user_schedule = UserSchedule.new
     weekly_scheduled
   end
   
   def create
+    @user = User.find(params[:user_id])
     @user_schedule = UserSchedule.new
     weekly_scheduled
     if params[:user_schedule][:weeklyday_id]
@@ -40,7 +42,7 @@ class UserSchedulesController < ApplicationController
         @user_schedule.save
       end
       if @user_schedule.save
-        redirect_to("/user_schedules/new")
+        redirect_to new_user_user_schedule_path
       else
         render :new
       end
@@ -48,5 +50,10 @@ class UserSchedulesController < ApplicationController
       @user_schedule = UserSchedule.create(userSchedule_params)
       render :new
     end
+  end
+  
+  def destroy
+    UserSchedule.destroy(params[:id])
+    redirect_to new_user_user_schedule_path
   end
 end

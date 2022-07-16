@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :stores, except: [:index] do
     resources :store_schedules, :store_month_schedules, only: [:new, :create, :destroy]
   end
-  resources :user_schedules, :user_unable_schedules, only: [:new, :create, :destroy]
-  resources :submission, only: [:create, :destroy]
+  resources :users, only: [:show, :new, :create, :edit] do
+    resources :user_schedules, :user_unable_schedules, only: [:new, :create, :destroy]
+    resources :submission, only: [:create, :destroy]
+  end
 end

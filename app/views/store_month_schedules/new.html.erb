@@ -19,16 +19,21 @@
 
   <%= month_calendar do |date| %>
     <%= date.day %>
-    <% date_table(date).each do |dt| %>
-      <table>
+    <table>
+      <% date_table(date).each do |dt| %>
         <tr>
           <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
-          <td rowspan="2"><%= dt.count %>人</td>
+          <td rowspan="2">
+            <%= dt.count %>人
+            <% if dt[:date] != nil %>
+              <%= button_to '削除', store_store_month_schedule_path(@store, dt), method: :delete %>
+            <% end %>
+          </td>
         </tr>
         <tr>
           <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
         </tr>
-      </table>
-    <% end %>
+      <% end %>
+    </table>
   <% end %> 
 </div>

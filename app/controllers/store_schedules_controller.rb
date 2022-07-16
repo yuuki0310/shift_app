@@ -56,7 +56,7 @@ class StoreSchedulesController < ApplicationController
   end
   
   def destroy
-    StoreSchedule.destroy(params[:store_schedule][:id])
+    StoreSchedule.destroy(params[:id])
     redirect_to new_store_store_schedule_path
   end
 
