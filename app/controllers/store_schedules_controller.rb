@@ -8,14 +8,14 @@ class StoreSchedulesController < ApplicationController
 
   def weekly_scheduled
     @working_times = []
-    @current_user.store.store_schedules.each do |store_schedule|
+    StoreSchedule.where(store_id: params[:store_id]).each do |store_schedule|
       @working_times.push(store_schedule.working_time_from)
       @working_times.push(store_schedule.working_time_to)
     end
     @working_times.uniq!.sort!
     @weeklydays = Weeklyday.all
     def bar_line(weeklyday, working_time)
-      store_schedules = @current_user.store.store_schedules.where(weeklyday_id: weeklyday)
+      store_schedules = StoreSchedule.where(weeklyday_id: weeklyday, store_id: params[:store_id])
       store_schedules.each do |store_schedule|
         if store_schedule.working_time_from < working_time && working_time < store_schedule.working_time_to
           return true
@@ -27,12 +27,14 @@ class StoreSchedulesController < ApplicationController
   end
 
   def new
+    @store = Store.find(params[:store_id])
     @store_schedule = StoreSchedule.new
     weekly_scheduled
     @store_month_schedule = StoreMonthSchedule.new
   end
   
   def create
+    @store = Store.find(params[:store_id])
     @store_schedule = StoreSchedule.new
     weekly_scheduled
     if params[:store_schedule][:weeklyday_id]
@@ -41,7 +43,7 @@ class StoreSchedulesController < ApplicationController
         @store_schedule.save
       end
       if @store_schedule.save
-        redirect_to("/store_schedules/new")
+        redirect_to new_store_store_schedule_path
       else
         render :new
       end
@@ -49,12 +51,13 @@ class StoreSchedulesController < ApplicationController
       @store_schedule = StoreSchedule.create(storeSchedule_params)
       render :new
     end
-
+    
     @store_month_schedule = StoreMonthSchedule.new
   end
-
+  
   def destroy
-    
+    StoreSchedule.destroy(params[:store_schedule][:id])
+    redirect_to new_store_store_schedule_path
   end
 
   def update

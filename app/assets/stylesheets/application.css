@@ -42,6 +42,10 @@
   display: none;
 }
 
+form {
+	display: inline;
+}
+
 /* =Reset default browser CSS.
 Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
 -------------------------------------------------------------- */

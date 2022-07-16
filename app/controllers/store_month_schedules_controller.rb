@@ -17,8 +17,8 @@ class StoreMonthSchedulesController < ApplicationController
     end
 
     date_tables = []
-    date_schedules = @current_user.store.store_month_schedules.where(date: date)
-    weekly_schedules = @current_user.store.store_schedules.where(weeklyday_id: calendar_wday(date))
+    date_schedules = StoreMonthSchedule.where(date: date, store_id: params[:store_id])
+    weekly_schedules = StoreSchedule.where(weeklyday_id: calendar_wday(date), store_id: params[:store_id])
     weekly_schedules.each do |wekkly_schedule|
       date_tables.push(wekkly_schedule)
     end
@@ -41,13 +41,15 @@ class StoreMonthSchedulesController < ApplicationController
   end
 
   def new
+    @store = Store.find(params[:store_id])
     @store_month_schedule = StoreMonthSchedule.new
   end
   
   def create
+    @store = Store.find(params[:store_id])
     @store_month_schedule = StoreMonthSchedule.new(storeMonthSchedule_params)
     if @store_month_schedule.save
-      redirect_to("/store_month_schedules/new")
+      redirect_to new_store_store_month_schedule_path
     else
       render :new
     end

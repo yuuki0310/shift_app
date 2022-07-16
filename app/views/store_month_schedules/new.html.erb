@@ -4,7 +4,7 @@
         <%= message %>
       </div>
     <% end %>
-  <%= form_for(@store_month_schedule) do |f| %>
+  <%= form_for [@store, @store_month_schedule] do |f| %>
     <%= f.date_select :date, {discard_year: true} %>
     <h1>時間</h1>
     <div class="time">

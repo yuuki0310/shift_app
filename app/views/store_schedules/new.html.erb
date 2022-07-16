@@ -1,5 +1,5 @@
 <div id="wrapper">
-  <%= form_for(@store_schedule) do |f| %>
+  <%= form_for [@store, @store_schedule] do |f| %>
     <h2>基本人数</h2>
     <% @store_schedule.errors.full_messages.each do |message| %>
       <div class="form-error">
