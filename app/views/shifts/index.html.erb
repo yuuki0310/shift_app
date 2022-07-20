@@ -1,5 +1,22 @@
 <div id="wrapper">
 <%= month_calendar do |date| %>
   <%= date.day %>
+  <table>
+    <% date_table(date).each do |dt| %>
+      <tr>
+          <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
+          <td rowspan="2">
+          <% store_date_table(date).each do |user_id, sdt| %>
+            <% if sdt.any? %>
+              <%= User.find(user_id).name %>
+            <% end %>
+          <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
+        </tr>
+    <% end %>
+  </table>
 <% end %>
 </div>

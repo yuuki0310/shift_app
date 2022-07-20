@@ -16,8 +16,9 @@ class UserUnableSchedulesController < ApplicationController
     end
 
     date_tables = []
-    date_schedules = @current_user.store.store_month_schedules.where(date: date)
-    weekly_schedules = @current_user.store.store_schedules.where(weeklyday_id: calendar_wday(date))
+    store_id = User.find(params[:user_id]).store_id
+    date_schedules = StoreMonthSchedule.where(date: date, store_id: store_id)
+    weekly_schedules = StoreSchedule.where(weeklyday_id: calendar_wday(date), store_id: store_id)
     weekly_schedules.each do |wekkly_schedule|
       date_tables.push(wekkly_schedule)
     end
@@ -33,7 +34,7 @@ class UserUnableSchedulesController < ApplicationController
         end
       end
     end
-    user_schedules = @current_user.user_schedules.where(weeklyday_id: calendar_wday(date))
+    user_schedules = UserSchedule.where(weeklyday_id: calendar_wday(date), user_id: params[:user_id])
     date_tables.each do |date_table|
       user_schedules.each do |user_schedule|
         unless user_schedule.working_time_from < date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
@@ -43,7 +44,7 @@ class UserUnableSchedulesController < ApplicationController
         end
       end
     end
-    user_unable_schedules = @current_user.user_unable_schedules.where(date: date)
+    user_unable_schedules = UserUnableSchedule.where(date: date, user_id: params[:user_id])
     if user_unable_schedules
       user_unable_schedules.each do |user_unable_schedule|
         date_tables.each do |date_table|
@@ -64,7 +65,7 @@ class UserUnableSchedulesController < ApplicationController
   def new
     @user = User.find(params[:user_id])
     @user_unable_schedule = UserUnableSchedule.new
-    @user_unable_schedules = UserUnableSchedule.where(user: @current_user.id)
+    @user_unable_schedules = UserUnableSchedule.where(user_id: params[:user_id])
     if Submission.find_by(user_id: params[:user_id])
       @submission = Submission.find_by(user_id: params[:user_id])
     else

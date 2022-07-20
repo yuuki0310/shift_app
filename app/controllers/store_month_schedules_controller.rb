@@ -15,7 +15,6 @@ class StoreMonthSchedulesController < ApplicationController
         return date.wday
       end
     end
-
     date_tables = []
     date_schedules = StoreMonthSchedule.where(date: date, store_id: params[:store_id])
     weekly_schedules = StoreSchedule.where(weeklyday_id: calendar_wday(date), store_id: params[:store_id])

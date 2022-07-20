@@ -8,8 +8,8 @@
     <div class="date">
       <% month = date.month %>
       <%= date.day %>
-      <% date_table(date).each do |dt| %>
-        <table>
+      <table>
+        <% date_table(date).each do |dt| %>
           <tr>
             <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
             <td rowspan="2">
@@ -27,8 +27,8 @@
           <tr>
             <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
           </tr>
-        </table>
-      <% end %>
+        <% end %>
+      </table>
     </div>
   <% end %> 
   <h2>シフトから除外</h2>
