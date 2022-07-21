@@ -42,25 +42,25 @@ class ShiftsController < ApplicationController
     store.users.each do |user|
       if user.submission
         store_date_tables.store(user.id, date_table(date))
-      end
-      user_schedules = UserSchedule.where(weeklyday_id: calendar_wday(date), user_id: user.id)
-      $date_tables.each do |date_table|
-        user_schedules.each do |user_schedule|
-          unless user_schedule.working_time_from < date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
-            user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to < user_schedule.working_time_to || \
-            user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to then
-            store_date_tables[user.id].delete(date_table)
+        user_schedules = UserSchedule.where(weeklyday_id: calendar_wday(date), user_id: user.id)
+        $date_tables.each do |date_table|
+          user_schedules.each do |user_schedule|
+            unless user_schedule.working_time_from < date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
+              user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to < user_schedule.working_time_to || \
+              user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to then
+              store_date_tables[user.id].delete(date_table)
+            end
           end
         end
-      end
-      user_unable_schedules = UserUnableSchedule.where(date: date, user_id: user.id)
-      if user_unable_schedules
-        user_unable_schedules.each do |user_unable_schedule|
-          $date_tables.each do |date_table|
-            if date_table.working_time_from < user_unable_schedule.working_time_from && user_unable_schedule.working_time_from < date_table.working_time_to || \
-              date_table.working_time_from < user_unable_schedule.working_time_to && user_unable_schedule.working_time_to < date_table.working_time_to || \
-              date_table.working_time_from == user_unable_schedule.working_time_from && date_table.working_time_to == user_unable_schedule.working_time_to
-              store_date_tables[user.id].delete(date_table)
+        user_unable_schedules = UserUnableSchedule.where(date: date, user_id: user.id)
+        if user_unable_schedules
+          user_unable_schedules.each do |user_unable_schedule|
+            $date_tables.each do |date_table|
+              if date_table.working_time_from < user_unable_schedule.working_time_from && user_unable_schedule.working_time_from < date_table.working_time_to || \
+                date_table.working_time_from < user_unable_schedule.working_time_to && user_unable_schedule.working_time_to < date_table.working_time_to || \
+                date_table.working_time_from == user_unable_schedule.working_time_from && date_table.working_time_to == user_unable_schedule.working_time_to
+                store_date_tables[user.id].delete(date_table)
+              end
             end
           end
         end

@@ -8,14 +8,16 @@ class UserSchedulesController < ApplicationController
 
   def weekly_scheduled
     @working_times = []
-    @current_user.user_schedules.each do |user_schedule|
+    UserSchedule.where(user_id: params[:user_id]).each do |user_schedule|
       @working_times.push(user_schedule.working_time_from)
       @working_times.push(user_schedule.working_time_to)
     end
-    @working_times.uniq!.sort!
+    if @working_times.any?
+      @working_times.uniq!.sort!
+    end
     @weeklydays = Weeklyday.all
     def bar_line(weeklyday, working_time)
-      user_schedules = @current_user.user_schedules.where(weeklyday_id: weeklyday)
+      user_schedules = UserSchedule.where(weeklyday_id: weeklyday, user_id: params[:user_id])
       user_schedules.each do |user_schedule|
         if user_schedule.working_time_from < working_time && working_time < user_schedule.working_time_to
           return true
