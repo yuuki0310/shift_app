@@ -12,7 +12,10 @@ class StoreSchedulesController < ApplicationController
       @working_times.push(store_schedule.working_time_from)
       @working_times.push(store_schedule.working_time_to)
     end
-    @working_times.uniq!.sort!
+    if @working_times.count > 2
+      @working_times.uniq!
+      @working_times.sort!
+    end
     @weeklydays = Weeklyday.all
     def bar_line(weeklyday, working_time)
       store_schedules = StoreSchedule.where(weeklyday_id: weeklyday, store_id: params[:store_id])

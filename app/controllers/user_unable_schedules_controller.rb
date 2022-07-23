@@ -19,6 +19,10 @@ class UserUnableSchedulesController < ApplicationController
     store_id = User.find(params[:user_id]).store_id
     date_schedules = StoreMonthSchedule.where(date: date, store_id: store_id)
     weekly_schedules = StoreSchedule.where(weeklyday_id: calendar_wday(date), store_id: store_id)
+    user_schedules = UserSchedule.where(weeklyday_id: calendar_wday(date), user_id: params[:user_id])
+    if user_schedules.empty?
+      return []
+    end
     weekly_schedules.each do |wekkly_schedule|
       date_tables.push(wekkly_schedule)
     end
@@ -26,19 +30,18 @@ class UserUnableSchedulesController < ApplicationController
       date_schedules.each do |date_schedule|
         date_tables.push(date_schedule)
         weekly_schedules.each do |wekkly_schedule|
-          if wekkly_schedule.working_time_from < date_schedule.working_time_from && date_schedule.working_time_from < wekkly_schedule.working_time_to || \
-            wekkly_schedule.working_time_from < date_schedule.working_time_to && date_schedule.working_time_to < wekkly_schedule.working_time_to || \
+          if wekkly_schedule.working_time_from <= date_schedule.working_time_from && date_schedule.working_time_from < wekkly_schedule.working_time_to || \
+            wekkly_schedule.working_time_from < date_schedule.working_time_to && date_schedule.working_time_to <= wekkly_schedule.working_time_to || \
             wekkly_schedule.working_time_from == date_schedule.working_time_from && wekkly_schedule.working_time_to == date_schedule.working_time_to
             date_tables.delete(wekkly_schedule)
           end
         end
       end
     end
-    user_schedules = UserSchedule.where(weeklyday_id: calendar_wday(date), user_id: params[:user_id])
     date_tables.each do |date_table|
       user_schedules.each do |user_schedule|
-        unless user_schedule.working_time_from < date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
-          user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to < user_schedule.working_time_to || \
+        unless user_schedule.working_time_from <= date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
+          user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to <= user_schedule.working_time_to || \
           user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to then
           date_tables.delete(date_table)
         end
@@ -48,8 +51,8 @@ class UserUnableSchedulesController < ApplicationController
     if user_unable_schedules
       user_unable_schedules.each do |user_unable_schedule|
         date_tables.each do |date_table|
-          if date_table.working_time_from < user_unable_schedule.working_time_from && user_unable_schedule.working_time_from < date_table.working_time_to || \
-            date_table.working_time_from < user_unable_schedule.working_time_to && user_unable_schedule.working_time_to < date_table.working_time_to || \
+          if date_table.working_time_from <= user_unable_schedule.working_time_from && user_unable_schedule.working_time_from < date_table.working_time_to || \
+            date_table.working_time_from < user_unable_schedule.working_time_to && user_unable_schedule.working_time_to <= date_table.working_time_to || \
             date_table.working_time_from == user_unable_schedule.working_time_from && date_table.working_time_to == user_unable_schedule.working_time_to
             date_tables.delete(date_table)
           end

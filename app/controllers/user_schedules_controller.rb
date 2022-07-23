@@ -12,8 +12,9 @@ class UserSchedulesController < ApplicationController
       @working_times.push(user_schedule.working_time_from)
       @working_times.push(user_schedule.working_time_to)
     end
-    if @working_times.any?
-      @working_times.uniq!.sort!
+    if @working_times.count > 2
+      @working_times.uniq!
+      @working_times.sort!
     end
     @weeklydays = Weeklyday.all
     def bar_line(weeklyday, working_time)
