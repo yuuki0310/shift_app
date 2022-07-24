@@ -6,15 +6,14 @@
       <tr>
           <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
           <td rowspan="2">
-          <%#= store_date_table(date) %>
-          <% store_date_table(date).each do |wtf, users| %>
-            <%#= users %>
-            <% if wtf == dt.working_time_from %>
-              <% users.each do |u| %>
-                <%= u.name %>
-              <% end %>
-            <% end %>          
-          <% end %>
+            <%= "#{dt.count}人" %>
+            <% store_date_table(date).each do |wtf, users| %>
+              <% if wtf == dt.working_time_from %>
+                <% users.each do |u| %>
+                  <%= u.name %>
+                <% end %>
+              <% end %>          
+            <% end %>
           </td>
         </tr>
         <tr>
