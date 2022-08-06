@@ -38,31 +38,32 @@ class UserUnableSchedulesController < ApplicationController
         end
       end
     end
+    user_date_tables = []
     date_tables.each do |date_table|
       user_schedules.each do |user_schedule|
-        unless user_schedule.working_time_from <= date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
+        if user_schedule.working_time_from <= date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
           user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to <= user_schedule.working_time_to || \
-          user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to then
-          date_tables.delete(date_table)
+          user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to
+          user_date_tables.push(date_table)
         end
       end
     end
     user_unable_schedules = UserUnableSchedule.where(date: date, user_id: params[:user_id])
     if user_unable_schedules
       user_unable_schedules.each do |user_unable_schedule|
-        date_tables.each do |date_table|
-          if date_table.working_time_from <= user_unable_schedule.working_time_from && user_unable_schedule.working_time_from < date_table.working_time_to || \
-            date_table.working_time_from < user_unable_schedule.working_time_to && user_unable_schedule.working_time_to <= date_table.working_time_to || \
-            date_table.working_time_from == user_unable_schedule.working_time_from && date_table.working_time_to == user_unable_schedule.working_time_to
-            date_tables.delete(date_table)
+        user_date_tables.each do |user_date_table|
+          if user_date_table.working_time_from <= user_unable_schedule.working_time_from && user_unable_schedule.working_time_from < user_date_table.working_time_to || \
+            user_date_table.working_time_from < user_unable_schedule.working_time_to && user_unable_schedule.working_time_to <= user_date_table.working_time_to || \
+            user_date_table.working_time_from == user_unable_schedule.working_time_from && user_date_table.working_time_to == user_unable_schedule.working_time_to
+            user_date_tables.delete(user_date_table)
           end
         end
       end
     end
-    date_tables.sort! do |a, b|
+    user_date_tables.sort! do |a, b|
       a[:working_time_from].to_time <=> b[:working_time_from].to_time
     end
-    return date_tables
+    return user_date_tables
   end
 
   def new
