@@ -4,15 +4,16 @@
   <%= date.day %>
   <table>
     <% date_table(date).each do |dt| %>
-      <% available_staff.store("#{date.day}-#{dt.working_time_from.strftime( "%H:%M" )}", []) %>
+      <% available_staff.store("#{date.day}-#{dt.working_time_from.strftime( "%H:%M" )}", [[]]) %>
       <tr>
           <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
           <td rowspan="2">
             <%= "#{dt.count}人" %>
+            <% available_staff["#{date.day}-#{dt.working_time_from.strftime( "%H:%M" )}"].unshift(dt.count) %>
             <% store_date_table(date).each do |wtf, users| %>
               <% if wtf == dt.working_time_from %>
                 <% users.each do |u| %>
-                  <% available_staff["#{date.day}-#{dt.working_time_from.strftime( "%H:%M" )}"].push(u.name) %>
+                  <% available_staff["#{date.day}-#{dt.working_time_from.strftime( "%H:%M" )}"][1].push(u.name) %>
                   <%= u.name %>
                 <% end %>
               <% end %>          
