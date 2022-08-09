@@ -50,7 +50,7 @@ class ShiftsController < ApplicationController
             if user_schedule.working_time_from <= date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
               user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to <= user_schedule.working_time_to || \
               user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to
-              store_date_tables[date_table.working_time_from].push(user)
+              store_date_tables[date_table.working_time_from].push(user.name)
             end
           end
         end
@@ -61,7 +61,7 @@ class ShiftsController < ApplicationController
               if date_table.working_time_from <= user_unable_schedule.working_time_from && user_unable_schedule.working_time_from < date_table.working_time_to || \
                 date_table.working_time_from < user_unable_schedule.working_time_to && user_unable_schedule.working_time_to <= date_table.working_time_to || \
                 date_table.working_time_from == user_unable_schedule.working_time_from && date_table.working_time_to == user_unable_schedule.working_time_to
-                store_date_tables[date_table.working_time_from].delete(user)
+                store_date_tables[date_table.working_time_from].delete(user.name)
               end
             end
           end
