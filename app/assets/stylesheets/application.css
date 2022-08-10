@@ -35,10 +35,10 @@
 	display: inline;
 }
 
-.prev-month .date{
+.prev-month .date, .prev-month .day{
   display: none;
 }
-.next-month .date{
+.next-month .date, .next-month .day{
   display: none;
 }
 
