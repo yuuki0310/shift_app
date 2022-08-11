@@ -1,19 +1,19 @@
 <div id="wrapper">
-<% available_staff = [] %>
-<% store_working_hour = 0 %>
+<%# available_staff = [] %>
+<%# store_working_hour = 0 %>
 <%= month_calendar do |date| %>
   <%# <div class="date"> %>
     <%= date.day %>
     <table>
       <% date_table(date).each do |dt| %>
-      <% store_working_hour += dt.working_time_to - dt.working_time_from %>
+      <%# store_working_hour += (dt.working_time_to - dt.working_time_from) * dt.count / 60 %>
         <tr>
           <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
           <td rowspan="2">
             <%= "#{dt.count}人" %>
             <% store_date_table(date).each do |wtf, names| %>
               <% if wtf == dt.working_time_from %>
-                <% available_staff.push({date: "#{date}-#{wtf}".to_time, count: dt.count, names: names}) %>
+                <%# available_staff.push({date: "#{date}-#{wtf}".to_time, count: dt.count, names: names}) %>
                 <% names.each do |n| %>
                   <%= n %>
                 <% end %>
@@ -28,11 +28,11 @@
     </table>
   <%# </div> %>
 <% end %>
-<% available_staff.sort! do |a, b|
+<%# available_staff.sort! do |a, b|
   (b[:count].to_f / b[:names].size.to_f) <=> (a[:count].to_f / a[:names].size.to_f)
 end %>
-  <%= store_working_hour %><br>
-<% available_staff.each do |as| %>
+  <%#= store_working_hour %><br>
+<% calendar.each do |as| %>
   <%= as %><br>
 <% end %>
 </div>

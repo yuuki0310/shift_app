@@ -1,6 +1,7 @@
 class ShiftsController < ApplicationController
 
-  helper_method :date_table, :store_date_table
+  helper_method :date_table, :store_date_table, :calendar
+  require "date"
 
   def date_table(date)
     def calendar_wday(date)
@@ -50,7 +51,7 @@ class ShiftsController < ApplicationController
             if user_schedule.working_time_from <= date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
               user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to <= user_schedule.working_time_to || \
               user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to
-              store_date_tables[date_table.working_time_from].push(user.name)
+              store_date_tables[date_table.working_time_from].push(user.id)
             end
           end
         end
@@ -61,7 +62,7 @@ class ShiftsController < ApplicationController
               if date_table.working_time_from <= user_unable_schedule.working_time_from && user_unable_schedule.working_time_from < date_table.working_time_to || \
                 date_table.working_time_from < user_unable_schedule.working_time_to && user_unable_schedule.working_time_to <= date_table.working_time_to || \
                 date_table.working_time_from == user_unable_schedule.working_time_from && date_table.working_time_to == user_unable_schedule.working_time_to
-                store_date_tables[date_table.working_time_from].delete(user.name)
+                store_date_tables[date_table.working_time_from].delete(user.id)
               end
             end
           end
@@ -69,6 +70,50 @@ class ShiftsController < ApplicationController
       end
     end
     return store_date_tables
+  end
+
+  def calendar
+    available_staff = []
+    store_working_time_sum = 0
+    (Date.parse('2022-08-01')..Date.parse('2022-09-01') - 1).each do |date|
+      date_table(date).each do |dt|
+        store_working_time_sum += (dt.working_time_to - dt.working_time_from) * dt.count / 60
+        store_date_table(date).each do |wtf, ids|
+          if wtf == dt.working_time_from
+            available_staff.push({date: date, working_time_from: wtf, working_time_to: dt.working_time_to, count: dt.count, ids: ids})
+          end
+        end
+      end
+    end
+    available_staff.sort! do |a, b|
+      (b[:count].to_f / b[:ids].size.to_f) <=> (a[:count].to_f / a[:ids].size.to_f)
+    end
+    working_desired_time_sum = 0
+    store = Store.find(params[:store_id])
+    store.users.each do |user|
+      if user.submission
+        working_desired_time_sum += user.working_desired_time
+      end
+    end
+    working_time_ratio  = {}
+    store.users.each do |user|
+      if user.submission
+        working_time_ratio.store(user.id, store_working_time_sum * (user.working_desired_time.to_f / working_desired_time_sum.to_f))
+      end
+    end
+    working_staff = []
+    available_staff.each_with_index do |as, i|
+     # available_staffにworking_staffキーを追加する
+      working_staff.push({date: as.date, working_time_from: as.working_time_from, working_time_to: as.working_time_to, ids: []})
+      working_time_ratio.sort_by { |_, v| v }.to_h
+      working_time_ratio.each do |id, ratio|
+        if working_staff[i][ids].size < as.count && as.ids == id
+          working_staff[i][ids].push(id)
+          working_time_ratio[id] -= as.working_time_to - as.working_time_from
+        end
+      end
+    end
+    return working_staff
   end
 
   def index
