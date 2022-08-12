@@ -103,7 +103,7 @@ class ShiftsController < ApplicationController
     end
     working_staff = []
     available_staff.each_with_index do |as, i|
-     # available_staffにworking_staffキーを追加する
+     # available_staffにworking_staffキーを追加する。
       working_staff.push({date: as.date, working_time_from: as.working_time_from, working_time_to: as.working_time_to, ids: []})
       working_time_ratio.sort_by { |_, v| v }.to_h
       working_time_ratio.each do |id, ratio|
