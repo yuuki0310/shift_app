@@ -80,7 +80,7 @@ class ShiftsController < ApplicationController
         store_working_time_sum += (dt.working_time_to - dt.working_time_from) * dt.count / 60
         store_date_table(date).each do |wtf, ids|
           if wtf == dt.working_time_from
-            available_staff.push({date: date, working_time_from: wtf, working_time_to: dt.working_time_to, count: dt.count, ids: ids})
+            available_staff.push({date: date, working_time_from: wtf, working_time_to: dt.working_time_to, count: dt.count, ids: ids, working_staff: []})
           end
         end
       end
@@ -101,19 +101,17 @@ class ShiftsController < ApplicationController
         working_time_ratio.store(user.id, store_working_time_sum * (user.working_desired_time.to_f / working_desired_time_sum.to_f))
       end
     end
-    working_staff = []
-    available_staff.each_with_index do |as, i|
-     # available_staffにworking_staffキーを追加する。
-      working_staff.push({date: as.date, working_time_from: as.working_time_from, working_time_to: as.working_time_to, ids: []})
+    # working_staff = []
+    available_staff.each do |as|
       working_time_ratio.sort_by { |_, v| v }.to_h
       working_time_ratio.each do |id, ratio|
-        if working_staff[i][ids].size < as.count && as.ids == id
-          working_staff[i][ids].push(id)
-          working_time_ratio[id] -= as.working_time_to - as.working_time_from
+        if as[:working_staff].size < as[:count] && as[:ids].include?(id)
+          as[:working_staff].push(id)
+          working_time_ratio[id] -= (as[:working_time_to] - as[:working_time_from])
         end
       end
     end
-    return working_staff
+    return available_staff
   end
 
   def index
