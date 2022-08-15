@@ -96,22 +96,23 @@ class ShiftsController < ApplicationController
       end
     end
     working_time_ratio  = {}
+    working_time_sum = {}
     store.users.each do |user|
       if user.submission
         working_time_ratio.store(user.id, store_working_time_sum * (user.working_desired_time.to_f / working_desired_time_sum.to_f))
+        working_time_sum.store(user.id, 0)
       end
     end
-    # working_staff = []
     available_staff.each do |as|
-      working_time_ratio.sort_by { |_, v| v }.to_h
-      working_time_ratio.each do |id, ratio|
+      working_time_ratio.sort_by { |k, v| -v }.to_h.each do |id, ratio|
         if as[:working_staff].size < as[:count] && as[:ids].include?(id)
           as[:working_staff].push(id)
-          working_time_ratio[id] -= (as[:working_time_to] - as[:working_time_from])
+          working_time_ratio[id] -= as[:working_time_to] - as[:working_time_from]
+          working_time_sum[id] += as[:working_time_to] - as[:working_time_from]
         end
       end
     end
-    return available_staff
+    return working_time_sum
   end
 
   def index
