@@ -75,7 +75,7 @@ class ShiftsController < ApplicationController
   def calendar
     available_staff = []
     store_working_time_sum = 0
-    (Date.parse('2022-08-01')..Date.parse('2022-09-01') - 1).each do |date|
+    (Date.parse('2022-08-01').to_date..Date.parse('2022-09-01').to_date - 1).each do |date|
       date_table(date).each do |dt|
         store_working_time_sum += (dt.working_time_to - dt.working_time_from) * dt.count / 60
         store_date_table(date).each do |wtf, ids|
@@ -107,12 +107,12 @@ class ShiftsController < ApplicationController
       working_time_ratio.sort_by { |k, v| -v }.to_h.each do |id, ratio|
         if as[:working_staff].size < as[:count] && as[:ids].include?(id)
           as[:working_staff].push(id)
-          working_time_ratio[id] -= as[:working_time_to] - as[:working_time_from]
-          working_time_sum[id] += as[:working_time_to] - as[:working_time_from]
+          working_time_ratio[id] -= (as[:working_time_to] - as[:working_time_from]) / 60
+          working_time_sum[id] += (as[:working_time_to] - as[:working_time_from]) / 60
         end
       end
     end
-    return working_time_sum
+    return available_staff, working_time_sum
   end
 
   def index
