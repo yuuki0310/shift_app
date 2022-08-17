@@ -46,6 +46,10 @@ form {
 	display: inline;
 }
 
+button {
+	font-size: 10px;
+}
+
 /* =Reset default browser CSS.
 Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
 -------------------------------------------------------------- */

@@ -16,3 +16,21 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+
+window.onload = function () {
+  alert("javascript test");
+};
+
+onload = function(){
+  const available_staff_edit = document.querySelector('#available_staff_edit'); //js-hamburgerの要素を取得し、変数hamに格納
+  // const nav = document.querySelector('#js-nav'); //js-navの要素を取得し、変数navに格納
+  
+  available_staff_edit.addEventListener('click', () => { //ハンバーガーメニューをクリックしたら
+    console.log('ok!'); // コンソール画面でokというメッセージが出る
+  
+  });
+  }
+
+
+
+  

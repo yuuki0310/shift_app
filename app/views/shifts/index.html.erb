@@ -9,10 +9,11 @@
         <tr>
           <td><%= das[:working_time_from].strftime( "%H:%M" ) %></td>
           <td rowspan="2">
-            <%= "#{das[:count]}人" %>
+            <%= "#{das[:count]}人" %><br>
             <% das[:working_staff].each do |id| %>
-              <%= User.find(id).name %>
+              <%= User.find(id).name %><br>
             <% end %>
+            <button id="available_staff_edit">編集</button>
           </td>
         </tr>
         <tr>

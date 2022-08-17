@@ -112,6 +112,9 @@ class ShiftsController < ApplicationController
         end
       end
     end
+    available_staff.sort! do |a, b|
+      [a[:date], a[:working_time_from]] <=> [b[:date], b[:working_time_from]]
+    end
     return available_staff, working_time_sum
   end
 
