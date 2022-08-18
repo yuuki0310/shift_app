@@ -4,8 +4,8 @@
   <div class="date">
     <%= date.day %>
     <% date_available_staff = available_staff.find_all { |a| a[:date] == date } %>
-    <%date_available_staff.each do |das|%>
-      <table>
+    <table>
+      <%date_available_staff.each do |das|%>
         <tr>
           <td><%= das[:working_time_from].strftime( "%H:%M" ) %></td>
           <td rowspan="2">
@@ -13,14 +13,14 @@
             <% das[:working_staff].each do |id| %>
               <%= User.find(id).name %><br>
             <% end %>
-            <button id="available_staff_edit">編集</button>
+            <%# <button id="available_staff_edit">編集</button> %>
           </td>
         </tr>
         <tr>
           <td><%= das[:working_time_to].strftime( "%H:%M" ) %></td>
         </tr>
-      </table>
-    <% end %>
+      <% end %>
+    </table>
   </div>
 <% end %>
 <table class="table">
