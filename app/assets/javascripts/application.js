@@ -18,18 +18,27 @@
 //= require_tree .
 
 window.onload = function () {
-  alert("javascript test");
-};
+  console.log('ロードしたよ');
+  // window.onload = function () {
+  //   alert("javascript test");
+  // };
+  // const available_staff_edit = document.querySelector('#available_staff_edit'); //js-hamburgerの要素を取得し、変数hamに格納
+  // // const nav = document.querySelector('#js-nav'); //js-navの要素を取得し、変数navに格納
+  
+  // available_staff_edit.addEventListener('click', () => { //ハンバーガーメニューをクリックしたら
+  //   console.log('ok!'); // コンソール画面でokというメッセージが出る
+  
+  // });
 
-onload = function(){
-  const available_staff_edit = document.querySelector('#available_staff_edit'); //js-hamburgerの要素を取得し、変数hamに格納
-  // const nav = document.querySelector('#js-nav'); //js-navの要素を取得し、変数navに格納
-  
-  available_staff_edit.addEventListener('click', () => { //ハンバーガーメニューをクリックしたら
-    console.log('ok!'); // コンソール画面でokというメッセージが出る
-  
+  const available_staff_edit = $('#available_staff_edit');
+  // const nav = $('#js-nav');
+  window.on('click', 'available_staff_edit', function () { //ハンバーガーメニューをクリックしたら
+    // ham.toggleClass('active'); // ハンバーガーメニューにactiveクラスを付け外し
+    // nav.toggleClass('active'); // ナビゲーションメニューにactiveクラスを付け外し
+    console.log('ok!');
   });
-  }
+
+};
 
 
 
