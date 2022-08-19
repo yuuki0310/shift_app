@@ -1,5 +1,6 @@
 <div id="wrapper">
 <% available_staff, working_time_sum = calendar %>
+<%= available_staff %>
 <%= month_calendar do |date| %>
   <div class="date">
     <%= date.day %>
@@ -13,7 +14,7 @@
             <% das[:working_staff].each do |id| %>
               <%= User.find(id).name %><br>
             <% end %>
-            <%# <button id="available_staff_edit">編集</button> %>
+            <%= link_to '編集',  edit_store_shift_url(@store, Shift.find_by(date: date)) %>
           </td>
         </tr>
         <tr>

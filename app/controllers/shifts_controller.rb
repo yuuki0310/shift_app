@@ -75,7 +75,8 @@ class ShiftsController < ApplicationController
   def calendar
     available_staff = []
     store_working_time_sum = 0
-    (Date.parse('2022-08-01').to_date..Date.parse('2022-09-01').to_date - 1).each do |date|
+    date_range = Date.parse('2022-08-01').to_date..Date.parse('2022-09-01').to_date - 1
+    date_range.each do |date|
       date_table(date).each do |dt|
         store_working_time_sum += (dt.working_time_to - dt.working_time_from) * dt.count / 60
         store_date_table(date).each do |wtf, ids|
@@ -115,9 +116,37 @@ class ShiftsController < ApplicationController
     available_staff.sort! do |a, b|
       [a[:date], a[:working_time_from]] <=> [b[:date], b[:working_time_from]]
     end
+
+    unless Shift.find_by(date: date_range)
+      available_staff.each do |as|
+        # as.reject { |k,v| k == :count || k == :ids || k == :working_staff }
+        as[:working_staff].each do |ws|
+          # as.reject { |k,v| }
+          Shift.create(as.reject { |k,v| k == :count || k == :ids || k == :working_staff }.merge(store_id: @current_user.store.id, user_id: ws))
+        end
+      end
+    end 
+
     return available_staff, working_time_sum
   end
 
   def index
+    @store = @current_user.store
+  end
+
+  def edit
+    date = Shift.find(params[:id]).date
+    working_time_from = Shift.find(params[:id]).working_time_from
+    @shifts = Shift.where(date: date, working_time_from: working_time_from)
+    available_staff, working_time_sum = calendar
+    @date_available_staff = available_staff.find { |a| a[:date] == date && a[:working_time_from] == working_time_from }
+    @submission_user = []
+    @store_user = []
+    Store.find(params[:store_id]).users.each do |user|
+      @store_user.push(user.name)
+      if user.submission
+        @submission_user.push(user)
+      end
+    end
   end
 end
