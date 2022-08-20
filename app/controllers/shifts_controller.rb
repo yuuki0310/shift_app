@@ -143,7 +143,7 @@ class ShiftsController < ApplicationController
     @submission_user = []
     @store_user = []
     Store.find(params[:store_id]).users.each do |user|
-      @store_user.push(user.name)
+      @store_user.push(user)
       if user.submission
         @submission_user.push(user)
       end

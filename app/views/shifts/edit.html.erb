@@ -1,29 +1,35 @@
 <div id="wrapper">
 <h1>勤務予定</h1>
-<% @shifts.each do |shift| %>
-  <%  working_user = User.find(shift.user_id) %>
-  <%=  working_user.name %>
-  <% @store_user.delete(working_user.name) %>
+<% unless @shifts.empty? %>
+  <% @shifts.each do |shift| %>
+    <%  working_user = User.find(shift.user_id) %>
+    <%=  working_user.name %>
+    <% @store_user.delete(working_user) %>
+  <% end %>
 <% end %>
 <h1>勤務可能</h1>
-<% @date_available_staff[:ids].each do |id| %>
-  <% available_staff = User.find(id) %>
-  <% if @store_user.include?(available_staff.name) %>
-    <%= available_staff.name %>
-    <% @store_user.delete(available_staff.name) %>
+<% unless @date_available_staff.empty? %>
+  <% @date_available_staff[:ids].each do |id| %>
+    <% available_staff = User.find(id) %>
+    <% if @store_user.include?(available_staff) %>
+      <%= available_staff.name %>
+      <% @store_user.delete(available_staff) %>
+    <% end %>
   <% end %>
 <% end %>
 <h1>シフト提出済</h1>
-<% @submission_user.each do |su| %>
-  <% if @store_user.include?(su.name) %>
-    <%= su.name %>
-    <% @store_user.delete(su.name) %>
+<% unless @submission_user.empty? %>
+  <% @submission_user.each do |su| %>
+    <% if @store_user.include?(su) %>
+      <%= su.name %>
+      <% @store_user.delete(su) %>
+    <% end %>
   <% end %>
 <% end %>
 <h1>その他</h1>
-<%= @store_user.each do |su| %>
-    <%= su %>
+<% unless @store_user.empty? %>
+  <%= @store_user.each do |su| %>
+      <%= su %>
+  <% end %>
 <% end %>
-<%= Store.find(params[:store_id]).users %>
-
 </div>
