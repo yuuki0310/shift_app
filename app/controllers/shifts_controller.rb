@@ -135,6 +135,7 @@ class ShiftsController < ApplicationController
   end
 
   def edit
+    @store = @current_user.store
     date = Shift.find(params[:id]).date
     working_time_from = Shift.find(params[:id]).working_time_from
     @shifts = Shift.where(date: date, working_time_from: working_time_from)
@@ -148,5 +149,14 @@ class ShiftsController < ApplicationController
         @submission_user.push(user)
       end
     end
+  end
+
+  def destroy
+    @shift = Shift.find(params[:id])
+    @shift.destroy
+    redirect_to new_user_user_unable_schedule_path
+  end
+
+  def create
   end
 end
