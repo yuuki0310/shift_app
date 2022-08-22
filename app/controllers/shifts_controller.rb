@@ -136,11 +136,11 @@ class ShiftsController < ApplicationController
 
   def edit
     @store = @current_user.store
-    date = Shift.find(params[:id]).date
-    working_time_from = Shift.find(params[:id]).working_time_from
-    @shifts = Shift.where(date: date, working_time_from: working_time_from)
+    @shifts = Shift.where(date: params[:date], working_time_from: params[:working_time_from])
+    # working_time_from = Shift.find(params[:id]).working_time_from
+    # @shifts = Shift.where(date: date, working_time_from: working_time_from)
     available_staff, working_time_sum = calendar
-    @date_available_staff = available_staff.find { |a| a[:date] == date && a[:working_time_from] == working_time_from }
+    @date_available_staff = available_staff.find { |a| a[:date] == params[:date].to_date && a[:working_time_from].strftime( "%H:%M" ) == params[:working_time_from] }
     @submission_user = []
     @store_user = []
     Store.find(params[:store_id]).users.each do |user|

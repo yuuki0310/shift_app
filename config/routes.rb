@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   resources :stores, except: [:index] do
     resources :store_schedules, :store_month_schedules, only: [:new, :create, :destroy]
-    resources :shifts, only: [:index, :create, :edit, :destroy]
+    resources :shifts, only: [:index, :create, :destroy] do
+      collection do
+        get ':date/:working_time_from/edit', action: 'edit'
+      end
+    end
   end
   resources :users, only: [:show, :new, :create, :edit] do
     resources :user_schedules, :user_unable_schedules, only: [:new, :create, :destroy]

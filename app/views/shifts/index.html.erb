@@ -14,7 +14,7 @@
             <% das[:working_staff].each do |id| %>
               <%= User.find(id).name %><br>
             <% end %>
-            <%= link_to '編集',  edit_store_shift_url(@store, Shift.find_by(date: date)) %>
+            <%= link_to '編集',  "/stores/#{@store.id}/shifts/#{date}/#{das[:working_time_from].strftime( "%H:%M" )}/edit" %>
           </td>
         </tr>
         <tr>

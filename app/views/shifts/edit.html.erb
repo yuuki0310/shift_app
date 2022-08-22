@@ -1,6 +1,6 @@
 <div id="wrapper">
 <h1>勤務予定(クリックで削除)</h1>
-<% unless @shifts.empty? %>
+<% unless @shifts.blank? %>
   <% @shifts.each do |shift| %>
     <%  working_user = User.find(shift.user_id) %>
     <%= link_to "#{working_user.name}",  store_shift_path(@store, shift), method: :delete %>
@@ -8,7 +8,7 @@
   <% end %>
 <% end %>
 <h1>勤務可能(クリックで追加)</h1>
-<% unless @date_available_staff.empty? %>
+<% unless @date_available_staff.blank? %>
   <% @date_available_staff[:ids].each do |id| %>
     <% available_staff = User.find(id) %>
     <% if @store_user.include?(available_staff) %>
@@ -21,7 +21,7 @@
 <% unless @submission_user.empty? %>
   <% @submission_user.each do |su| %>
     <% if @store_user.include?(su) %>
-      <%= link_to "#{su.name}",  store_shift_path(@store), method: :post %>
+      <%= link_to "#{su.name}",  "/stores/#{@store.id}/shifts", method: :post %>
       <% @store_user.delete(su) %>
     <% end %>
   <% end %>
@@ -29,7 +29,7 @@
 <h1>その他(クリックで追加)</h1>
 <% unless @store_user.empty? %>
   <%= @store_user.each do |su| %>
-      <%= link_to "#{su.name}",  store_shift_path(@store), method: :post %>
+      <%= link_to "#{su.name}",  "/stores/#{@store.id}/shifts", method: :post %>
   <% end %>
 <% end %>
 </div>
