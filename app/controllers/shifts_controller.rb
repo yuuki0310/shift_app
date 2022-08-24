@@ -97,11 +97,11 @@ class ShiftsController < ApplicationController
       end
     end
     working_time_ratio  = {}
-    working_time_sum = {}
+    # working_time_sum = {}
     store.users.each do |user|
       if user.submission
         working_time_ratio.store(user.id, store_working_time_sum * (user.working_desired_time.to_f / working_desired_time_sum.to_f))
-        working_time_sum.store(user.id, 0)
+        # working_time_sum.store(user.id, 0)
       end
     end
     available_staff.each do |as|
@@ -109,7 +109,7 @@ class ShiftsController < ApplicationController
         if as[:working_staff].size < as[:count] && as[:ids].include?(id)
           as[:working_staff].push(id)
           working_time_ratio[id] -= (as[:working_time_to] - as[:working_time_from]) / 60
-          working_time_sum[id] += (as[:working_time_to] - as[:working_time_from]) / 60
+          # working_time_sum[id] += (as[:working_time_to] - as[:working_time_from]) / 60
         end
       end
     end
@@ -127,18 +127,22 @@ class ShiftsController < ApplicationController
       end
     end 
 
-    return available_staff, working_time_sum
+    return available_staff#, working_time_sum
   end
 
   def index
     @store = @current_user.store
+    @submission_user = []
+    @store.users.each do |user|
+      if user.submission
+        @submission_user.push(user)
+      end
+    end
   end
 
   def edit
     @store = @current_user.store
     @shifts = Shift.where(date: params[:date], working_time_from: params[:working_time_from])
-    # working_time_from = Shift.find(params[:id]).working_time_from
-    # @shifts = Shift.where(date: date, working_time_from: working_time_from)
     available_staff, working_time_sum = calendar
     @date_available_staff = available_staff.find { |a| a[:date] == params[:date].to_date && a[:working_time_from].strftime( "%H:%M" ) == params[:working_time_from] }
     @submission_user = []
@@ -152,11 +156,22 @@ class ShiftsController < ApplicationController
   end
 
   def destroy
+    @store = @current_user.store
     @shift = Shift.find(params[:id])
     @shift.destroy
-    redirect_to new_user_user_unable_schedule_path
+    redirect_to "/stores/#{@store.id}/shifts/#{@shift.date}/#{@shift.working_time_from.strftime( "%H:%M" )}/edit"
   end
 
   def create
+    @store = @current_user.store
+    @shift = Shift.new(
+      store_id: @store.id,
+      date: params[:date],
+      working_time_from: params[:working_time_from],
+      working_time_to: params[:working_time_to],
+      user_id: params[:user_id]
+    )
+    @shift.save
+    redirect_to "/stores/#{@store.id}/shifts/#{@shift.date}/#{@shift.working_time_from.strftime( "%H:%M" )}/edit"
   end
 end

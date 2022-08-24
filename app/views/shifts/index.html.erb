@@ -1,25 +1,33 @@
 <div id="wrapper">
-<% available_staff, working_time_sum = calendar %>
-<%= available_staff %>
+<% available_staff = calendar %>
+<% working_time_sum = {} %>
+<% @submission_user.each do |su| %>
+<% working_time_sum.store(su.id, 0) %>
+<% end %>
+<%#= available_staff %>
 <%= month_calendar do |date| %>
   <div class="date">
     <%= date.day %>
-    <% date_available_staff = available_staff.find_all { |a| a[:date] == date } %>
+    <%# date_available_staff = available_staff.find_all { |a| a[:date] == date } %>
     <table>
-      <%date_available_staff.each do |das|%>
+      <% date_table(date).each do |dt| %>
+        <% date_shifts = Shift.where(date: date, working_time_from: dt.working_time_from) %>
         <tr>
-          <td><%= das[:working_time_from].strftime( "%H:%M" ) %></td>
+          <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
           <td rowspan="2">
-            <%= "#{das[:count]}人" %><br>
-            <% das[:working_staff].each do |id| %>
-              <%= User.find(id).name %><br>
+            <%= "#{dt.count}人" %><br>
+            <% date_shifts.each do |date_shift| %>
+              <% working_user = User.find(date_shift.user_id) %>
+              <%= working_user.name %><br>
+              <% working_time_sum[working_user.id] += dt.working_time_to - dt.working_time_from %>
             <% end %>
-            <%= link_to '編集',  "/stores/#{@store.id}/shifts/#{date}/#{das[:working_time_from].strftime( "%H:%M" )}/edit" %>
+            <%= link_to '編集',  "/stores/#{@store.id}/shifts/#{date}/#{dt.working_time_from.strftime( "%H:%M" )}/edit" %>
           </td>
         </tr>
         <tr>
-          <td><%= das[:working_time_to].strftime( "%H:%M" ) %></td>
+          <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
         </tr>
+        
       <% end %>
     </table>
   </div>
@@ -32,7 +40,7 @@
   <% working_time_sum.each do |id, wts| %>
     <tr>
       <td><%= User.find(id).name %></td>
-      <td><%= wts / 60 %>時間</td>
+      <td><%= wts / 3600 %>時間</td>
     </tr>
   <% end %>
 </table>

@@ -1,5 +1,6 @@
 <div id="wrapper">
-<h1>勤務予定(クリックで削除)</h1>
+<%= "#{params[:date]} #{params[:working_time_from]} ~ #{@date_available_staff[:working_time_to].strftime( "%H:%M" )}" %>
+<h1>勤務予定<%= "#{@date_available_staff[:count]}人" %>(クリックで削除)</h1>
 <% unless @shifts.blank? %>
   <% @shifts.each do |shift| %>
     <%  working_user = User.find(shift.user_id) %>
@@ -12,7 +13,7 @@
   <% @date_available_staff[:ids].each do |id| %>
     <% available_staff = User.find(id) %>
     <% if @store_user.include?(available_staff) %>
-      <%= link_to "#{available_staff.name}",  "/stores/#{@store.id}/shifts", method: :post %>
+      <%= link_to "#{available_staff.name}",  store_shifts_path(@store, date: @date_available_staff[:date], working_time_from: @date_available_staff[:working_time_from], working_time_to: @date_available_staff[:working_time_to], user_id: id), method: :post %>
       <% @store_user.delete(available_staff) %>
     <% end %>
   <% end %>
@@ -21,7 +22,7 @@
 <% unless @submission_user.empty? %>
   <% @submission_user.each do |su| %>
     <% if @store_user.include?(su) %>
-      <%= link_to "#{su.name}",  "/stores/#{@store.id}/shifts", method: :post %>
+      <%= link_to "#{su.name}",  store_shifts_path(@store, date: @date_available_staff[:date], working_time_from: @date_available_staff[:working_time_from], working_time_to: @date_available_staff[:working_time_to], user_id: su.id), method: :post %>
       <% @store_user.delete(su) %>
     <% end %>
   <% end %>
@@ -29,7 +30,7 @@
 <h1>その他(クリックで追加)</h1>
 <% unless @store_user.empty? %>
   <%= @store_user.each do |su| %>
-      <%= link_to "#{su.name}",  "/stores/#{@store.id}/shifts", method: :post %>
+      <%= link_to "#{su.name}",  store_shifts_path(@store, date: @date_available_staff[:date], working_time_from: @date_available_staff[:working_time_from], working_time_to: @date_available_staff[:working_time_to], user_id: su.id), method: :post %>
   <% end %>
 <% end %>
 </div>
