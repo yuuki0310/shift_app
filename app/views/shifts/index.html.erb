@@ -8,7 +8,6 @@
 <%= month_calendar do |date| %>
   <div class="date">
     <%= date.day %>
-    <%# date_available_staff = available_staff.find_all { |a| a[:date] == date } %>
     <table>
       <% date_table(date).each do |dt| %>
         <% date_shifts = Shift.where(date: date, working_time_from: dt.working_time_from) %>
