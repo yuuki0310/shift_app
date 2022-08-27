@@ -1,4 +1,6 @@
 <div id="wrapper">
+<%#= link_to 'ユーザー情報',  _path %>
+<%= link_to '1週間設定',  new_user_user_schedule_path(@current_user) %><br>
 <% if Submission.find_by(user_id: @current_user.id) %>
   <%= button_to '再編集', "/users/#{@user.id}/submission/#{@submission.id}", method: :delete %>
 <% else %>

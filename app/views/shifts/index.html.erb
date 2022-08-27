@@ -1,4 +1,9 @@
 <div id="wrapper">
+<% if StoreSubmission.find_by(store_id: params[:store_id]).nil? %>
+  <%= button_to '決定',  store_store_submission_index_path(@store), method: :post %>
+<% else %>
+  <%= button_to '再編集',  store_store_submission_path(@store, @store), method: :delete %>
+<% end %>
 <% available_staff = calendar %>
 <% working_time_sum = {} %>
 <% @submission_user.each do |su| %>
@@ -20,13 +25,14 @@
               <%= working_user.name %><br>
               <% working_time_sum[working_user.id] += dt.working_time_to - dt.working_time_from %>
             <% end %>
-            <%= link_to '編集',  "/stores/#{@store.id}/shifts/#{date}/#{dt.working_time_from.strftime( "%H:%M" )}/edit" %>
+            <% if StoreSubmission.find_by(store_id: params[:store_id]).nil? %>
+              <%= link_to '編集',  "/stores/#{@store.id}/shifts/#{date}/#{dt.working_time_from.strftime( "%H:%M" )}/edit" %>
+            <% end %>
           </td>
         </tr>
         <tr>
           <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
         </tr>
-        
       <% end %>
     </table>
   </div>
