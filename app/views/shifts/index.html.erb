@@ -36,11 +36,17 @@
     <th>名前</th>
     <th>合計勤務時間</th>
   </tr>
+  <% working_time_sum_sum = 0 %>
   <% working_time_sum.each do |id, wts| %>
+    <% working_time_sum_sum += wts %>
     <tr>
       <td><%= User.find(id).name %></td>
       <td><%= wts / 3600 %>時間</td>
     </tr>
   <% end %>
+  <tr>
+    <td>合計</td>
+    <td><%= working_time_sum_sum / 3600 %>時間</td>
+  </tr>
 </table>
 </div>
