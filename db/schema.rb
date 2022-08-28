@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_27_144106) do
+ActiveRecord::Schema.define(version: 2022_08_28_132848) do
 
   create_table "shifts", force: :cascade do |t|
     t.integer "store_id"
@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(version: 2022_08_27_144106) do
     t.datetime "updated_at", null: false
     t.integer "store_id"
     t.integer "working_desired_time"
+    t.string "email"
+    t.string "password_digest"
     t.index ["store_id"], name: "index_users_on_store_id"
   end
 
