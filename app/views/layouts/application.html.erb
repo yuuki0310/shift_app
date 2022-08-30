@@ -21,7 +21,11 @@
     <div class="inner">
       <!-- ロゴ -->
       <div class="logo">
-      <a href="<%= store_shifts_path(@current_user.store) %>">シフト管理<br><span>shift_app</span></a>
+      <% if logged_in? %>
+        <a href="<%= store_shifts_path(@current_user.store) %>">シフト管理<br><span>shift_app</span></a>
+      <% else %>
+        <a>シフト管理<br><span>shift_app</span></a>
+      <% end %>
       </div>
       <!-- / ロゴ -->
       
@@ -29,10 +33,15 @@
       <nav id="mainNav">
         <a class="menu" id="menu"><span>MENU</span></a>
         <div class="panel">
-          <ul>
-            <li class="active"><a href="<%= store_shifts_path(@current_user.store) %>"><%= @current_user.store.name %><br><span>ストア</span></a></li>
-            <li class="active"><a href="<%= new_user_user_unable_schedule_path(@current_user) %>"><%= @current_user.name %><br><span>マイページ</span></a></li>
-          </ul>
+          <% if logged_in? %>
+            <ul>
+              <li><%= current_user.id %></li>
+              <li><%= session[:user_id] %></li>
+              <li class="active"><a href="<%= store_shifts_path(current_user.store) %>"><%= current_user.store.name %><br><span>ストア</span></a></li>
+              <li class="active"><a href="<%= new_user_user_unable_schedule_path(current_user) %>"><%= current_user.name %><br><span>マイページ</span></a></li>
+              <li><%= link_to "ログアウト", logout_path, method: :delete %><span>logout</span></li>
+            </ul>
+          <% end %>
         </div>
       </nav>
       <!-- メインナビゲーション -->
@@ -40,7 +49,6 @@
     </div>
   </div>
   <!-- / ヘッダー -->
-
    <% if flash[:notice] %>
       <div class="flash">
         <%= flash[:notice] %>

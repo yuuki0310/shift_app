@@ -122,7 +122,7 @@ class ShiftsController < ApplicationController
         # as.reject { |k,v| k == :count || k == :ids || k == :working_staff }
         as[:working_staff].each do |ws|
           # as.reject { |k,v| }
-          Shift.create(as.reject { |k,v| k == :count || k == :ids || k == :working_staff }.merge(store_id: @current_user.store.id, user_id: ws))
+          Shift.create(as.reject { |k,v| k == :count || k == :ids || k == :working_staff }.merge(store_id: current_user.store.id, user_id: ws))
         end
       end
     end 
@@ -131,7 +131,7 @@ class ShiftsController < ApplicationController
   end
 
   def index
-    @store = @current_user.store
+    @store = current_user.store
     @submission_user = []
     @store.users.each do |user|
       if user.submission
@@ -141,7 +141,7 @@ class ShiftsController < ApplicationController
   end
 
   def edit
-    @store = @current_user.store
+    @store = current_user.store
     @shifts = Shift.where(date: params[:date], working_time_from: params[:working_time_from])
     available_staff = calendar
     @date_available_staff = available_staff.find { |a| a[:date] == params[:date].to_date && a[:working_time_from].strftime( "%H:%M" ) == params[:working_time_from] }
@@ -156,14 +156,14 @@ class ShiftsController < ApplicationController
   end
 
   def destroy
-    @store = @current_user.store
+    @store = current_user.store
     @shift = Shift.find(params[:id])
     @shift.destroy
     redirect_to "/stores/#{@store.id}/shifts/#{@shift.date}/#{@shift.working_time_from.strftime( "%H:%M" )}/edit"
   end
 
   def create
-    @store = @current_user.store
+    @store = current_user.store
     @shift = Shift.new(
       store_id: @store.id,
       date: params[:date],

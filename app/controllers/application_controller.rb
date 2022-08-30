@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  include LoginHelper
   # before_action :set_current_user
   
   # def set_current_user
@@ -10,7 +11,7 @@ class ApplicationController < ActionController::Base
   private
   def logged_in_user
     unless logged_in?
-      redirect_to login_url
+      redirect_to new_login_path
     end
   end
 end

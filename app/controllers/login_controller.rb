@@ -1,5 +1,4 @@
 class LoginController < ApplicationController
-  include LoginHelper
   
   def new
   end
@@ -8,7 +7,7 @@ class LoginController < ApplicationController
     user = User.find_by(email: params[:login][:email].downcase)
     if user && user.authenticate(params[:login][:password])
       log_in(user)
-      redirect_to root_url
+      redirect_to store_shifts_path(current_user.store)
     else
       render 'new'
     end
@@ -16,6 +15,6 @@ class LoginController < ApplicationController
 
   def destroy
     log_out if logged_in?
-    redirect_to root_url
+    redirect_to new_login_url
   end
 end
