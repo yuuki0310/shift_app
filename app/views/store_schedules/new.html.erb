@@ -1,14 +1,14 @@
-<div id="wrapper">
-  <%= form_for [@store, @store_schedule] do |f| %>
-    <h2>基本人数</h2>
-    <% @store_schedule.errors.full_messages.each do |message| %>
-      <div class="form-error">
-        <%= message %>
-      </div>
-    <% end %>
-    <div>
-    <h2>1週間設定</h2>
-      <h1>曜日</h1>
+<h2>基本人数</h2>
+<% @store_schedule.errors.full_messages.each do |message| %>
+  <div class="form-error">
+    <%= message %>
+  </div>
+<% end %>
+<div>
+  <h2>1週間設定</h2>
+  <% if owner?(params[:store_id]) %>
+    <h1>曜日</h1>
+    <%= form_for [@store, @store_schedule] do |f| %>
       <%= f.collection_check_boxes(:weeklyday_id, Weeklyday.all, :id, :name, include_hidden: false) %>
       <div class="time">
         <h1>時間</h1>
@@ -19,7 +19,7 @@
       <h1>人数</h1>
       <%= f.number_field :count, min: 1 %>
       <%= f.submit "追加" %>
-    </div>
+    <% end %>
   <% end %>
-  <%= render "weekly_scheduled" %>
 </div>
+<%= render "weekly_scheduled" %>

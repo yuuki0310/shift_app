@@ -1,5 +1,5 @@
 class ShiftsController < ApplicationController
-
+  before_action :logged_in_user
   helper_method :date_table, :store_date_table, :calendar
   require "date"
 

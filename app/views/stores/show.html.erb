@@ -13,5 +13,7 @@
       <% end %>
     </div>
   <% end %>
+  <% if owner?(params[:id]) %>
   <%= button_to "シフトを作成する", store_shifts_path(@store), method: :get %>
+  <% end %>
 </div>

@@ -22,4 +22,9 @@ module LoginHelper
     session.delete(:user_id)
     @current_user = nil
   end
+
+  def owner?(store_id)
+    store = Store.find(store_id)
+    User.find(store.owner_id) == current_user
+  end
 end

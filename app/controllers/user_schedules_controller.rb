@@ -1,5 +1,5 @@
 class UserSchedulesController < ApplicationController
-
+  before_action :logged_in_user
   helper_method :bar_line
 
   def userSchedule_params

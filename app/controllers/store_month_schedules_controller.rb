@@ -1,5 +1,6 @@
 class StoreMonthSchedulesController < ApplicationController
-
+  before_action :logged_in_user
+  before_action :owned_in_user, only: [:create, :destroy]
   helper_method :date_table
 
   def storeMonthSchedule_params

@@ -1,4 +1,6 @@
 class SubmissionController < ApplicationController
+  before_action :logged_in_user
+  
   def create
     @submission = Submission.new(user_id: @current_user.id)
     @submission.save
