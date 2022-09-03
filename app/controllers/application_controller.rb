@@ -16,7 +16,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def owned_in_user
+  def store_staff
+    unless owner?(params[:store_id])
+      flash[:notice] = "スタッフのみが閲覧可能です"
+      redirect_to new_login_path
+    end
+  end
+
+  def owner_permission
     unless owner?(params[:store_id])
       flash[:notice] = "オーナーのみが編集可能です"
       redirect_to new_login_path

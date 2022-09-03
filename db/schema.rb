@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_28_132848) do
+ActiveRecord::Schema.define(version: 2022_09_03_133652) do
 
   create_table "shifts", force: :cascade do |t|
     t.integer "store_id"
@@ -47,11 +47,11 @@ ActiveRecord::Schema.define(version: 2022_08_28_132848) do
     t.index ["weeklyday_id"], name: "index_store_schedules_on_weeklyday_id"
   end
 
-  create_table "store_submissions", force: :cascade do |t|
+  create_table "store_shift_submissions", force: :cascade do |t|
     t.integer "store_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["store_id"], name: "index_store_submissions_on_store_id"
+    t.index ["store_id"], name: "index_store_shift_submissions_on_store_id"
   end
 
   create_table "stores", force: :cascade do |t|

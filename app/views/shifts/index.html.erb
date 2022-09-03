@@ -1,16 +1,16 @@
-<div id="wrapper">
-<% if StoreSubmission.find_by(store_id: params[:store_id]).nil? %>
-  <%= button_to '決定',  store_store_submission_index_path(@store), method: :post %>
-<% else %>
-  <%= button_to '再編集',  store_store_submission_path(@store, @store), method: :delete %>
+<% if owner?(params[:store_id]) %>
+  <% if StoreShiftSubmission.find_by(store_id: params[:store_id]).nil? %>
+    <%= button_to '決定',  store_store_shift_submission_index_path(@store), method: :post %>
+  <% else %>
+    <%= button_to '再編集',  store_store_shift_submission_path(@store, @store), method: :delete %>
+  <% end %>
 <% end %>
-<% available_staff = calendar %>
 <% working_time_sum = {} %>
 <% @submission_user.each do |su| %>
 <% working_time_sum.store(su.id, 0) %>
 <% end %>
-<%#= available_staff %>
-<%= month_calendar do |date| %>
+<%#= month_calendar do |date| %>
+<%= calendar(start_date_param: Date.parse('2022-08-01').to_date) do |date| %>
   <div class="date">
     <%= date.day %>
     <table>
@@ -25,7 +25,7 @@
               <%= working_user.name %><br>
               <% working_time_sum[working_user.id] += dt.working_time_to - dt.working_time_from %>
             <% end %>
-            <% if StoreSubmission.find_by(store_id: params[:store_id]).nil? %>
+            <% if StoreShiftSubmission.find_by(store_id: params[:store_id]).nil? %>
               <%= link_to '編集',  "/stores/#{@store.id}/shifts/#{date}/#{dt.working_time_from.strftime( "%H:%M" )}/edit" %>
             <% end %>
           </td>

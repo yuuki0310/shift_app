@@ -1,6 +1,6 @@
 class StoreSchedulesController < ApplicationController
-  before_action :logged_in_user
-  before_action :owned_in_user, only: [:crate, :destroy]
+  before_action :logged_in_user, except:[:crate, :destroy]
+  before_action :owner_permission, only: [:crate, :destroy]
   helper_method :bar_line, :calendar_wday
 
   def storeSchedule_params
