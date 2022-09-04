@@ -10,7 +10,7 @@
 <% working_time_sum.store(su.id, 0) %>
 <% end %>
 <%#= month_calendar do |date| %>
-<%= calendar(start_date_param: Date.parse('2022-08-01').to_date) do |date| %>
+<%= calendar(start_date_param: ('2022-08-01')) do |date| %>
   <div class="date">
     <%= date.day %>
     <table>

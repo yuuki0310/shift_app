@@ -1,6 +1,6 @@
 class ShiftsController < ApplicationController
   before_action :logged_in_user
-  helper_method :date_table, :store_date_table, :calendar
+  helper_method :date_table, :store_date_table, :available_staff_set
   require "date"
 
   def date_table(date)
@@ -72,7 +72,7 @@ class ShiftsController < ApplicationController
     return store_date_tables
   end
 
-  def calendar
+  def available_staff_set
     available_staff = []
     store_working_time_sum = 0
     @date_range = Date.parse('2022-08-01').to_date..Date.parse('2022-09-01').to_date - 1
