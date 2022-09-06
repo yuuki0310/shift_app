@@ -1,3 +1,4 @@
+<%  %>
 <% if owner?(params[:store_id]) %>
   <% if StoreShiftSubmission.find_by(store_id: params[:store_id]).nil? %>
     <%= button_to '決定',  store_store_shift_submission_index_path(@store), method: :post %>
@@ -5,7 +6,8 @@
     <%= button_to '再編集',  store_store_shift_submission_path(@store, @store), method: :delete %>
   <% end %>
 <% end %>
-<%= month_calendar do |date| %>
+<%#= month_calendar do |date| %>
+<%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
   <div class="date">
     <%= date.day %>
     <table>
