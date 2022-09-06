@@ -35,11 +35,12 @@
 	display: inline;
 }
 
-.prev-month .date, .prev-month .day{
-  display: none;
+.simple-calendar .prev-month{
+	background-color: #fff;
 }
-.next-month .date, .next-month .day{
-  display: none;
+
+.simple-calendar .next-month {
+	background-color: #fff;
 }
 
 form {
@@ -49,6 +50,7 @@ form {
 button {
 	font-size: 10px;
 }
+
 
 /* =Reset default browser CSS.
 Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
