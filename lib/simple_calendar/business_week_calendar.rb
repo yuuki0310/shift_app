@@ -1,10 +1,10 @@
 class SimpleCalendar::BusinessWeekCalendar < SimpleCalendar::Calendar
   private
 
+    # def original_date_range(beginning)
+    #   ending = beginning.next_month - 1
+    #   range = (beginning..ending).to_a
     def date_range
-      # date_range = Date.parse('2022-08-01').to_date..Date.parse('2022-09-01').to_date - 1
-      # beginning = start_date.beginning_of_week + 1.day
-      # ending    = start_date.end_of_week - 1.day
       beginning = Date.parse('2022-08-01').to_date
       ending    = Date.parse('2022-09-01').to_date - 1
       range = (beginning..ending).to_a

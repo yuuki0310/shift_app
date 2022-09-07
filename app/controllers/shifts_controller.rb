@@ -75,8 +75,9 @@ class ShiftsController < ApplicationController
   def available_staff_set
     available_staff = []
     store_working_time_sum = 0
-    date_range = Date.parse('2022-08-01').to_date..Date.parse('2022-09-01').to_date - 1
-    date_range.each do |date|
+    @beginning = Date.parse('2022-08-01').to_date
+    ending = @start_day.next_month - 1
+    @beginning..ending.each do |date|
       date_table(date).each do |dt|
         store_working_time_sum += (dt.working_time_to - dt.working_time_from) * dt.count / 60
         store_date_table(date).each do |wtf, ids|
