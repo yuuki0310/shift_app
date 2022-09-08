@@ -1,6 +1,6 @@
 class ShiftsController < ApplicationController
   before_action :logged_in_user
-  helper_method :date_table, :store_date_table, :available_staff_set
+  helper_method :date_table, :store_date_table, :available_staff_set, :original_date_range
   require "date"
 
   def date_table(date)
@@ -72,6 +72,27 @@ class ShiftsController < ApplicationController
     return store_date_tables
   end
 
+  def original_date_range(beginning)
+    ending = beginning.next_month - 1
+    range = (beginning..ending).to_a
+  # def date_range
+    # beginning = Date.parse('2022-08-01').to_date
+    # ending    = Date.parse('2022-09-01').to_date - 1
+    # range = (beginning..ending).to_a
+
+    if beginning.wday == 0
+      6.times do
+        range.unshift(nil)
+      end
+    elsif beginning.wday != 1
+      (beginning.wday - 1).times do
+        range.unshift(nil)
+      end
+    end
+    return range    
+  end
+
+
   def available_staff_set
     available_staff = []
     store_working_time_sum = 0
@@ -133,6 +154,7 @@ class ShiftsController < ApplicationController
 
   def index
     @store = current_user.store
+    @beginning = Date.parse('2022-08-01').to_date
     @working_time_sum = {}
     @store.users.each do |user|
       if user.submission

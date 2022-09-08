@@ -16,7 +16,7 @@
     </thead>
 
     <tbody>
-      <% original_date_range(@start_day).each_slice(7) do |week| %>
+      <% original_date_range(@beginning).each_slice(7) do |week| %>
         <%= content_tag :tr, class: calendar.tr_classes_for(week) do %>
           <% week.each do |day| %>
             <% if day.nil? %>
