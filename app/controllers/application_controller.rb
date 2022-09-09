@@ -1,12 +1,20 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   include LoginHelper
-  # before_action :set_current_user
-  
-  # def set_current_user
-  #   session[:user_id] = 2
-  #   @current_user = User.find_by(id: session[:user_id])
-  # end
+  helper_method :current_shift
+  require "date"
+
+  def current_shift
+    store_shift_sections = StoreShiftSubmission.where(store_id: current_user.store.id)
+    store_shift_sections.each do |store_shift_section|
+      if store_shift_section.beginning <= Date.today && Date.today <= store_shift_section.ending
+        return "/stores/current_user.store.id/shifts/store_shift_section.beginning"
+      else
+        return store_shift_section_index_path(current_user.store.id)
+      end
+    end
+  end
+      
 
   private
   def logged_in_user

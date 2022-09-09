@@ -1,15 +1,10 @@
 <% if owner?(params[:store_id]) %>
-  <% if @store_shift_submission.nil? %>
-    <p>シフトはありません</p>
-  <% elsif @store_shift_submission.status == 0 || 2 %>
-    <% redirect_to %>
-  <% elsif @store_shift_submission.status == 2 %>
+  <% if @store_shift_submission.status == 2 %>
     <%= button_to '決定',  store_store_shift_submission_index_path(@store), method: :post %>
   <% elsif @store_shift_submission.status == 3 %>
     <%= button_to '再編集',  store_store_shift_submission_path(@store, @store), method: :delete %>
   <% end %>
 <% end %>
-<%#= month_calendar do |date| %>
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
   <div class="date">
     <%= date.day %>

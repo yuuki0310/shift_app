@@ -1,7 +1,6 @@
 class ShiftsController < ApplicationController
   before_action :logged_in_user
-  helper_method :date_table, :store_date_table, :available_staff_set
-  require "date"
+  helper_method :date_table
 
   def date_table(date)
     def calendar_wday(date)
@@ -98,11 +97,9 @@ class ShiftsController < ApplicationController
       end
     end
     working_time_ratio  = {}
-    # working_time_sum = {}
     store.users.each do |user|
       if user.submission
         working_time_ratio.store(user.id, store_working_time_sum * (user.working_desired_time.to_f / working_desired_time_sum.to_f))
-        # working_time_sum.store(user.id, 0)
       end
     end
     available_staff.each do |as|
@@ -110,7 +107,6 @@ class ShiftsController < ApplicationController
         if as[:working_staff].size < as[:count] && as[:ids].include?(id)
           as[:working_staff].push(id)
           working_time_ratio[id] -= (as[:working_time_to] - as[:working_time_from]) / 60
-          # working_time_sum[id] += (as[:working_time_to] - as[:working_time_from]) / 60
         end
       end
     end
@@ -120,15 +116,13 @@ class ShiftsController < ApplicationController
 
     unless Shift.find_by(date: date_range)
       available_staff.each do |as|
-        # as.reject { |k,v| k == :count || k == :ids || k == :working_staff }
         as[:working_staff].each do |ws|
-          # as.reject { |k,v| }
           Shift.create(as.reject { |k,v| k == :count || k == :ids || k == :working_staff }.merge(store_id: current_user.store.id, user_id: ws))
         end
       end
     end 
 
-    return available_staff#, working_time_sum
+    return available_staff
   end
 
   def index
