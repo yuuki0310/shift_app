@@ -1,8 +1,11 @@
-<%  %>
 <% if owner?(params[:store_id]) %>
-  <% if StoreShiftSubmission.find_by(store_id: params[:store_id]).nil? %>
+  <% if @store_shift_submission.nil? %>
+    <p>シフトはありません</p>
+  <% elsif @store_shift_submission.status == 0 || 2 %>
+    <% redirect_to %>
+  <% elsif @store_shift_submission.status == 2 %>
     <%= button_to '決定',  store_store_shift_submission_index_path(@store), method: :post %>
-  <% else %>
+  <% elsif @store_shift_submission.status == 3 %>
     <%= button_to '再編集',  store_store_shift_submission_path(@store, @store), method: :delete %>
   <% end %>
 <% end %>
@@ -22,7 +25,7 @@
               <%= working_user.name %><br>
               <% @working_time_sum[working_user.id] += dt.working_time_to - dt.working_time_from %>
             <% end %>
-            <% if StoreShiftSubmission.find_by(store_id: params[:store_id]).nil? %>
+            <% if @store_shift_submission.nil? %>
               <%= link_to '編集',  "/stores/#{@store.id}/shifts/#{date}/#{dt.working_time_from.strftime( "%H:%M" )}/edit" %>
             <% end %>
           </td>

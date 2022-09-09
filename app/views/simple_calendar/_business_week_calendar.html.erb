@@ -1,8 +1,6 @@
 <div class="simple-calendar">
   <div class="calendar-heading">
-    <%#= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view %>
-    <%= original_date_range(@start_day)[6].strftime( "%Y年%m月" ) %>
-    <%#= link_to t('simple_calendar.next', default: 'Next'), calendar.url_for_next_view %>
+    <%= StoreShiftSubmission.find_by(store_id: params[:store_id]).beginning.strftime( "%Y年%m月" ) %>
   </div>
 
   <table class="table table-striped">
@@ -16,7 +14,7 @@
     </thead>
 
     <tbody>
-      <% original_date_range(@beginning).each_slice(7) do |week| %>
+      <% date_range.each_slice(7) do |week| %>
         <%= content_tag :tr, class: calendar.tr_classes_for(week) do %>
           <% week.each do |day| %>
             <% if day.nil? %>
