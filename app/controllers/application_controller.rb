@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     store_shift_sections = StoreShiftSubmission.where(store_id: current_user.store.id)
     store_shift_sections.each do |store_shift_section|
       if store_shift_section.beginning <= Date.today && Date.today <= store_shift_section.ending
-        return "/stores/current_user.store.id/shifts/store_shift_section.beginning"
+        return "/stores/#{current_user.store.id}/shifts/#{store_shift_section.beginning}"
       else
         return store_shift_section_index_path(current_user.store.id)
       end

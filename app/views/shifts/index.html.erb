@@ -1,8 +1,9 @@
+<%= link_to 'シフト一覧へ',  store_shift_section_index_path %>
 <% if owner?(params[:store_id]) %>
   <% if @store_shift_submission.status == 2 %>
-    <%= button_to '決定',  store_store_shift_submission_index_path(@store), method: :post %>
+    <%= button_to '決定',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/3", method: :post %>
   <% elsif @store_shift_submission.status == 3 %>
-    <%= button_to '再編集',  store_store_shift_submission_path(@store, @store), method: :delete %>
+    <%= button_to '再編集',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/2", method: :post %>
   <% end %>
 <% end %>
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
@@ -20,7 +21,7 @@
               <%= working_user.name %><br>
               <% @working_time_sum[working_user.id] += dt.working_time_to - dt.working_time_from %>
             <% end %>
-            <% if @store_shift_submission.nil? %>
+            <% if @store_shift_submission.status == 2 %>
               <%= link_to '編集',  "/stores/#{@store.id}/shifts/#{date}/#{dt.working_time_from.strftime( "%H:%M" )}/edit" %>
             <% end %>
           </td>

@@ -1,5 +1,6 @@
 class ShiftsController < ApplicationController
   before_action :logged_in_user
+  before_action :owner_permission, only: [:new]
   helper_method :date_table
 
   def date_table(date)

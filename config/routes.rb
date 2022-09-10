@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'shift_section/index'
+  get 'shift_section/create'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   resources :login, only: [:new, :create]
@@ -9,6 +11,7 @@ Rails.application.routes.draw do
     resources :shift_section, only: [:index]
     resources :shifts, only: [:create, :destroy] do
       collection do
+        post ':beginning/change_status/:status' => 'store_shift_submission#change_status'
         get ':beginning/:ending/new', action: 'new'
         get ':date/:working_time_from/edit', action: 'edit'
         get ':beginning', action: 'index'
