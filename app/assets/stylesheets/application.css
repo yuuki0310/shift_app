@@ -20,6 +20,14 @@
 /* 追加CSS
 -------------------------------------------------------------- */
 
+#wrapper h1{
+	font-size: 25px;
+}
+
+#wrapper h2{
+	font-size: 20px;
+}
+
 .field_with_errors{
 	display: inline;
 }

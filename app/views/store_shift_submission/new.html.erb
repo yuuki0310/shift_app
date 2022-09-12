@@ -1,0 +1,13 @@
+<%= form_for [@store, @store_shift_submission], url: store_store_shift_submission_index_path(@store) do |f| %>
+  <% @store_shift_submission.errors.full_messages.each do |message| %>
+    <div class="form-error">
+      <%= message %>
+    </div>
+  <% end %>
+  <h1>シフトを新たに作成する</h1>
+  <h2>期間</h2>
+    <%= f.date_select :beginning %>
+    <p>から</p>
+    <%= f.date_select :ending %>
+    <%= f.submit "作成" %>
+<% end %>

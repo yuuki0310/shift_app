@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
-  get 'shift_section/index'
-  get 'shift_section/create'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   resources :login, only: [:new, :create]
   delete '/logout',  to: 'login#destroy'
   resources :stores, except: [:index] do
-    resources :store_schedules, :store_month_schedules, only: [:new, :create, :destroy]
-    resources :store_shift_submission, only: [:create, :destroy]
+    resources :store_schedules, :store_month_schedules, :store_shift_submission, only: [:new, :create, :destroy]
+    resources :store_month_schedules, only: [:create, :destroy] do
+      collection do
+        get ':beginning/:ending/new', action: 'new'
+      end
+    end
+    
     resources :shift_section, only: [:index]
     resources :shifts, only: [:create, :destroy] do
       collection do
