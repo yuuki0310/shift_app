@@ -26,7 +26,7 @@ class StoreShiftSubmissionController < ApplicationController
   def create
     store_shift_submission = StoreShiftSubmission.new(store_shift_submission_params)
     if store_shift_submission.save
-      redirect_to "/stores/#{params[:store_id]}/store_month_schedules/#{store_shift_submission_params[beginning].}/#{store_shift_submission_params[ending]}/new"
+      redirect_to "/stores/#{params[:store_id]}/store_month_schedules/#{store_shift_submission_params[beginning]}/#{store_shift_submission_params[ending]}/new"
     else
       render :new
     end

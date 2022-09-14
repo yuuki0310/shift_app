@@ -43,6 +43,11 @@ class StoreMonthSchedulesController < ApplicationController
   def new
     @store = Store.find(params[:store_id])
     @store_month_schedule = StoreMonthSchedule.new
+    @store_shift_section = StoreShiftSubmission.find_by(store_id: params[:store_id], beginning: params[:beginning])
+  end
+
+  def index
+    @store_shift_sections = StoreShiftSubmission.where(store_id: params[:store_id])
   end
   
   def create

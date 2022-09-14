@@ -1,9 +1,11 @@
-<%= link_to 'シフト一覧へ',  store_shift_section_index_path %>
+<%= link_to 'シフト一覧へ',  store_shift_section_index_path %><br>
 <% if owner?(params[:store_id]) %>
   <% if @store_shift_submission.status == 2 %>
     <%= button_to '決定',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/3", method: :post %>
   <% elsif @store_shift_submission.status == 3 %>
     <%= button_to '再編集',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/2", method: :post %>
+  <% elsif @store_shift_submission.status == 1 %>
+    
   <% end %>
 <% end %>
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>

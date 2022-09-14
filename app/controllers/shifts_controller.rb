@@ -128,7 +128,7 @@ class ShiftsController < ApplicationController
 
   def index
     @store = current_user.store
-    @store_shift_submission = StoreShiftSubmission.find_by(store_id: params[:store_id])
+    @store_shift_submission = StoreShiftSubmission.find_by(store_id: params[:store_id], beginning: params[:beginning])
     @working_time_sum = {}
     @store.users.each do |user|
       if user.submission

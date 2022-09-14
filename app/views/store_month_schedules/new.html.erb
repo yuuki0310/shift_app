@@ -1,4 +1,4 @@
-<% if owner?(params[:store_id]) %>
+<% if owner?(params[:store_id]) && @store_shift_section.status == 0 %>
   <% @store_month_schedule.errors.full_messages.each do |message| %>
     <div class="form-error">
       <%= message %>
@@ -16,6 +16,7 @@
       <%= f.submit "追加" %>
     </div>
   <% end %>
+  <%= button_to 'スケジュールを決定', "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/1" %>
 <% end %>
 
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>

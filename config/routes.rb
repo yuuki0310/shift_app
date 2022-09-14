@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'login#destroy'
   resources :stores, except: [:index] do
     resources :store_schedules, :store_month_schedules, :store_shift_submission, only: [:new, :create, :destroy]
-    resources :store_month_schedules, only: [:create, :destroy] do
+    resources :store_month_schedules, only: [:index, :create, :destroy] do
       collection do
-        get ':beginning/:ending/new', action: 'new'
+        get ':beginning/new', action: 'new'
       end
     end
     

@@ -1,6 +1,6 @@
 <div class="simple-calendar">
   <div class="calendar-heading">
-    <%= StoreShiftSubmission.find_by(store_id: params[:store_id]).beginning.strftime( "%Y年%m月" ) %>
+    <%= StoreShiftSubmission.find_by(store_id: params[:store_id], beginning: params[:beginning]).beginning.strftime( "%Y年%m月" ) %>
   </div>
 
   <table class="table table-striped">
