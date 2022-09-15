@@ -5,7 +5,18 @@
   <% elsif @store_shift_submission.status == 3 %>
     <%= button_to '再編集',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/2", method: :post %>
   <% elsif @store_shift_submission.status == 1 %>
-    
+    <% @store.users.each do |member| %>
+      <div>
+        <%= member.name %>
+        <% submission_user = Submission.find_by(user_id: member.id, store_shift_submission_id: @store_shift_submission.id) %>
+        <% if submission_user %>
+          提出済
+        <% else %>
+          <font color="red">未提出</font>
+        <% end %>
+      </div>
+    <% end %>
+    <%= button_to 'シフト作成',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/2", method: :post %>
   <% end %>
 <% end %>
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>

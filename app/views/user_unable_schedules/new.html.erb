@@ -1,48 +1,53 @@
-<div id="wrapper">
-<%#= link_to 'ユーザー情報',  _path %>
 <%= link_to '1週間設定',  new_user_user_schedule_path(@current_user) %><br>
-<% if Submission.find_by(user_id: @current_user.id) %>
-  <%= button_to '再編集', "/users/#{@user.id}/submission/#{@submission.id}", method: :delete %>
-<% else %>
-  <%= button_to '提出', "/users/#{@user.id}/submission/#{@submission.id}" %>
-<% end %>
-  <%= month_calendar do |date| %>
-    <div class="date">
-      <% month = date.month %>
-      <%= date.day %>
-      <table>
-        <% date_table(date).each do |dt| %>
-          <tr>
-            <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
-            <td rowspan="2">
-              <%= dt.count %>人
-              <%= form_for([@user, @user_unable_schedule]) do |f| %>
-                <%= f.hidden_field :date, value: date %>
-                <%= f.hidden_field :working_time_from, value: dt.working_time_from %>
-                <%= f.hidden_field :working_time_to, value: dt.working_time_to %>
-                <% unless Submission.find_by(user_id: @current_user.id) %>
-                  <%= f.submit "削除" %>
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
-          </tr>
-        <% end %>
-      </table>
-    </div>
-  <% end %> 
-  <h2>シフトから除外</h2>
-  <% @user_unable_schedules.each do |user_unable_schedule| %>
-    <div>
-      <%= user_unable_schedule.date.strftime( "%m-%d" ) %>
-      <%= user_unable_schedule.working_time_from.strftime( "%H:%M" ) %>
-      ~
-      <%= user_unable_schedule.working_time_to.strftime( "%H:%M" ) %>
-      <% unless Submission.find_by(user_id: @current_user.id) %>
-        <%= button_to '復元', "/users/#{@user.id}/user_unable_schedules/#{user_unable_schedule.id}", method: :delete %>
-      <% end %>
-    </div>
+<% if @store_shift_submission.status == 0 %>
+  <p>オーナーがスケジュール作成中です</p>
+<% elsif @store_shift_submission.status == 1 %>
+  <% if @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id) %>
+    <%= button_to '再編集', "/users/#{@user.id}/submission/#{@submission.id}", method: :delete %>
+  <% else %>
+    <%= button_to '提出', "/users/#{@user.id}/submission/#{@submission.id}" %>
   <% end %>
-</div>
+<% elsif @store_shift_submission.status == 2 %>
+  <p>シフト作成中です</p>
+<% elsif @store_shift_submission.status == 2 %>
+  <p>シフトは完成しました</p>
+<% end %>
+<%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
+  <div class="date">
+    <% month = date.month %>
+    <%= date.day %>
+    <table>
+      <% date_table(date).each do |dt| %>
+        <tr>
+          <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
+          <td rowspan="2">
+            <%= dt.count %>人
+            <%= form_for([@user, @user_unable_schedule]) do |f| %>
+              <%= f.hidden_field :date, value: date %>
+              <%= f.hidden_field :working_time_from, value: dt.working_time_from %>
+              <%= f.hidden_field :working_time_to, value: dt.working_time_to %>
+              <% if @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id).nil? && @store_shift_submission.status == 1 %>
+                <%= f.submit "削除" %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+<% end %> 
+<h2>シフトから除外</h2>
+<% @user_unable_schedules.each do |user_unable_schedule| %>
+  <div>
+    <%= user_unable_schedule.date.strftime( "%m-%d" ) %>
+    <%= user_unable_schedule.working_time_from.strftime( "%H:%M" ) %>
+    ~
+    <%= user_unable_schedule.working_time_to.strftime( "%H:%M" ) %>
+    <% unless Submission.find_by(user_id: @current_user.id) %>
+      <%= button_to '復元', "/users/#{@user.id}/user_unable_schedules/#{user_unable_schedule.id}", method: :delete %>
+    <% end %>
+  </div>
+<% end %>

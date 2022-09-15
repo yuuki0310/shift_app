@@ -1,4 +1,4 @@
-<h1>スケジュール一覧</h1>
+<h1>ストアスケジュール一覧</h1>
 <% @store_shift_sections.each do |store_shift_section| %>
   <%= link_to "#{store_shift_section.beginning}~#{store_shift_section.ending}", "/stores/#{params[:store_id]}/store_month_schedules/#{store_shift_section.beginning}/new" %>
   <br>

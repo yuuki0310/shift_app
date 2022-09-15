@@ -39,7 +39,7 @@
               <li>current_user.id = <%= current_user.id %></li>
               <li>session[:user_id] = <%= session[:user_id] %></li>
               <li><%= link_to current_user.store.name, "/stores/#{current_user.store.id}/store_month_schedules" %></li>
-              <li><%= link_to current_user.name, new_user_user_unable_schedule_path(current_user) %></li>
+              <li><%= link_to current_user.name, "/users/#{current_user.id}/user_unable_schedules" %></li>
               <% if logged_in? %>
               <li><%= link_to "ログアウト", logout_path, method: :delete %></li>
               <% end %>

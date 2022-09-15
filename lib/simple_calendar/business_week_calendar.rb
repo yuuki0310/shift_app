@@ -2,7 +2,12 @@ class SimpleCalendar::BusinessWeekCalendar < SimpleCalendar::Calendar
   private
 
     def date_range
-      store_shift_submission = StoreShiftSubmission.find_by(store_id: @params[:store_id], beginning: @params[:beginning])
+      if @params[:store_id]
+        store_id = @params[:store_id]
+      elsif @params[:user_id]
+        store_id = User.find(@params[:user_id]).store.id
+      end
+      store_shift_submission = StoreShiftSubmission.find_by(store_id: store_id, beginning: @params[:beginning])
       range = (store_shift_submission.beginning..store_shift_submission.ending).to_a
 
       if store_shift_submission.beginning.wday == 0

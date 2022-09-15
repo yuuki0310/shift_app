@@ -5,13 +5,5 @@
 <% @store.users.each do |member| %>
   <div>
     <%= member.name %>
-    <% if member.submission %>
-      提出済
-    <% else %>
-      <font color="red">未提出</font>
-    <% end %>
   </div>
-<% end %>
-<% if owner?(params[:id]) %>
-<%= button_to "シフトを作成する", store_shifts_path(@store), method: :get %>
 <% end %>

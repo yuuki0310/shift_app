@@ -68,6 +68,7 @@ class UserUnableSchedulesController < ApplicationController
 
   def new
     @user = User.find(params[:user_id])
+    @store_shift_submission = StoreShiftSubmission.find_by(store_id: @user.store.id, beginning: params[:beginning])
     @user_unable_schedule = UserUnableSchedule.new
     @user_unable_schedules = UserUnableSchedule.where(user_id: params[:user_id])
     if Submission.find_by(user_id: params[:user_id])
@@ -76,6 +77,12 @@ class UserUnableSchedulesController < ApplicationController
       @submission = Submission.new
     end
   end
+
+  def index
+    store = User.find(params[:user_id]).store
+    @store_shift_sections = StoreShiftSubmission.where(store_id:store.id)
+  end
+
   def create
     @user_unable_schedule = UserUnableSchedule.new(userUnableSchedule_params)
     if @user_unable_schedule.save
