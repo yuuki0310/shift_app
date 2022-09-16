@@ -24,6 +24,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_user_authenticate
+    user = User.find(params[:user_id])
+    unless current_user?(user)
+      flash[:notice] = "本人のみ閲覧可能です"
+      redirect_to new_login_path
+    end
+  end
+
   def store_staff
     unless owner?(params[:store_id])
       flash[:notice] = "スタッフのみが閲覧可能です"

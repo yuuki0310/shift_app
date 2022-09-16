@@ -3,9 +3,9 @@
   <p>オーナーがスケジュール作成中です</p>
 <% elsif @store_shift_submission.status == 1 %>
   <% if @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id) %>
-    <%= button_to '再編集', "/users/#{@user.id}/submission/#{@submission.id}", method: :delete %>
+    <%= button_to '再編集', user_submission_path(@user, @submission, beginning: params[:beginning]), method: :delete %>
   <% else %>
-    <%= button_to '提出', "/users/#{@user.id}/submission/#{@submission.id}" %>
+    <%= button_to '提出', user_submission_index_path(@user, beginning: params[:beginning]) %>
   <% end %>
 <% elsif @store_shift_submission.status == 2 %>
   <p>シフト作成中です</p>
@@ -22,11 +22,11 @@
           <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
           <td rowspan="2">
             <%= dt.count %>人
-            <%= form_for([@user, @user_unable_schedule]) do |f| %>
-              <%= f.hidden_field :date, value: date %>
-              <%= f.hidden_field :working_time_from, value: dt.working_time_from %>
-              <%= f.hidden_field :working_time_to, value: dt.working_time_to %>
-              <% if @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id).nil? && @store_shift_submission.status == 1 %>
+            <% if @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id).nil? && @store_shift_submission.status == 1 %>
+              <%= form_for([@user, @user_unable_schedule], url:  "/users/#{params[:user_id]}/user_unable_schedules?beginning=#{params[:beginning]}") do |f| %>
+                <%= f.hidden_field :date, value: date %>
+                <%= f.hidden_field :working_time_from, value: dt.working_time_from %>
+                <%= f.hidden_field :working_time_to, value: dt.working_time_to %>
                 <%= f.submit "削除" %>
               <% end %>
             <% end %>
@@ -46,8 +46,8 @@
     <%= user_unable_schedule.working_time_from.strftime( "%H:%M" ) %>
     ~
     <%= user_unable_schedule.working_time_to.strftime( "%H:%M" ) %>
-    <% unless Submission.find_by(user_id: @current_user.id) %>
-      <%= button_to '復元', "/users/#{@user.id}/user_unable_schedules/#{user_unable_schedule.id}", method: :delete %>
+    <% if @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id).nil? && @store_shift_submission.status == 1 %>
+      <%= button_to '復元', user_user_unable_schedule_path(@user, user_unable_schedule, beginning: params[:beginning]), method: :delete %>
     <% end %>
   </div>
 <% end %>

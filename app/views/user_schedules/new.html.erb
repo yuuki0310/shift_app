@@ -1,22 +1,24 @@
-<div id="wrapper">
-  <%= form_for([@user, @user_schedule]) do |f| %>
+<% if @store_shift_submission %>
+  <% unless @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id) %>
     <% @user_schedule.errors.full_messages.each do |message| %>
       <div class="form-error">
         <%= message %>
       </div>
     <% end %>
-    <div>
-    <h2>1週間設定</h2>
-      <h1>曜日</h1>
-      <%= f.collection_check_boxes(:weeklyday_id, Weeklyday.all, :id, :name, include_hidden: false) %>
-      <div class="time">
-        <h1>時間</h1>
-        <%= f.time_field :working_time_from, class: "working_time" %>
-        <p>〜</p>
-        <%= f.time_field :working_time_to, class: "working_time" %>
-        <%= f.submit "追加" %>
+    <%= form_for([@user, @user_schedule]) do |f| %>
+      <div>
+        <h1>1週間設定</h1>
+        <h2>曜日</h2>
+        <%= f.collection_check_boxes(:weeklyday_id, Weeklyday.all, :id, :name, include_hidden: false) %>
+        <div class="time">
+          <h2>時間</h2>
+          <%= f.time_field :working_time_from, class: "working_time" %>
+          <p>〜</p>
+          <%= f.time_field :working_time_to, class: "working_time" %>
+          <%= f.submit "追加" %>
+        </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
-  <%= render "weekly_scheduled" %>
-</div>
+<% end %>
+<%= render "weekly_scheduled" %>

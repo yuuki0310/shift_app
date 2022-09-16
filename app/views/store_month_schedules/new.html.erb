@@ -1,3 +1,4 @@
+<%= link_to '1週間設定',  new_store_store_schedule_path(@store) %><br>
 <% if owner?(params[:store_id]) && @store_shift_section.status == 0 %>
   <% @store_month_schedule.errors.full_messages.each do |message| %>
     <div class="form-error">

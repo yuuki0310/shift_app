@@ -1,5 +1,5 @@
 class UserUnableSchedulesController < ApplicationController
-  before_action :logged_in_user
+  before_action :logged_in_user, :current_user_authenticate
   helper_method :date_table
 
   def userUnableSchedule_params
@@ -70,8 +70,8 @@ class UserUnableSchedulesController < ApplicationController
     @user = User.find(params[:user_id])
     @store_shift_submission = StoreShiftSubmission.find_by(store_id: @user.store.id, beginning: params[:beginning])
     @user_unable_schedule = UserUnableSchedule.new
-    @user_unable_schedules = UserUnableSchedule.where(user_id: params[:user_id])
-    if Submission.find_by(user_id: params[:user_id])
+    @user_unable_schedules = UserUnableSchedule.where(user_id: params[:user_id], date: @store_shift_submission.beginning..@store_shift_submission.ending)
+    if Submission.find_by(user_id: params[:user_id], store_shift_submission_id: @store_shift_submission.id)
       @submission = Submission.find_by(user_id: params[:user_id])
     else
       @submission = Submission.new
@@ -86,7 +86,7 @@ class UserUnableSchedulesController < ApplicationController
   def create
     @user_unable_schedule = UserUnableSchedule.new(userUnableSchedule_params)
     if @user_unable_schedule.save
-      redirect_to new_user_user_unable_schedule_path
+      redirect_to "/users/#{params[:user_id]}/user_unable_schedules/#{params[:beginning]}/new"
     else
       render :new
     end
@@ -95,6 +95,6 @@ class UserUnableSchedulesController < ApplicationController
   def destroy
     @user_unable_schedule  = UserUnableSchedule.find(params[:id])
     @user_unable_schedule.destroy
-    redirect_to new_user_user_unable_schedule_path
+    redirect_to "/users/#{params[:user_id]}/user_unable_schedules/#{params[:beginning]}/new"
   end
 end

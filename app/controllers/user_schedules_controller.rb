@@ -1,5 +1,5 @@
 class UserSchedulesController < ApplicationController
-  before_action :logged_in_user
+  before_action :logged_in_user, :current_user_authenticate
   helper_method :bar_line
 
   def userSchedule_params
@@ -31,6 +31,8 @@ class UserSchedulesController < ApplicationController
 
   def new
     @user = User.find(params[:user_id])
+    store_shift_submissions = StoreShiftSubmission.where(store_id: @user.store.id)
+    @store_shift_submission = store_shift_submissions.find_by(status: 1)
     @user_schedule = UserSchedule.new
     weekly_scheduled
   end
