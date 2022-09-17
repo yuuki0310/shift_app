@@ -4,5 +4,5 @@ class Store < ApplicationRecord
   has_many :users
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
   has_many :store_month_schedules
-  has_one :store_shift_submission
+  has_many :store_shift_submissions
 end

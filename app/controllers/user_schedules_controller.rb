@@ -39,6 +39,8 @@ class UserSchedulesController < ApplicationController
   
   def create
     @user = User.find(params[:user_id])
+    store_shift_submissions = StoreShiftSubmission.where(store_id: @user.store.id)
+    @store_shift_submission = store_shift_submissions.find_by(status: 1)
     @user_schedule = UserSchedule.new
     weekly_scheduled
     if params[:user_schedule][:weeklyday_id]

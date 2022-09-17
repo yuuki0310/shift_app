@@ -1,3 +1,4 @@
+<%= link_to "ストアスケジュール一覧", "/stores/#{current_user.store.id}/store_month_schedules" %>
 <h2>基本人数</h2>
 <% @store_schedule.errors.full_messages.each do |message| %>
   <div class="form-error">

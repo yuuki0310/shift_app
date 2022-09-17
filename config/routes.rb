@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :login, only: [:new, :create]
   delete '/logout',  to: 'login#destroy'
+  
   resources :stores, except: [:index] do
     resources :store_schedules, :store_month_schedules, :store_shift_submission, only: [:new, :create, :destroy]
     resources :store_month_schedules, only: [:index, :create, :destroy] do

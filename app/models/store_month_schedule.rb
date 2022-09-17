@@ -14,7 +14,7 @@ class StoreMonthSchedule < ApplicationRecord
 
   def working_time
     if working_time_from && working_time_to
-      if working_time_from > working_time_to
+      if working_time_from >= working_time_to
         errors.add(:working_time_from, "可能な時間に設定してください")
       end
     end
