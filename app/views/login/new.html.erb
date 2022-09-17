@@ -6,9 +6,5 @@
   <%= f.password_field :password %>
   <%= f.submit "Log in" %>
 <% end %>
-<% if logged_in? %>
-  <ul>
-    <li><%= @current_user.id %></li>
-    <li><%= session[:user_id] %></li>
-  </ul>
-<% end %>
+<br>
+<%= link_to "新規登録", users_new_path %>
