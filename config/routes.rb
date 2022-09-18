@@ -31,5 +31,6 @@ Rails.application.routes.draw do
       end
     end
     resources :submission, only: [:create, :destroy]
+    resources :affiliation, only: [:new]
   end
 end

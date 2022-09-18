@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_15_091125) do
+ActiveRecord::Schema.define(version: 2022_09_18_105754) do
 
   create_table "shifts", force: :cascade do |t|
     t.integer "store_id"
@@ -103,6 +103,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_091125) do
     t.integer "working_desired_time"
     t.string "email"
     t.string "password_digest"
+    t.string "public_uid"
+    t.index ["public_uid"], name: "index_users_on_public_uid", unique: true
     t.index ["store_id"], name: "index_users_on_store_id"
   end
 
