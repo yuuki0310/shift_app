@@ -30,7 +30,7 @@ Rails.application.routes.draw do
         get ':beginning/new', action: 'new'
       end
     end
-    resources :submission, only: [:create, :destroy]
+    resources :submission, :applying_store_id, only: [:create, :destroy]
     resources :affiliation, only: [:new]
   end
 end

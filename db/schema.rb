@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_18_105754) do
+ActiveRecord::Schema.define(version: 2022_09_19_134803) do
+
+  create_table "applying_store_ids", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "store_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["store_id"], name: "index_applying_store_ids_on_store_id"
+    t.index ["user_id"], name: "index_applying_store_ids_on_user_id"
+  end
 
   create_table "shifts", force: :cascade do |t|
     t.integer "store_id"
@@ -62,6 +71,7 @@ ActiveRecord::Schema.define(version: 2022_09_18_105754) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "owner_id"
+    t.string "public_uid"
     t.index ["owner_id"], name: "index_stores_on_owner_id"
   end
 
