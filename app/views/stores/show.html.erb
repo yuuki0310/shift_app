@@ -3,7 +3,14 @@
 <%= @store.owner.name %>
 <h1>メンバー</h1>
 <% @store.users.each do |member| %>
-  <div>
-    <%= member.name %>
-  </div>
+  <%= member.name %><br>
+<% end %>
+<h2>申請中</h2>
+<% @affiliation_applications.each do |affiliation_application| %>
+  <%= affiliation_application.user.name %>
+  <%= form_for affiliation_application.user, url: user_path(affiliation_application.user), method: :put do |f| %>
+    <%= f.hidden_field :store_id, value: params[:id] %>
+    <%= f.submit "許可" %>
+  <% end %>
+  <br>
 <% end %>

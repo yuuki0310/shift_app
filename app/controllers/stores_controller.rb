@@ -3,6 +3,7 @@ class StoresController < ApplicationController
   
   def show
     @store = Store.find(params[:id])
+    @affiliation_applications = AffiliationApplication.where(store_id: params[:id])
   end
   
 end

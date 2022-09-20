@@ -1,0 +1,16 @@
+<% if AffiliationApplication.find_by(user_id: params[:user_id]) %>
+  <p>店舗に申請中です</p>
+<% else %>
+  <%= link_to "オーナーの方はこちら", new_store_path %>
+  <h2>店舗のスタッフになる</h2>
+  <%= form_for @affiliation_application, url: user_affiliation_application_index_path(@user) do |f| %>
+    <% @affiliation_application.errors.full_messages.each do |message| %>
+      <div class="form-error">
+        <%= message %>
+      </div>
+    <% end %>
+    <p>ストアID</p>
+    <%= f.number_field :store_id, in: 10000000..99999999 %>
+    <%= f.submit "作成" %>
+  <% end %>
+<% end %>

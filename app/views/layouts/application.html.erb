@@ -22,7 +22,7 @@
     <div class="inner">
       <!-- ロゴ -->
       <div class="logo">
-      <% if logged_in? %>
+      <% if logged_in? && current_user.store %>
         <a href="<%= current_shift %>">シフト管理<br><span>shift_app</span></a>
       <% else %>
         <a>シフト管理<br><span>shift_app</span></a>
@@ -36,9 +36,9 @@
         <div class="panel">
           <% if logged_in? %>
             <ul>
-              <li>current_user.id = <%= current_user.id %></li>
-              <li>session[:user_id] = <%= session[:user_id] %></li>
-              <li><%= link_to current_user.store.name, "/stores/#{current_user.store.id}/store_month_schedules" %></li>
+              <% if current_user.store %>
+                <li><%= link_to current_user.store.name, "/stores/#{current_user.store.id}/store_month_schedules" %></li>
+              <% end %>
               <li><%= link_to current_user.name, "/users/#{current_user.id}/user_unable_schedules" %></li>
               <% if logged_in? %>
               <li><%= link_to "ログアウト", logout_path, method: :delete %></li>

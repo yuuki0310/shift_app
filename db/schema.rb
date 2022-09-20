@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_19_134803) do
+ActiveRecord::Schema.define(version: 2022_09_20_081437) do
 
-  create_table "applying_store_ids", force: :cascade do |t|
+  create_table "affiliation_applications", force: :cascade do |t|
     t.integer "user_id"
     t.integer "store_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["store_id"], name: "index_applying_store_ids_on_store_id"
-    t.index ["user_id"], name: "index_applying_store_ids_on_user_id"
+    t.index ["store_id"], name: "index_affiliation_applications_on_store_id"
+    t.index ["user_id"], name: "index_affiliation_applications_on_user_id"
   end
 
   create_table "shifts", force: :cascade do |t|

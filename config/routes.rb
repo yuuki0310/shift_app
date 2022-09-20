@@ -23,14 +23,15 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :users, only: [:show, :new, :create, :edit] do
-    resources :user_schedules, :user_unable_schedules, only: [:new, :create, :destroy]
+
+  resources :users, only: [:show, :new, :create, :edit, :update] do
+    resources :user_schedules, :user_unable_schedules, :affiliation_application, only: [:new, :create, :destroy]
     resources :user_unable_schedules, only: [:index, :create, :destroy] do
       collection do
         get ':beginning/new', action: 'new'
       end
     end
-    resources :submission, :applying_store_id, only: [:create, :destroy]
-    resources :affiliation, only: [:new]
+    resources :submission, only: [:create, :destroy]
   end
+
 end

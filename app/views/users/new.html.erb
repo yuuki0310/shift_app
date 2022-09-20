@@ -13,5 +13,8 @@
   <%= f.password_field :password %>
   <p>パスワード(確認)</p>
   <%= f.password_field :password_confirmation %>
+  <p>1ヶ月の勤務希望時間</p>
+  <%= f.number_field :working_desired_time, in: 0...300 %>
+  <p class="inline">時間</p><br>
   <%= f.submit "作成" %>
 <% end %>
