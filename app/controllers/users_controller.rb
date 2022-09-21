@@ -29,8 +29,8 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.update(user_params)
-    redirect_to store_path(@user.id)
+    @user.update(store_id: user_params[:store_id])
+    redirect_to store_path(user_params[:store_id])
   end
 
 end

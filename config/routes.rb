@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'login#destroy'
   
   resources :stores, except: [:index] do
+    post 'approve_staff/:user_id', action: 'approve_staff'
     resources :store_schedules, :store_month_schedules, :store_shift_submission, only: [:new, :create, :destroy]
     resources :store_month_schedules, only: [:index, :create, :destroy] do
       collection do
