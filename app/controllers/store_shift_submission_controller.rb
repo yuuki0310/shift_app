@@ -1,6 +1,7 @@
 class StoreShiftSubmissionController < ApplicationController
   before_action :logged_in_user, except:[:crate, :destroy]
   before_action :owner_permission, only: [:create, :destroy]
+  before_action :store_independent
 
   include ActiveModel::Attributes
   include ActiveRecord::AttributeAssignment

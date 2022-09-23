@@ -45,4 +45,17 @@ class ApplicationController < ActionController::Base
       redirect_to new_login_path
     end
   end
+
+  def store_independent
+    if logged_in? && current_user.store_id.nil?
+      redirect_to new_user_affiliation_application_path(current_user)
+    end
+  end
+
+  def store_affiliation
+    unless logged_in? && current_user.store_id.nil?
+      redirect_to current_shift
+    end
+  end
+
 end

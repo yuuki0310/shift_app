@@ -8,11 +8,6 @@
 <h2>申請中</h2>
 <% @affiliation_applications.each do |affiliation_application| %>
   <%= affiliation_application.user.name %>
-  <%#= button_to "許可", "/stores/#{params[:id]}/approve_staff/#{affiliation_application.user_id}" %>
-  <% user = affiliation_application.user %>
-  <%= form_for affiliation_application.user, url: user_path(affiliation_application.user), method: :put do |f| %>
-    <%= f.hidden_field :store_id, value: params[:id] %>
-    <%= f.submit "許可" %>
-  <% end %>
+  <%= button_to "許可", "/stores/#{params[:id]}/approve_staff/#{affiliation_application.user_id}" %>
   <br>
 <% end %>

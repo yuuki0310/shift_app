@@ -1,5 +1,5 @@
 class UserUnableSchedulesController < ApplicationController
-  before_action :logged_in_user, :current_user_authenticate
+  before_action :logged_in_user, :store_independent, :current_user_authenticate
   helper_method :date_table
 
   def userUnableSchedule_params

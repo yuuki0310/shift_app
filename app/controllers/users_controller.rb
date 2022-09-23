@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+  before_action :logged_in_user, :store_independent, :current_user_authenticate
+
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :working_desirred_time, :store_id)
   end
@@ -29,7 +31,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.update(store_id: user_params[:store_id])
+    @user.update(user_params)
     redirect_to store_path(user_params[:store_id])
   end
 

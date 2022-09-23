@@ -1,5 +1,5 @@
 class UserSchedulesController < ApplicationController
-  before_action :logged_in_user, :current_user_authenticate
+  before_action :logged_in_user, :store_independent, :current_user_authenticate
   helper_method :bar_line
 
   def userSchedule_params
