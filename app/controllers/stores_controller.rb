@@ -1,5 +1,11 @@
 class StoresController < ApplicationController
-  before_action :logged_in_user, :store_independent
+  before_action :owner_permission, only: [:approve_staff]
+  before_action :store_staff, only: [:show]
+
+  def store_params
+    params.require(:store).permit(:name).merge(owner_id: @current_user.id)
+  end
+
 
   def approve_staff
     user = User.find(params[:user_id])
@@ -12,6 +18,19 @@ class StoresController < ApplicationController
   def show
     @store = Store.find(params[:id])
     @affiliation_applications = AffiliationApplication.where(store_id: params[:id])
+  end
+
+  def new
+    @store = Store.new
+  end
+  
+  def create
+    @store = Store.new(store_params)
+    if @store.save
+      redirect_to store_show_path(@store)
+    else
+      render :new
+    end
   end
   
 end
