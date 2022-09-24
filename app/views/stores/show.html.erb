@@ -1,4 +1,6 @@
 <h1><%= @store.name %></h1>
+<h1>ストアID</h1>
+<%= "#{@store.public_uid[0..2]} - #{@store.public_uid[3..6]}" %>
 <h2>オーナー</h2>
 <%= @store.owner.name %>
 <h1>メンバー</h1>

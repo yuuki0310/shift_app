@@ -9,7 +9,7 @@ class Store < ApplicationRecord
   has_many :store_shift_submissions
   # has_one :affiliation_application
 
-  def to_param
-    public_uid
-  end
+  # def to_param
+  #   public_uid
+  # end
 end

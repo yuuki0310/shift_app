@@ -23,8 +23,31 @@ module LoginHelper
     @current_user = nil
   end
 
-  def owner?(store_id)
+  def store_staff?
+    if params[:id]
+      store_id = params[:id]
+    elsif params[:store_id]
+      store_id = params[:store_id]
+    end
     store = Store.find(store_id)
-    User.find(store.owner_id) == current_user
+    store.id == current_user.store_id
   end
+
+  def owner?
+    if params[:id]
+      store_id = params[:id]
+    elsif params[:store_id]
+      store_id = params[:store_id]
+    end
+    store = Store.find(store_id)
+    store.owner == current_user
+  end
+
+  # def return_store_id
+  #   if params[:id]
+  #     return params[:id]
+  #   elsif params[:store_id]
+  #     return params[:store_id]
+  #   end
+  # end
 end

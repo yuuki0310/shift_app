@@ -3,7 +3,7 @@ class StoresController < ApplicationController
   before_action :store_staff, only: [:show]
 
   def store_params
-    params.require(:store).permit(:name).merge(owner_id: @current_user.id)
+    params.require(:store).permit(:name).merge(owner_id: current_user.id)
   end
 
 
@@ -27,7 +27,10 @@ class StoresController < ApplicationController
   def create
     @store = Store.new(store_params)
     if @store.save
-      redirect_to store_show_path(@store)
+      owner = @store.owner
+      owner.store_id = @store.id
+      owner.save
+      redirect_to store_path(@store)
     else
       render :new
     end

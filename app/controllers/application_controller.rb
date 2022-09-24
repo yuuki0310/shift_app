@@ -33,14 +33,14 @@ class ApplicationController < ActionController::Base
   end
 
   def store_staff
-    unless owner?(params[:store_id])
+    unless store_staff?
       flash[:notice] = "スタッフのみが閲覧可能です"
       redirect_to new_login_path
     end
   end
 
   def owner_permission
-    unless owner?(params[:store_id])
+    unless owner?
       flash[:notice] = "オーナーのみが編集可能です"
       redirect_to new_login_path
     end
