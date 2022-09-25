@@ -7,7 +7,7 @@
 <% end %>
 <div>
   <h2>1週間設定</h2>
-  <% if owner?(params[:store_id]) %>
+  <% if owner? %>
     <h1>曜日</h1>
     <%= form_for [@store, @store_schedule] do |f| %>
       <%= f.collection_check_boxes(:weeklyday_id, Weeklyday.all, :id, :name, include_hidden: false) %>

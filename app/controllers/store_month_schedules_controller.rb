@@ -1,5 +1,5 @@
 class StoreMonthSchedulesController < ApplicationController
-  before_action :store_staff, except: [:create, :destroy]
+  before_action :logged_in_user, :store_staff, except: [:create, :destroy]
   before_action :owner_permission, only: [:create, :destroy]
   before_action :store_independent
   helper_method :date_table
@@ -48,6 +48,7 @@ class StoreMonthSchedulesController < ApplicationController
   end
 
   def index
+    @store = Store.find(params[:store_id])
     @store_shift_sections = StoreShiftSubmission.where(store_id: params[:store_id])
   end
   

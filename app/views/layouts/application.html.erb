@@ -32,17 +32,27 @@
       
       <!-- メインナビゲーション -->
       <nav id="mainNav">
-        <a class="menu" id="menu"><span>MENU</span></a>
         <div class="panel">
           <% if logged_in? %>
-            <ul>
+            <ul class="menu" id="menu">
               <% if current_user.store %>
-                <li><%= link_to current_user.store.name, "/stores/#{current_user.store.id}/store_month_schedules" %></li>
+                <li class="menu-list">
+                  <%= link_to current_user.store.name, "/stores/#{current_user.store.id}/store_month_schedules" %>
+                  <ul class="menu_content">
+                    <li><%= link_to "ストア情報", store_path(current_user.store) %></li>
+                    <li><%= link_to "シフト", store_shift_section_index_path(current_user.store) %></li>
+                    <li><%= link_to "ストアスケジュール", "/stores/#{current_user.store.id}/store_month_schedules" %></li>
+                  </ul>
+                </li>
               <% end %>
-              <li><%= link_to current_user.name, "/users/#{current_user.id}/user_unable_schedules" %></li>
-              <% if logged_in? %>
+              <li class="menu-list">
+                <%= link_to current_user.name, "/users/#{current_user.id}/user_unable_schedules" %>
+                <ul class="menu_content">
+                  <li><%= link_to "ユーザー情報", user_path(current_user) %></li>
+                  <li><%= link_to "ユーザースケジュール", "/users/#{current_user.id}/user_unable_schedules" %></li>
+                </ul>
+              </li>
               <li><%= link_to "ログアウト", logout_path, method: :delete %></li>
-              <% end %>
             </ul>
           <% end %>
         </div>

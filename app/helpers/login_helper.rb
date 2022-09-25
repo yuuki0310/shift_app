@@ -43,11 +43,9 @@ module LoginHelper
     store.owner == current_user
   end
 
-  # def return_store_id
-  #   if params[:id]
-  #     return params[:id]
-  #   elsif params[:store_id]
-  #     return params[:store_id]
-  #   end
-  # end
+  def return_user_id
+    return params[:id] if params[:id]
+    return params[:user_id] if params[:user_id]
+  end
+  
 end

@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user_authenticate
-    user = User.find(params[:user_id])
+    user = User.find(return_user_id)
     unless current_user?(user)
       flash[:notice] = "本人のみ閲覧可能です"
       redirect_to new_login_path

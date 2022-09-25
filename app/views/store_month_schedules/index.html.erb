@@ -3,3 +3,4 @@
   <%= link_to "#{store_shift_section.beginning}~#{store_shift_section.ending}", "/stores/#{params[:store_id]}/store_month_schedules/#{store_shift_section.beginning}/new" %>
   <br>
 <% end %>
+<%= link_to '1週間設定',  new_store_store_schedule_path(@store) %><br>

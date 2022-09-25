@@ -1,6 +1,6 @@
 class StoresController < ApplicationController
   before_action :owner_permission, only: [:approve_staff]
-  before_action :store_staff, only: [:show]
+  before_action :logged_in_user, :store_staff, only: [:show]
 
   def store_params
     params.require(:store).permit(:name).merge(owner_id: current_user.id)

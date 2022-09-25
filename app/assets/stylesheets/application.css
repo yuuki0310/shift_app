@@ -63,6 +63,19 @@ p.inline {
 	display: inline;
 }
 
+ul {
+	list-style: none;
+}
+
+ul.menu {
+	display: flex;
+}
+
+ul.menu_content {
+	display: none;
+	position: absolute;
+}
+
 
 /* =Reset default browser CSS.
 Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
