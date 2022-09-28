@@ -7,15 +7,15 @@ class SimpleCalendar::BusinessWeekCalendar < SimpleCalendar::Calendar
       elsif @params[:user_id]
         store_id = User.find(@params[:user_id]).store.id
       end
-      store_shift_submission = StoreShiftSubmission.find_by(store_id: store_id, beginning: @params[:beginning])
-      range = (store_shift_submission.beginning..store_shift_submission.ending).to_a
+      shift_section = ShiftSection.find_by(store_id: store_id, beginning: @params[:beginning])
+      range = (shift_section.beginning..shift_section.ending).to_a
 
-      if store_shift_submission.beginning.wday == 0
+      if shift_section.beginning.wday == 0
         6.times do
           range.unshift(nil)
         end
-      elsif store_shift_submission.beginning.wday != 1
-        (store_shift_submission.beginning.wday - 1).times do
+      elsif shift_section.beginning.wday != 1
+        (shift_section.beginning.wday - 1).times do
           range.unshift(nil)
         end
       end

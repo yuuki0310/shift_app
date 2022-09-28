@@ -1,6 +1,6 @@
 <%= link_to "スケジュール一覧", "/users/#{current_user.id}/user_unable_schedules" %>
-<% if @store_shift_submission %>
-  <% unless @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id) %>
+<% if @shift_section %>
+  <% unless @user.submissions.find_by(shift_section_id: @shift_section.id) %>
     <% @user_schedule.errors.full_messages.each do |message| %>
       <div class="form-error">
         <%= message %>

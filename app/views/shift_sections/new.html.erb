@@ -1,5 +1,5 @@
-<%= form_for [@store, @store_shift_submission], url: store_store_shift_submission_index_path(@store) do |f| %>
-  <% @store_shift_submission.errors.full_messages.each do |message| %>
+<%= form_for [@store, @shift_section], url: store_shift_section_index_path(@store) do |f| %>
+  <% @shift_section.errors.full_messages.each do |message| %>
     <div class="form-error">
       <%= message %>
     </div>

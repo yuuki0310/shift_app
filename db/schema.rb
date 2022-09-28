@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_20_081437) do
+ActiveRecord::Schema.define(version: 2022_09_28_130001) do
 
   create_table "affiliation_applications", force: :cascade do |t|
     t.integer "user_id"
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(version: 2022_09_20_081437) do
     t.datetime "updated_at", null: false
     t.index ["store_id"], name: "index_affiliation_applications_on_store_id"
     t.index ["user_id"], name: "index_affiliation_applications_on_user_id"
+  end
+
+  create_table "shift_sections", force: :cascade do |t|
+    t.integer "store_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "beginning"
+    t.date "ending"
+    t.integer "status"
+    t.index ["store_id"], name: "index_shift_sections_on_store_id"
   end
 
   create_table "shifts", force: :cascade do |t|
@@ -44,7 +54,7 @@ ActiveRecord::Schema.define(version: 2022_09_20_081437) do
     t.index ["store_id"], name: "index_store_month_schedules_on_store_id"
   end
 
-  create_table "store_schedules", force: :cascade do |t|
+  create_table "store_weekly_schedules", force: :cascade do |t|
     t.time "working_time_from"
     t.time "working_time_to"
     t.integer "count"
@@ -52,18 +62,8 @@ ActiveRecord::Schema.define(version: 2022_09_20_081437) do
     t.datetime "updated_at", null: false
     t.integer "store_id"
     t.integer "weeklyday_id"
-    t.index ["store_id"], name: "index_store_schedules_on_store_id"
-    t.index ["weeklyday_id"], name: "index_store_schedules_on_weeklyday_id"
-  end
-
-  create_table "store_shift_submissions", force: :cascade do |t|
-    t.integer "store_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.date "beginning"
-    t.date "ending"
-    t.integer "status"
-    t.index ["store_id"], name: "index_store_shift_submissions_on_store_id"
+    t.index ["store_id"], name: "index_store_weekly_schedules_on_store_id"
+    t.index ["weeklyday_id"], name: "index_store_weekly_schedules_on_weeklyday_id"
   end
 
   create_table "stores", force: :cascade do |t|
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 2022_09_20_081437) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "store_shift_submission_id"
-    t.index ["store_shift_submission_id"], name: "index_submissions_on_store_shift_submission_id"
+    t.integer "shift_section_id"
+    t.index ["shift_section_id"], name: "index_submissions_on_shift_section_id"
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end
 

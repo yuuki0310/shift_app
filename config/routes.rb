@@ -6,17 +6,17 @@ Rails.application.routes.draw do
   
   resources :stores, except: [:index] do
     post 'approve_staff/:user_id', action: 'approve_staff'
-    resources :store_schedules, :store_month_schedules, :store_shift_submission, only: [:new, :create, :destroy]
+    resources :store_weekly_schedules, :store_month_schedules, only: [:new, :create, :destroy]
     resources :store_month_schedules, only: [:index, :create, :destroy] do
       collection do
         get ':beginning/new', action: 'new'
       end
     end
     
-    resources :shift_section, only: [:index]
+    resources :shift_section, only: [:index, :new, :create, :destroy]
     resources :shifts, only: [:create, :destroy] do
       collection do
-        post ':beginning/change_status/:status' => 'store_shift_submission#change_status'
+        post ':beginning/change_status/:status' => 'shift_section#change_status'
         get ':beginning/:ending/new', action: 'new'
         get ':date/:working_time_from/edit', action: 'edit'
         get ':beginning', action: 'index'

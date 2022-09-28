@@ -1,4 +1,4 @@
-<%= link_to '1週間設定',  new_store_store_schedule_path(@store) %><br>
+<%= link_to '1週間設定',  new_store_store_weekly_schedule_path(@store) %><br>
 <% if owner? && @store_shift_section.status == 0 %>
   <% @store_month_schedule.errors.full_messages.each do |message| %>
     <div class="form-error">
@@ -29,7 +29,7 @@
         <td rowspan="2">
           <%= dt.count %>人
           <% if dt[:date] != nil %>
-          <% if owner?(params[:store_id]) %>
+          <% if owner? %>
             <%= button_to '削除', store_store_month_schedule_path(@store, dt), method: :delete %>
           <% end %>
           <% end %>

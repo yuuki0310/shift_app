@@ -18,7 +18,7 @@ class UserUnableSchedulesController < ApplicationController
     date_tables = []
     store_id = User.find(params[:user_id]).store_id
     date_schedules = StoreMonthSchedule.where(date: date, store_id: store_id)
-    weekly_schedules = StoreSchedule.where(weeklyday_id: calendar_wday(date), store_id: store_id)
+    weekly_schedules = StoreWeeklySchedule.where(weeklyday_id: calendar_wday(date), store_id: store_id)
     user_schedules = UserSchedule.where(weeklyday_id: calendar_wday(date), user_id: params[:user_id])
     if user_schedules.empty?
       return []
@@ -68,10 +68,10 @@ class UserUnableSchedulesController < ApplicationController
 
   def new
     @user = User.find(params[:user_id])
-    @store_shift_submission = StoreShiftSubmission.find_by(store_id: @user.store.id, beginning: params[:beginning])
+    @shift_section = ShiftSection.find_by(store_id: @user.store.id, beginning: params[:beginning])
     @user_unable_schedule = UserUnableSchedule.new
-    @user_unable_schedules = UserUnableSchedule.where(user_id: params[:user_id], date: @store_shift_submission.beginning..@store_shift_submission.ending)
-    if Submission.find_by(user_id: params[:user_id], store_shift_submission_id: @store_shift_submission.id)
+    @user_unable_schedules = UserUnableSchedule.where(user_id: params[:user_id], date: @shift_section.beginning..@shift_section.ending)
+    if Submission.find_by(user_id: params[:user_id], shift_section_id: @shift_section.id)
       @submission = Submission.find_by(user_id: params[:user_id])
     else
       @submission = Submission.new
@@ -80,7 +80,7 @@ class UserUnableSchedulesController < ApplicationController
 
   def index
     store = User.find(params[:user_id]).store
-    @store_shift_sections = StoreShiftSubmission.where(store_id:store.id)
+    @store_shift_sections = ShiftSection.where(store_id:store.id)
   end
 
   def create

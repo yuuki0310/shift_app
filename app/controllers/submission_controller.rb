@@ -3,8 +3,8 @@ class SubmissionController < ApplicationController
   
   def create
     user = User.find_by(params[:user_id])
-    @store_shift_submission = StoreShiftSubmission.find_by(store_id: user.store.id, beginning: params[:beginning])
-    @submission = Submission.create(user_id: @current_user.id, store_shift_submission_id: @store_shift_submission.id)
+    @shift_section = ShiftSection.find_by(store_id: user.store.id, beginning: params[:beginning])
+    @submission = Submission.create(user_id: @current_user.id, shift_section_id: @shift_section.id)
     redirect_to "/users/#{params[:user_id]}/user_unable_schedules/#{params[:beginning]}/new"
   end
   

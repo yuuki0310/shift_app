@@ -13,7 +13,7 @@ class ShiftsController < ApplicationController
     end
     date_tables = []
     date_schedules = StoreMonthSchedule.where(date: date, store_id: params[:store_id])
-    weekly_schedules = StoreSchedule.where(weeklyday_id: calendar_wday(date), store_id: params[:store_id])    
+    weekly_schedules = StoreWeeklySchedule.where(weeklyday_id: calendar_wday(date), store_id: params[:store_id])    
     weekly_schedules.each do |wekkly_schedule|
       date_tables.push(wekkly_schedule)
     end
@@ -128,10 +128,10 @@ class ShiftsController < ApplicationController
 
   def index
     @store = Store.find(params[:store_id])
-    @store_shift_submission = StoreShiftSubmission.find_by(store_id: @store.id, beginning: params[:beginning])
+    @shift_section = ShiftSection.find_by(store_id: @store.id, beginning: params[:beginning])
     @working_time_sum = {}
     @store.users.each do |user|
-      submission_user = Submission.find_by(user_id: user.id, store_shift_submission_id: @store_shift_submission.id)
+      submission_user = Submission.find_by(user_id: user.id, shift_section_id: @shift_section.id)
       if submission_user
         @working_time_sum.store(user.id, 0)
       end

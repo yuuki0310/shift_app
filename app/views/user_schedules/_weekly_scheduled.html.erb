@@ -18,12 +18,12 @@
           <% if working_time_from_weeklyday && working_time_to_weeklyday %>
             <td>
               <%= "┿" %>
-              <%= button_to '削除', "/users/#{@user.id}/user_schedules/#{working_time_from_weeklyday.id}", method: :delete unless @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id) %>
+              <%= button_to '削除', "/users/#{@user.id}/user_schedules/#{working_time_from_weeklyday.id}", method: :delete unless @user.submissions.find_by(shift_section_id: @shift_section.id) %>
             </td>
           <% elsif working_time_from_weeklyday %>
             <td style="border-top:1px solid #1f1f1f;">
               <%= "┯" %>
-              <%= button_to '削除', "/users/#{@user.id}/user_schedules/#{working_time_from_weeklyday.id}", method: :delete unless @user.submissions.find_by(store_shift_submission_id: @store_shift_submission.id) %>
+              <%= button_to '削除', "/users/#{@user.id}/user_schedules/#{working_time_from_weeklyday.id}", method: :delete unless @user.submissions.find_by(shift_section_id: @shift_section.id) %>
             </td>
           <% elsif working_time_to_weeklyday %>
             <td style="border-bottom:1px solid #1f1f1f;">┷</td>

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   require "date"
 
   def current_shift
-    store_shift_sections = StoreShiftSubmission.where(store_id: current_user.store.id)
+    store_shift_sections = ShiftSection.where(store_id: current_user.store.id)
     store_shift_sections.each do |store_shift_section|
       if store_shift_section.beginning <= Date.today && Date.today <= store_shift_section.ending
         return "/stores/#{current_user.store.id}/shifts/#{store_shift_section.beginning}"

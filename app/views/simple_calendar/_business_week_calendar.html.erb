@@ -5,7 +5,7 @@
       elsif params[:user_id]
         store_id = User.find(params[:user_id]).store.id
       end %>
-    <%= StoreShiftSubmission.find_by(store_id: store_id, beginning: params[:beginning]).beginning.strftime( "%Y年%m月" ) %>
+    <%= ShiftSection.find_by(store_id: store_id, beginning: params[:beginning]).beginning.strftime( "%Y年%m月" ) %>
   </div>
 
   <table class="table table-striped">

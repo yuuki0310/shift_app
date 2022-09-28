@@ -3,4 +3,4 @@
   <%= link_to "#{store_shift_section.beginning}~#{store_shift_section.ending}", "/stores/#{params[:store_id]}/shifts/#{store_shift_section.beginning}" %>
   <br>
 <% end %>
-<%= link_to "シフトを新たに作成する", new_store_store_shift_submission_path(@store) %>
+<%= link_to "シフトを新たに作成する", new_store_shift_section_path(@store) %>

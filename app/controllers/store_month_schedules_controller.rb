@@ -19,7 +19,7 @@ class StoreMonthSchedulesController < ApplicationController
     end
     date_tables = []
     date_schedules = StoreMonthSchedule.where(date: date, store_id: params[:store_id])
-    weekly_schedules = StoreSchedule.where(weeklyday_id: calendar_wday(date), store_id: params[:store_id])
+    weekly_schedules = StoreWeeklySchedule.where(weeklyday_id: calendar_wday(date), store_id: params[:store_id])
     weekly_schedules.each do |wekkly_schedule|
       date_tables.push(wekkly_schedule)
     end
@@ -44,12 +44,12 @@ class StoreMonthSchedulesController < ApplicationController
   def new
     @store = Store.find(params[:store_id])
     @store_month_schedule = StoreMonthSchedule.new
-    @store_shift_section = StoreShiftSubmission.find_by(store_id: params[:store_id], beginning: params[:beginning])
+    @store_shift_section = ShiftSection.find_by(store_id: params[:store_id], beginning: params[:beginning])
   end
 
   def index
     @store = Store.find(params[:store_id])
-    @store_shift_sections = StoreShiftSubmission.where(store_id: params[:store_id])
+    @store_shift_sections = ShiftSection.where(store_id: params[:store_id])
   end
   
   def create
