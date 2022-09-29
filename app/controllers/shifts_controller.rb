@@ -45,9 +45,9 @@ class ShiftsController < ApplicationController
     store = Store.find(params[:store_id])
     store.users.each do |user|
       if user.submission
-        user_schedules = UserSchedule.where(weeklyday_id: calendar_wday(date), user_id: user.id)
+        user_weekly_schedules = UserWeeklySchedule.where(weeklyday_id: calendar_wday(date), user_id: user.id)
         date_table(date).each do |date_table|
-          user_schedules.each do |user_schedule|
+          user_weekly_schedules.each do |user_schedule|
             if user_schedule.working_time_from <= date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
               user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to <= user_schedule.working_time_to || \
               user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to
@@ -131,7 +131,7 @@ class ShiftsController < ApplicationController
     @shift_section = ShiftSection.find_by(store_id: @store.id, beginning: params[:beginning])
     @working_time_sum = {}
     @store.users.each do |user|
-      submission_user = Submission.find_by(user_id: user.id, shift_section_id: @shift_section.id)
+      submission_user = UserSubmission.find_by(user_id: user.id, shift_section_id: @shift_section.id)
       if submission_user
         @working_time_sum.store(user.id, 0)
       end

@@ -44,8 +44,11 @@ module LoginHelper
   end
 
   def return_user_id
-    return params[:id] if params[:id]
-    return params[:user_id] if params[:user_id]
+    if params[:user_id]
+      return params[:user_id]
+    elsif params[:id]
+      return params[:id]
+    end
   end
   
 end

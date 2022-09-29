@@ -19,8 +19,8 @@ class UserUnableSchedulesController < ApplicationController
     store_id = User.find(params[:user_id]).store_id
     date_schedules = StoreMonthSchedule.where(date: date, store_id: store_id)
     weekly_schedules = StoreWeeklySchedule.where(weeklyday_id: calendar_wday(date), store_id: store_id)
-    user_schedules = UserSchedule.where(weeklyday_id: calendar_wday(date), user_id: params[:user_id])
-    if user_schedules.empty?
+    user_weekly_schedules = UserWeeklySchedule.where(weeklyday_id: calendar_wday(date), user_id: params[:user_id])
+    if user_weekly_schedules.empty?
       return []
     end
     weekly_schedules.each do |wekkly_schedule|
@@ -40,7 +40,7 @@ class UserUnableSchedulesController < ApplicationController
     end
     user_date_tables = []
     date_tables.each do |date_table|
-      user_schedules.each do |user_schedule|
+      user_weekly_schedules.each do |user_schedule|
         if user_schedule.working_time_from <= date_table.working_time_from && date_table.working_time_from < user_schedule.working_time_to || \
           user_schedule.working_time_from < date_table.working_time_to && date_table.working_time_to <= user_schedule.working_time_to || \
           user_schedule.working_time_from == date_table.working_time_from && date_table.working_time_to == user_schedule.working_time_to
@@ -71,10 +71,10 @@ class UserUnableSchedulesController < ApplicationController
     @shift_section = ShiftSection.find_by(store_id: @user.store.id, beginning: params[:beginning])
     @user_unable_schedule = UserUnableSchedule.new
     @user_unable_schedules = UserUnableSchedule.where(user_id: params[:user_id], date: @shift_section.beginning..@shift_section.ending)
-    if Submission.find_by(user_id: params[:user_id], shift_section_id: @shift_section.id)
-      @submission = Submission.find_by(user_id: params[:user_id])
+    if UserSubmission.find_by(user_id: params[:user_id], shift_section_id: @shift_section.id)
+      @submission = UserSubmission.find_by(user_id: params[:user_id], shift_section_id: @shift_section.id)
     else
-      @submission = Submission.new
+      @submission = UserSubmission.new
     end
   end
 

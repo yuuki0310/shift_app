@@ -1,4 +1,4 @@
-class UserSchedule < ApplicationRecord
+class UserWeeklySchedule < ApplicationRecord
   belongs_to :user
   belongs_to :weeklyday
 
@@ -21,7 +21,7 @@ class UserSchedule < ApplicationRecord
   def duplicate
     if working_time_from && working_time_to
       current_use = User.find_by(id: user_id)
-      user_schedule_weeklydays = current_use.user_schedules.where(weeklyday_id: weeklyday_id)
+      user_schedule_weeklydays = current_use.user_weekly_schedules.where(weeklyday_id: weeklyday_id)
       user_schedule_weeklydays.each do |user_schedule_weeklyday|
         if user_schedule_weeklyday.working_time_from < working_time_from && working_time_from < user_schedule_weeklyday.working_time_to || \
           user_schedule_weeklyday.working_time_from < working_time_to && working_time_to < user_schedule_weeklyday.working_time_to

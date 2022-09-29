@@ -8,7 +8,7 @@
     <% @store.users.each do |member| %>
       <div>
         <%= member.name %>
-        <% submission_user = Submission.find_by(user_id: member.id, shift_section_id: @shift_section.id) %>
+        <% submission_user = UserSubmission.find_by(user_id: member.id, shift_section_id: @shift_section.id) %>
         <% if submission_user %>
           提出済
         <% else %>

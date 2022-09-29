@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class StoreSubmissionTest < ActiveSupport::TestCase
+class StoreUserSubmissionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

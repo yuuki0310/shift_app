@@ -2,9 +2,9 @@ class User < ApplicationRecord
   has_secure_password
 
   belongs_to :store, optional: true
-  has_many :user_schedules
+  has_many :user_weekly_schedules
   has_many :user_unable_schedules
-  has_many :submissions
+  has_many :user_submissions
   has_one :affiliation_application
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

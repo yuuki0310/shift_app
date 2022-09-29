@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_28_130001) do
+ActiveRecord::Schema.define(version: 2022_09_29_090706) do
 
   create_table "affiliation_applications", force: :cascade do |t|
     t.integer "user_id"
@@ -75,24 +75,13 @@ ActiveRecord::Schema.define(version: 2022_09_28_130001) do
     t.index ["owner_id"], name: "index_stores_on_owner_id"
   end
 
-  create_table "submissions", force: :cascade do |t|
+  create_table "user_submissions", force: :cascade do |t|
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "shift_section_id"
-    t.index ["shift_section_id"], name: "index_submissions_on_shift_section_id"
-    t.index ["user_id"], name: "index_submissions_on_user_id"
-  end
-
-  create_table "user_schedules", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "weeklyday_id"
-    t.time "working_time_from"
-    t.time "working_time_to"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_user_schedules_on_user_id"
-    t.index ["weeklyday_id"], name: "index_user_schedules_on_weeklyday_id"
+    t.index ["shift_section_id"], name: "index_user_submissions_on_shift_section_id"
+    t.index ["user_id"], name: "index_user_submissions_on_user_id"
   end
 
   create_table "user_unable_schedules", force: :cascade do |t|
@@ -103,6 +92,17 @@ ActiveRecord::Schema.define(version: 2022_09_28_130001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_unable_schedules_on_user_id"
+  end
+
+  create_table "user_weekly_schedules", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "weeklyday_id"
+    t.time "working_time_from"
+    t.time "working_time_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_weekly_schedules_on_user_id"
+    t.index ["weeklyday_id"], name: "index_user_weekly_schedules_on_weeklyday_id"
   end
 
   create_table "users", force: :cascade do |t|

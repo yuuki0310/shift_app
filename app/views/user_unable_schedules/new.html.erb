@@ -1,11 +1,11 @@
-<%= link_to '1週間設定',  new_user_user_schedule_path(@current_user) %><br>
+<%= link_to '1週間設定',  new_user_user_weekly_schedule_path(@current_user) %><br>
 <% if @shift_section.status == 0 %>
   <p>オーナーがスケジュール作成中です</p>
 <% elsif @shift_section.status == 1 %>
-  <% if @user.submissions.find_by(shift_section_id: @shift_section.id) %>
-    <%= button_to '再編集', user_submission_path(@user, @submission, beginning: params[:beginning]), method: :delete %>
+  <% if @user.user_submissions.find_by(shift_section_id: @shift_section.id) %>
+    <%= button_to '再編集', user_user_submission_path(@user, @submission, beginning: params[:beginning]), method: :delete %>
   <% else %>
-    <%= button_to '提出', user_submission_index_path(@user, beginning: params[:beginning]) %>
+    <%= button_to '提出', user_user_submissions_path(@user, beginning: params[:beginning]) %>
   <% end %>
 <% elsif @shift_section.status == 2 %>
   <p>シフト作成中です</p>
@@ -22,7 +22,7 @@
           <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
           <td rowspan="2">
             <%= dt.count %>人
-            <% if @user.submissions.find_by(shift_section_id: @shift_section.id).nil? && @shift_section.status == 1 %>
+            <% if @user.user_submissions.find_by(shift_section_id: @shift_section.id).nil? && @shift_section.status == 1 %>
               <%= form_for([@user, @user_unable_schedule], url:  "/users/#{params[:user_id]}/user_unable_schedules?beginning=#{params[:beginning]}") do |f| %>
                 <%= f.hidden_field :date, value: date %>
                 <%= f.hidden_field :working_time_from, value: dt.working_time_from %>
@@ -46,7 +46,7 @@
     <%= user_unable_schedule.working_time_from.strftime( "%H:%M" ) %>
     ~
     <%= user_unable_schedule.working_time_to.strftime( "%H:%M" ) %>
-    <% if @user.submissions.find_by(shift_section_id: @shift_section.id).nil? && @shift_section.status == 1 %>
+    <% if @user.user_submissions.find_by(shift_section_id: @shift_section.id).nil? && @shift_section.status == 1 %>
       <%= button_to '復元', user_user_unable_schedule_path(@user, user_unable_schedule, beginning: params[:beginning]), method: :delete %>
     <% end %>
   </div>
