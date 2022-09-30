@@ -31,7 +31,7 @@
             </td>
           <% elsif working_time_to_weeklyday %>
             <td style="border-bottom:1px solid #1f1f1f;">┷</td>
-          <% elsif bar_line(weeklyday.id, working_time) %>
+          <% elsif bar_line?(weeklyday.id, working_time, StoreWeeklySchedule.where(weeklyday_id: weeklyday, store_id: params[:store_id])) %>
             <td>│</td>
           <% else %>
             <td></td>

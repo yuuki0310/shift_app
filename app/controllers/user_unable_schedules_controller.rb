@@ -1,5 +1,6 @@
 class UserUnableSchedulesController < ApplicationController
   before_action :logged_in_user, :store_independent, :current_user_authenticate
+  include CalendarHelper
   helper_method :date_table
 
   def userUnableSchedule_params
@@ -7,14 +8,6 @@ class UserUnableSchedulesController < ApplicationController
   end
 
   def date_table(date)
-    def calendar_wday(date)
-      if date.wday == 0
-        return 7
-      else
-        return date.wday
-      end
-    end
-
     date_tables = []
     store_id = User.find(params[:user_id]).store_id
     date_schedules = StoreMonthSchedule.where(date: date, store_id: store_id)

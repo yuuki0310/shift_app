@@ -23,20 +23,18 @@
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
   <%= date.day %>
   <table>
-    <% date_table(date).each do |dt| %>
+    <% date_working_times(date).each do |dwt| %>
       <tr>
-        <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
+        <td><%= dwt.working_time_from.strftime( "%H:%M" ) %></td>
         <td rowspan="2">
-          <%= dt.count %>人
-          <% if dt[:date] != nil %>
-          <% if owner? && @store_shift_section.status == 0  %>
-            <%= button_to '削除', store_store_month_schedule_path(@store, dt), method: :delete %>
-          <% end %>
+          <%= dwt.count %>人
+          <% if dwt[:date] != nil && owner? && @store_shift_section.status == 0  %>
+            <%= button_to '削除', store_store_month_schedule_path(@store, dwt), method: :delete %>
           <% end %>
         </td>
       </tr>
       <tr>
-        <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
+        <td><%= dwt.working_time_to.strftime( "%H:%M" ) %></td>
       </tr>
     <% end %>
   </table>

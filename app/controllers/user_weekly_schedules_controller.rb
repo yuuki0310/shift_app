@@ -2,7 +2,7 @@ class UserWeeklySchedulesController < ApplicationController
   before_action :logged_in_user, :store_independent, :current_user_authenticate
   helper_method :bar_line
 
-  def UserWeeklySchedule_params
+  def user_weekly_schedule_params
     params.require(:user_schedule).permit(:working_time_from, :working_time_to, :user_id, weeklyday_id: []).merge(user_id: @current_user.id)
   end
 
@@ -31,6 +31,7 @@ class UserWeeklySchedulesController < ApplicationController
 
   def new
     @user = User.find(params[:user_id])
+    @weeklydays = Weeklyday.all
     shift_sections = ShiftSection.where(store_id: @user.store.id)
     @shift_section = shift_sections.find_by(status: 1)
     @user_schedule = UserWeeklySchedule.new
@@ -45,7 +46,7 @@ class UserWeeklySchedulesController < ApplicationController
     weekly_scheduled
     if params[:user_schedule][:weeklyday_id]
       params[:user_schedule][:weeklyday_id].each do |weeklyday_id|
-        @user_schedule = UserWeeklySchedule.new(UserWeeklySchedule_params.merge(weeklyday_id: weeklyday_id))
+        @user_schedule = UserWeeklySchedule.new(user_weekly_schedule_params.merge(weeklyday_id: weeklyday_id))
         @user_schedule.save
       end
       if @user_schedule.save
@@ -54,7 +55,7 @@ class UserWeeklySchedulesController < ApplicationController
         render :new
       end
     else
-      @user_schedule = UserWeeklySchedule.create(UserWeeklySchedule_params)
+      @user_schedule = UserWeeklySchedule.create(user_weekly_schedule_params)
       render :new
     end
   end
