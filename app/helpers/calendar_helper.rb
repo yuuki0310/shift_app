@@ -14,9 +14,14 @@ module CalendarHelper
   end
 
   def date_working_times(date)
+    if params[:user_id]
+      store = User.find(params[:user_id]).store
+    elsif params[:store_id]
+      store = Store.find(params[:store_id])
+    end
     date_working_times = []
-    month_schedules = StoreMonthSchedule.where(date: date, store_id: params[:store_id])
-    weekly_schedules = StoreWeeklySchedule.where(weeklyday_id: calendar_wday(date), store_id: params[:store_id])    
+    month_schedules = StoreMonthSchedule.where(date: date, store_id: store.id)
+    weekly_schedules = StoreWeeklySchedule.where(weeklyday_id: calendar_wday(date), store_id: store.id)    
     weekly_schedules.each do |wekkly_schedule|
       date_working_times.push(wekkly_schedule)
     end
@@ -41,21 +46,18 @@ module CalendarHelper
     date_working_times(date).each do |date_working_time|
       store_date_tables.store(date_working_time.working_time_from, [])
     end
-    store = Store.find(params[:store_id])
     store.users.each do |user|
       if user.submission
         user_weekly_schedules = UserWeeklySchedule.where(weeklyday_id: calendar_wday(date), user_id: user.id)
+        user_unable_schedules = UserUnableSchedule.where(date: date, user_id: user.id)
         date_working_times(date).each do |date_table|
           user_weekly_schedules.each do |user_schedule|
             if duplicate(user_schedule, date_table)
               store_date_tables[date_table.working_time_from].push(user.id)
             end
           end
-        end
-        user_unable_schedules = UserUnableSchedule.where(date: date, user_id: user.id)
-        if user_unable_schedules
-          user_unable_schedules.each do |user_unable_schedule|
-            date_working_times(date).each do |date_table|
+          if user_unable_schedules
+            user_unable_schedules.each do |user_unable_schedule|
               if duplicate(user_unable_schedule, date_table)
                 store_date_tables[date_table.working_time_from].delete(user.id)
               end
