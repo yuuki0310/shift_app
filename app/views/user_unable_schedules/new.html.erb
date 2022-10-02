@@ -17,7 +17,7 @@
     <% month = date.month %>
     <%= date.day %>
     <table>
-      <% date_working_times(date).each do |dt| %>
+      <% user_available_working_times(date, params[:user_id]).each do |dt| %>
         <tr>
           <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
           <td rowspan="2">
