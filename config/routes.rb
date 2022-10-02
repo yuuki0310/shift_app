@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   
   resources :stores, except: [:index] do
     post 'approve_staff/:user_id', action: 'approve_staff'
-    resources :store_weekly_schedules, :store_month_schedules, only: [:new, :create, :destroy]
+    resources :store_weekly_schedules, only: [:new, :create, :destroy]
     resources :store_month_schedules, only: [:index, :create, :destroy] do
       collection do
         get ':beginning/new', action: 'new'

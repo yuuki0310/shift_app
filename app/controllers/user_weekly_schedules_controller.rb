@@ -3,7 +3,7 @@ class UserWeeklySchedulesController < ApplicationController
   helper_method :bar_line
 
   def user_weekly_schedule_params
-    params.require(:user_schedule).permit(:working_time_from, :working_time_to, :user_id, weeklyday_id: []).merge(user_id: @current_user.id)
+    params.require(:user_weekly_schedule).permit(:working_time_from, :working_time_to, :user_id, weeklyday_id: []).merge(user_id: @current_user.id)
   end
 
   def weekly_scheduled
@@ -44,8 +44,8 @@ class UserWeeklySchedulesController < ApplicationController
     @shift_section = shift_sections.find_by(status: 1)
     @user_schedule = UserWeeklySchedule.new
     weekly_scheduled
-    if params[:user_schedule][:weeklyday_id]
-      params[:user_schedule][:weeklyday_id].each do |weeklyday_id|
+    if params[:user_weekly_schedule][:weeklyday_id]
+      params[:user_weekly_schedule][:weeklyday_id].each do |weeklyday_id|
         @user_schedule = UserWeeklySchedule.new(user_weekly_schedule_params.merge(weeklyday_id: weeklyday_id))
         @user_schedule.save
       end
