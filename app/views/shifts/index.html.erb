@@ -19,6 +19,7 @@
     <%= button_to 'シフト作成',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/2", method: :post %>
   <% end %>
 <% end %>
+<% available_staff_set %>
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
   <div class="date">
     <%= date.day %>
