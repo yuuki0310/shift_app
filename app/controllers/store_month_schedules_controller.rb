@@ -24,7 +24,7 @@ class StoreMonthSchedulesController < ApplicationController
     @store = Store.find(params[:store_id])
     @store_month_schedule = StoreMonthSchedule.new(storeMonthSchedule_params)
     if @store_month_schedule.save
-      redirect_to new_store_store_month_schedule_path
+      redirect_to "/stores/#{params[:store_id]}/store_month_schedules/#{params[:beginning]}/new"
     else
       render :new
     end
