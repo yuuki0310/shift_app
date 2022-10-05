@@ -1,8 +1,14 @@
 module CalendarHelper
-  def duplicate(a, b)
+  def duplicate?(a, b)
     a.working_time_from <= b.working_time_from && b.working_time_from < a.working_time_to || \
     a.working_time_from < b.working_time_to && b.working_time_to <= a.working_time_to || \
     a.working_time_from == b.working_time_from && a.working_time_to == b.working_time_to
+  end
+
+  def subset?(a, b)
+    a.working_time_from <= b.working_time_from && b.working_time_from < a.working_time_to && \
+    a.working_time_from < b.working_time_to && b.working_time_from <= a.working_time_to || \
+    a.working_time_from == b.working_time_from && b.working_time_to == a.working_time_to
   end
   
   def calendar_wday(date)
@@ -29,7 +35,7 @@ module CalendarHelper
       month_schedules.each do |month_schedule|
         date_working_times.push(month_schedule)
         weekly_schedules.each do |wekkly_schedule|
-          if duplicate(wekkly_schedule, month_schedule)
+          if duplicate?(wekkly_schedule, month_schedule)
             date_working_times.delete(wekkly_schedule)
           end
         end
@@ -40,72 +46,124 @@ module CalendarHelper
     end
     return date_working_times
   end
-  
-  def store_date_table(date)
-    store_date_tables = {}
-    date_working_times(date).each do |date_working_time|
-      store_date_tables.store(date_working_time.working_time_from, [])
+
+  def user_available_working_times(date, user_id)
+    user_available_working_times = []
+    user_weekly_schedules = UserWeeklySchedule.where(user_id: user_id, weeklyday_id: calendar_wday(date))
+    user_unable_schedules = UserUnableSchedule.where( user_id: user_id, date: date)
+    if user_weekly_schedules.empty?
+      return []
     end
-    store.users.each do |user|
-      if user.submission
-        user_weekly_schedules = UserWeeklySchedule.where(weeklyday_id: calendar_wday(date), user_id: user.id)
-        user_unable_schedules = UserUnableSchedule.where(date: date, user_id: user.id)
-        date_working_times(date).each do |date_table|
-          user_weekly_schedules.each do |user_schedule|
-            if duplicate(user_schedule, date_table)
-              store_date_tables[date_table.working_time_from].push(user.id)
-            end
-          end
-          if user_unable_schedules
-            user_unable_schedules.each do |user_unable_schedule|
-              if duplicate(user_unable_schedule, date_table)
-                store_date_tables[date_table.working_time_from].delete(user.id)
-              end
-            end
-          end
+    date_working_times(date).each do |date_working_time|
+      user_weekly_schedules.each do |user_weekly_schedule|
+        if subset?(user_weekly_schedule, date_working_time)
+          user_available_working_times.push(date_working_time)
+        end
+      end
+      user_unable_schedules.each do |user_unable_schedule|
+        if duplicate?(date_working_time, user_unable_schedule)
+          user_available_working_times.delete(date_working_time)
         end
       end
     end
-    return store_date_tables
+    return user_available_working_times
   end
+  
+  # def store_date_available_staff(date)
+  #   store_date_tables = {}
+  #   date_working_times(date).each do |date_working_time|
+  #     store_date_tables.store(date_working_time.working_time_from, [])
+  #   end
+  #   store.users.each do |user|
+  #     if user.submission
+  #       user_available_working_times(date, user.id).each do |user_available_working_time|
+  #         store_date_tables[user_available_working_time.working_time_from].push(user.id)
+  #       end
 
-  def user_date_table
-  end
+
+  #       user_weekly_schedules = UserWeeklySchedule.where(weeklyday_id: calendar_wday(date), user_id: user.id)
+  #       user_unable_schedules = UserUnableSchedule.where(date: date, user_id: user.id)
+  #       date_working_times(date).each do |date_table|
+  #         user_weekly_schedules.each do |user_weekly_schedule|
+  #           if duplicate?(user_weekly_schedule, date_table)
+  #             store_date_tables[date_table.working_time_from].push(user.id)
+  #           end
+  #         end
+  #         if user_unable_schedules
+  #           user_unable_schedules.each do |user_unable_schedule|
+  #             if duplicate?(user_unable_schedule, date_table)
+  #               store_date_tables[date_table.working_time_from].delete(user.id)
+  #             end
+  #           end
+  #         end
+  #       end
+
+
+  #     end
+  #   end
+  #   return store_date_tables
+  # end
   
   def available_staff_set
     available_staff = []
     store_working_time_sum = 0
-    @beginning = Date.parse('2022-08-01').to_date
-    ending = @beginning.next_month - 1
-    @beginning..ending.each do |date|
-      date_working_times(date).each do |dt|
-        store_working_time_sum += (dt.working_time_to - dt.working_time_from) * dt.count / 60
-        store_date_table(date).each do |wtf, ids|
-          if wtf == dt.working_time_from
-            available_staff.push({date: date, working_time_from: wtf, working_time_to: dt.working_time_to, count: dt.count, ids: ids, working_staff: []})
+    # @beginning = Date.parse('2022-08-01').to_date
+    # ending = @beginning.next_month - 1
+    store = Store.find(params[:store_id])
+    shift_section = ShiftSection.find_by(beginning: params[:beginning])
+    (shift_section.beginning..shift_section.ending).each do |date|
+
+      store_date_available_staff = {}
+      date_working_times(date).each do |date_working_time|
+        # store_date_available_staff.store(date_working_time.working_time_from, [])
+        store_working_time_sum += (date_working_time.working_time_to - date_working_time.working_time_from) * date_working_time.count / 60
+        store_date_available_staff = {date: date, working_time_from: date_working_time.working_time_from, working_time_to: date_working_time.working_time_to, count: date_working_time.count, user_ids: [], working_staff: []}
+        store.users.each do |user|
+          user_available_working_times(date, user.id).each do |user_available_working_time|
+            if user_available_working_time.working_time_from == date_working_time.working_time_from
+              store_date_available_staff[:user_ids].push(user.id)
+            end
           end
         end
+        available_staff.push(store_date_available_staff)
       end
+      # store.users.each do |user|
+      #   if user.user_submissions.find_by(shift_section_id: shift_section.id)
+      #     user_available_working_times(date, user.id).each do |user_available_working_time|
+      #       # store_date_available_staff[user_available_working_time.working_time_from].push(user.id)
+      #       store_date_available_staff[:user_ids].push(user.id)
+      #     end
+      #   end
+      # end
+
+    #   date_working_times(date).each do |date_working_time|
+    #     store_working_time_sum += (date_working_time.working_time_to - date_working_time.working_time_from) * date_working_time.count / 60
+    #     store_date_table(date).each do |wtf, ids|
+    #       if wtf == date_working_time.working_time_from
+    #         available_staff.push({date: date, working_time_from: wtf, working_time_to: date_working_time.working_time_to, count: date_working_time.count, user_ids: ids, working_staff: []})
+    #       end
+    #     end
+    #   end
     end
     available_staff.sort! do |a, b|
-      (b[:count].to_f / b[:ids].size.to_f) <=> (a[:count].to_f / a[:ids].size.to_f)
+      (b[:count].to_f / b[:user_ids].size.to_f) <=> (a[:count].to_f / a[:user_ids].size.to_f)
     end
     working_desired_time_sum = 0
-    store = Store.find(params[:store_id])
+    
     store.users.each do |user|
-      if user.submission
+      if user.user_submissions.find_by(shift_section_id: shift_section.id)
         working_desired_time_sum += user.working_desired_time
       end
     end
     working_time_ratio  = {}
     store.users.each do |user|
-      if user.submission
+      if user.user_submissions.find_by(shift_section_id: shift_section.id)
         working_time_ratio.store(user.id, store_working_time_sum * (user.working_desired_time.to_f / working_desired_time_sum.to_f))
       end
     end
     available_staff.each do |as|
       working_time_ratio.sort_by { |k, v| -v }.to_h.each do |id, ratio|
-        if as[:working_staff].size < as[:count] && as[:ids].include?(id)
+        if as[:working_staff].size < as[:count] && as[:user_ids].include?(id)
           as[:working_staff].push(id)
           working_time_ratio[id] -= (as[:working_time_to] - as[:working_time_from]) / 60
         end
@@ -115,10 +173,10 @@ module CalendarHelper
       [a[:date], a[:working_time_from]] <=> [b[:date], b[:working_time_from]]
     end
   
-    unless Shift.find_by(date: @beginning..ending)
+    unless Shift.find_by(date: shift_section.beginning..shift_section.ending)
       available_staff.each do |as|
         as[:working_staff].each do |ws|
-          Shift.create(as.reject { |k,v| k == :count || k == :ids || k == :working_staff }.merge(store_id: current_user.store.id, user_id: ws))
+          Shift.create(as.reject { |k,v| k == :count || k == :user_ids || k == :working_staff }.merge(store_id: current_user.store.id, user_id: ws))
         end
       end
     end 

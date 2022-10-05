@@ -19,7 +19,9 @@
     <%= button_to 'シフト作成',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/2", method: :post %>
   <% end %>
 <% end %>
-<% available_staff_set %>
+<% available_staff_set.each do |ass|%>
+  <%= ass %><br>
+<% end %>
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
   <div class="date">
     <%= date.day %>
@@ -50,18 +52,23 @@
 <table class="table">
   <tr>
     <th>名前</th>
+    <th>勤務希望時間</th>
     <th>合計勤務時間</th>
   </tr>
   <% working_time_sum_sum = 0 %>
+  <% working_desired_time_sum = 0 %>
   <% @working_time_sum.each do |id, wts| %>
     <% working_time_sum_sum += wts %>
     <tr>
       <td><%= User.find(id).name %></td>
+      <td><%= working_desired_time = User.find(id).working_desired_time %>時間</td>
+      <% working_desired_time_sum += working_desired_time %>
       <td><%= wts / 3600 %>時間</td>
     </tr>
   <% end %>
   <tr>
     <td>合計</td>
+    <td><%= working_desired_time_sum %>時間</td>
     <td><%= working_time_sum_sum / 3600 %>時間</td>
   </tr>
 </table>

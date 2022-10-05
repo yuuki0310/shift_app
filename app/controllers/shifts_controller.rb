@@ -8,6 +8,7 @@ class ShiftsController < ApplicationController
     @store = Store.find(params[:store_id])
     @shift_section = ShiftSection.find_by(store_id: @store.id, beginning: params[:beginning])
     @working_time_sum = {}
+    @working_time_sum = {}
     @store.users.each do |user|
       # submission_user = UserSubmission.find_by(user_id: user.id, shift_section_id: @shift_section.id)
       if UserSubmission.find_by(user_id: user.id, shift_section_id: @shift_section.id)
