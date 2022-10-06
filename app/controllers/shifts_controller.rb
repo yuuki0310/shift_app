@@ -10,7 +10,6 @@ class ShiftsController < ApplicationController
     @working_time_sum = {}
     @working_time_sum = {}
     @store.users.each do |user|
-      # submission_user = UserSubmission.find_by(user_id: user.id, shift_section_id: @shift_section.id)
       if UserSubmission.find_by(user_id: user.id, shift_section_id: @shift_section.id)
         @working_time_sum.store(user.id, 0)
       end
