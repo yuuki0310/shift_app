@@ -1,5 +1,5 @@
 class ShiftsController < ApplicationController
-  before_action :store_staff, :store_independent
+  # before_action :store_staff, :store_independent, only: [:index]
   before_action :owner_permission, except: [:index]
   include CalendarHelper
   helper_method :date_table

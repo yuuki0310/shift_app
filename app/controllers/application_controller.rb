@@ -48,6 +48,7 @@ class ApplicationController < ActionController::Base
 
   def store_independent
     if logged_in? && current_user.store_id.nil?
+      flash[:notice] = "店舗無所属になっています"
       redirect_to new_user_affiliation_application_path(current_user)
     end
   end
