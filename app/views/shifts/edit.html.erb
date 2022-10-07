@@ -1,6 +1,6 @@
 <div id="wrapper">
-<%= "#{params[:date]} #{params[:working_time_from]} ~ #{@date_available_staff[:working_time_to].strftime( "%H:%M" )}" %>
-<h1>勤務予定<%= "#{@date_available_staff[:count]}人" %>(クリックで削除)</h1>
+<h1><%= "#{params[:date]} #{params[:working_time_from]} ~ #{@date_available_staff[:working_time_to].strftime( "%H:%M" )}" %></h1>
+<h2>勤務予定<%= "#{@date_available_staff[:count]}人" %>(クリックで削除)</h2>
 <% unless @shifts.blank? %>
   <% @shifts.each do |shift| %>
     <%  working_user = User.find(shift.user_id) %>
@@ -8,9 +8,9 @@
     <% @store_user.delete(working_user) %>
   <% end %>
 <% end %>
-<h1>勤務可能(クリックで追加)</h1>
+<h2>勤務可能(クリックで追加)</h2>
 <% unless @date_available_staff.blank? %>
-  <% @date_available_staff[:ids].each do |id| %>
+  <% @date_available_staff[:user_ids].each do |id| %>
     <% available_staff = User.find(id) %>
     <% if @store_user.include?(available_staff) %>
       <%= link_to "#{available_staff.name}",  store_shifts_path(@store, date: @date_available_staff[:date], working_time_from: @date_available_staff[:working_time_from], working_time_to: @date_available_staff[:working_time_to], user_id: id), method: :post %>
@@ -18,7 +18,7 @@
     <% end %>
   <% end %>
 <% end %>
-<h1>シフト提出済(クリックで追加)</h1>
+<h2>シフト提出済(クリックで追加)</h2>
 <% unless @submission_user.empty? %>
   <% @submission_user.each do |su| %>
     <% if @store_user.include?(su) %>
@@ -27,7 +27,7 @@
     <% end %>
   <% end %>
 <% end %>
-<h1>その他(クリックで追加)</h1>
+<h2>その他(クリックで追加)</h2>
 <% unless @store_user.empty? %>
   <%= @store_user.each do |su| %>
       <%= link_to "#{su.name}",  store_shifts_path(@store, date: @date_available_staff[:date], working_time_from: @date_available_staff[:working_time_from], working_time_to: @date_available_staff[:working_time_to], user_id: su.id), method: :post %>
