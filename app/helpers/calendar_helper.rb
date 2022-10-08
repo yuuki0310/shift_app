@@ -133,8 +133,6 @@ module CalendarHelper
         Shift.create(as.reject { |k,v| k == :count || k == :user_ids || k == :working_staff }.merge(store_id: current_user.store.id, user_id: ws))
       end
     end
-
-    # return available_staff
   end
 
   def weekly_scheduled(weekly_schedules)
@@ -150,7 +148,6 @@ module CalendarHelper
   end
 
   def bar_line?(weeklyday, working_time, weekly_schedules)
-    # user_weekly_schedules = weekly_schedules.where(weeklyday_id: weeklyday, user_id: params[:user_id])
     weekly_schedules.each do |user_schedule|
       if user_schedule.working_time_from < working_time && working_time < user_schedule.working_time_to
         return true

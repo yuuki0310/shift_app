@@ -1,5 +1,10 @@
 <h1>スケジュール一覧</h1>
 <% @store_shift_sections.each do |store_shift_section| %>
   <%= link_to "#{store_shift_section.beginning}~#{store_shift_section.ending}", "/users/#{params[:user_id]}/user_unable_schedules/#{store_shift_section.beginning}/new" %>
+  <% if UserSubmission.find_by(user_id: params[:user_id], shift_section_id: store_shift_section.id) %>
+    提出済
+  <% else %>
+    未提出
+  <% end %>
   <br>
 <% end %>

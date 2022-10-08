@@ -1,6 +1,6 @@
 class ShiftSectionController < ApplicationController
   before_action :store_staff, :store_independent, only: [:index]
-  before_action :owner_permission
+  before_action :owner_permission, except: [:index]
 
   include ActiveModel::Attributes
   include ActiveRecord::AttributeAssignment

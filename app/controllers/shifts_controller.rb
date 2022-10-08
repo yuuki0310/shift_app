@@ -1,5 +1,6 @@
 class ShiftsController < ApplicationController
-  # before_action :store_staff, :store_independent, only: [:index]
+  skip_before_action :verify_authenticity_token
+  before_action :store_staff, :store_independent, only: [:index]
   before_action :owner_permission, except: [:index]
   include CalendarHelper
   helper_method :date_table
@@ -22,9 +23,6 @@ class ShiftsController < ApplicationController
   def edit
     @store = current_user.store
     @shifts = Shift.where(date: params[:date], working_time_from: params[:working_time_from])
-    # available_staff = shift_auto_allocation
-    # @date_available_staff = available_staff.find { |a| a[:date] == params[:date].to_date && a[:working_time_from].strftime( "%H:%M" ) == params[:working_time_from] }
-    # store_date_available_staffs(params[:date]).select{ |store_time_available_staffs| store_time_available_staffs[:working_time_from].include?(params[:working_time_from]) }
     @date_available_staff = store_date_available_staffs(params[:date].to_date).find { |a| a[:date] == params[:date].to_date && a[:working_time_from].strftime( "%H:%M" ) == params[:working_time_from] }
     @submission_user = []
     @store_user = []
@@ -38,14 +36,14 @@ class ShiftsController < ApplicationController
   end
 
   def destroy
-    @store = current_user.store
+    @store = Store.find(params[:store_id])
     @shift = Shift.find(params[:id])
     @shift.destroy
     redirect_to "/stores/#{@store.id}/shifts/#{@shift.date}/#{@shift.working_time_from.strftime( "%H:%M" )}/edit"
   end
 
   def create
-    @store = current_user.store
+    @store = Store.find(params[:store_id])
     @shift = Shift.new(
       store_id: @store.id,
       date: params[:date],

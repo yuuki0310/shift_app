@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :null_session
   include LoginHelper
   helper_method :current_shift
   require "date"
@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-      
 
   private
   def logged_in_user

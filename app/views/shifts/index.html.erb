@@ -18,6 +18,10 @@
     <% end %>
     <%= button_to 'シフト作成',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/2", method: :post %>
   <% end %>
+<% else %>
+  <% if @shift_section.status == 2 %>
+    <p>オーナーが編集中</p>
+  <% end %>
 <% end %>
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
   <div class="date">
@@ -34,7 +38,7 @@
               <%= working_user.name %><br>
               <% @working_time_sum[working_user.id] += dt.working_time_to - dt.working_time_from if @working_time_sum[working_user.id] %>
             <% end %>
-            <% if @shift_section.status == 2 %>
+            <% if owner? && @shift_section.status == 2 %>
               <%= link_to '編集',  "/stores/#{@store.id}/shifts/#{date}/#{dt.working_time_from.strftime( "%H:%M" )}/edit" %>
             <% end %>
           </td>
