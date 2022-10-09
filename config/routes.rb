@@ -33,5 +33,5 @@ Rails.application.routes.draw do
     end
     resources :user_submissions, only: [:create, :destroy]
   end
-
+  root 'login#new'
 end

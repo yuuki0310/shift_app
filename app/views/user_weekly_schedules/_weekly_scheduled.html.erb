@@ -18,16 +18,16 @@
           <% if working_time_from_weeklyday && working_time_to_weeklyday %>
             <td>
               <%= "┿" %>
-              <%= button_to '削除', "/users/#{@user.id}/user_weekly_schedules/#{working_time_from_weeklyday.id}", method: :delete unless @user.user_submissions.find_by(shift_section_id: @shift_section.id) %>
+              <%= button_to '削除', "/users/#{@user.id}/user_weekly_schedules/#{working_time_from_weeklyday.id}", method: :delete if @shift_section && @user.user_submissions.find_by(shift_section_id: @shift_section.id) %>
             </td>
           <% elsif working_time_from_weeklyday %>
             <td style="border-top:1px solid #1f1f1f;">
               <%= "┯" %>
-              <%= button_to '削除', "/users/#{@user.id}/user_weekly_schedules/#{working_time_from_weeklyday.id}", method: :delete unless @user.user_submissions.find_by(shift_section_id: @shift_section.id) %>
+              <%= button_to '削除', "/users/#{@user.id}/user_weekly_schedules/#{working_time_from_weeklyday.id}", method: :delete if @shift_section && @user.user_submissions.find_by(shift_section_id: @shift_section.id) %>
             </td>
           <% elsif working_time_to_weeklyday %>
             <td style="border-bottom:1px solid #1f1f1f;">┷</td>
-          <% elsif bar_line(weeklyday.id, working_time) %>
+          <% elsif bar_line?(weeklyday.id, working_time, UserWeeklySchedule.where(weeklyday_id: weeklyday, user_id: params[:user_id])) %>
             <td>│</td>
           <% else %>
             <td></td>

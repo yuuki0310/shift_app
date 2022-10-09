@@ -19,6 +19,28 @@ module CalendarHelper
     end
   end
 
+  def weekly_scheduled_times(weekly_schedules)
+    @working_times = []
+    weekly_schedules.each do |user_schedule|
+      @working_times.push(user_schedule.working_time_from)
+      @working_times.push(user_schedule.working_time_to)
+    end
+    if @working_times.count > 2
+      @working_times.uniq!
+      @working_times.sort!
+    end
+  end
+
+  def bar_line?(weeklyday, working_time, weekly_schedules)
+    weekly_schedules.each do |user_schedule|
+      if user_schedule.working_time_from < working_time && working_time < user_schedule.working_time_to
+        return true
+        break
+      end
+    end
+    return false
+  end
+
   def date_working_times(date)
     if params[:user_id]
       store = User.find(params[:user_id]).store
@@ -134,27 +156,4 @@ module CalendarHelper
       end
     end
   end
-
-  def weekly_scheduled(weekly_schedules)
-    @working_times = []
-    weekly_schedules.each do |user_schedule|
-      @working_times.push(user_schedule.working_time_from)
-      @working_times.push(user_schedule.working_time_to)
-    end
-    if @working_times.count > 2
-      @working_times.uniq!
-      @working_times.sort!
-    end
-  end
-
-  def bar_line?(weeklyday, working_time, weekly_schedules)
-    weekly_schedules.each do |user_schedule|
-      if user_schedule.working_time_from < working_time && working_time < user_schedule.working_time_to
-        return true
-        break
-      end
-    end
-    return false
-  end
-
 end

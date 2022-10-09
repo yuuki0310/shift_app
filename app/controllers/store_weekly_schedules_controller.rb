@@ -3,40 +3,16 @@ class StoreWeeklySchedulesController < ApplicationController
   before_action :owner_permission, only: [:crate, :destroy]
   before_action :store_independent
   include CalendarHelper
-  helper_method :bar_line?, :calendar_wday
 
   def store_weekly_schedule_params
     params.require(:store_schedule).permit(:working_time_from, :working_time_to, :count, :store_id, weeklyday_id: []).merge(store_id: @current_user.store.id)
   end
 
-  # def weekly_scheduled
-  #   @working_times = []
-  #   StoreWeeklySchedule.where(store_id: params[:store_id]).each do |store_schedule|
-  #     @working_times.push(store_schedule.working_time_from)
-  #     @working_times.push(store_schedule.working_time_to)
-  #   end
-  #   if @working_times.count > 2
-  #     @working_times.uniq!
-  #     @working_times.sort!
-  #   end
-  #   @weeklydays = Weeklyday.all
-  #   def bar_line(weeklyday, working_time)
-  #     store_weekly_schedules = StoreWeeklySchedule.where(weeklyday_id: weeklyday, store_id: params[:store_id])
-  #     store_weekly_schedules.each do |store_schedule|
-  #       if store_schedule.working_time_from < working_time && working_time < store_schedule.working_time_to
-  #         return true
-  #         break
-  #       end
-  #     end
-  #     return false
-  #   end
-  # end
-
   def new
     @store = Store.find(params[:store_id])
     @store_schedule = StoreWeeklySchedule.new
     @weeklydays = Weeklyday.all
-    weekly_scheduled(StoreWeeklySchedule.where(store_id: params[:store_id]))
+    weekly_scheduled_times(StoreWeeklySchedule.where(store_id: params[:store_id]))
     @store_month_schedule = StoreMonthSchedule.new
   end
   
