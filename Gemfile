@@ -43,6 +43,7 @@ gem 'rails-ujs', '~> 0.1.0'
 gem 'bcrypt',  '3.1.12'
 gem 'public_uid'
 gem 'pg'
+gem 'psych', '~> 3.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
