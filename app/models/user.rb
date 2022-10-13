@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :user_weekly_schedules
   has_many :user_unable_schedules
   has_many :user_submissions
+  has_many :stores, foreign_key: :owner_id
   has_one :affiliation_application
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

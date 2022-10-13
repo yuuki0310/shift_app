@@ -7,7 +7,6 @@ class Store < ApplicationRecord
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
   has_many :store_month_schedules
   has_many :shift_sections
-  # has_one :affiliation_application
 
   # def to_param
   #   public_uid
