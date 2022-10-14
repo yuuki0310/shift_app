@@ -113,6 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_14_084704) do
     t.string "email"
     t.string "password_digest"
     t.string "public_uid"
+    t.integer "Store_id_id"
     t.index ["public_uid"], name: "index_users_on_public_uid", unique: true
     t.index ["store_id"], name: "index_users_on_store_id"
   end
