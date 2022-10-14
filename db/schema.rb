@@ -129,7 +129,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_14_084704) do
   add_foreign_key "shifts", "stores"
   add_foreign_key "shifts", "users"
   add_foreign_key "store_month_schedules", "stores"
+  add_foreign_key "store_weekly_schedules", "stores"
+  add_foreign_key "store_weekly_schedules", "weeklydays"
+  add_foreign_key "stores", "users", column: "owner_id"
+  add_foreign_key "user_submissions", "shift_sections"
+  add_foreign_key "user_submissions", "users"
   add_foreign_key "user_unable_schedules", "users"
   add_foreign_key "user_weekly_schedules", "users"
   add_foreign_key "user_weekly_schedules", "weeklydays"
+  add_foreign_key "users", "stores"
 end
