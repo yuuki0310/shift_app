@@ -1,2 +1,2 @@
-module ShiftSectionHelper
+module ShiftSectionsHelper
 end
