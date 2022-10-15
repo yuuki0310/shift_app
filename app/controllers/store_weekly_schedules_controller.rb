@@ -5,7 +5,7 @@ class StoreWeeklySchedulesController < ApplicationController
   include CalendarHelper
 
   def store_weekly_schedule_params
-    params.require(:store_schedule).permit(:working_time_from, :working_time_to, :count, :store_id, weeklyday_id: []).merge(store_id: @current_user.store.id)
+    params.require(:store_weekly_schedule).permit(:working_time_from, :working_time_to, :count, :store_id, weeklyday_id: []).merge(store_id: @current_user.store.id)
   end
 
   def new
@@ -13,15 +13,15 @@ class StoreWeeklySchedulesController < ApplicationController
     @store_schedule = StoreWeeklySchedule.new
     @weeklydays = Weeklyday.all
     weekly_scheduled_times(StoreWeeklySchedule.where(store_id: params[:store_id]))
-    @store_month_schedule = StoreMonthSchedule.new
   end
   
   def create
     @store = Store.find(params[:store_id])
     @store_schedule = StoreWeeklySchedule.new
-    weekly_scheduled
-    if params[:store_schedule][:weeklyday_id]
-      params[:store_schedule][:weeklyday_id].each do |weeklyday_id|
+    @weeklydays = Weeklyday.all
+    weekly_scheduled_times(StoreWeeklySchedule.where(store_id: params[:store_id]))
+    if store_weekly_schedule_params[:weeklyday_id]
+      store_weekly_schedule_params[:weeklyday_id].each do |weeklyday_id|
         @store_schedule = StoreWeeklySchedule.new(store_weekly_schedule_params.merge(weeklyday_id: weeklyday_id))
         @store_schedule.save
       end

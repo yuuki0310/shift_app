@@ -10,7 +10,7 @@ class LoginController < ApplicationController
       log_in(user)
       flash[:notice] = "ログインしました"
       if current_user.store_id
-        redirect_to current_shift
+        redirect_to store_shift_section_index_path(current_user.store.id)
       else
         redirect_to new_user_affiliation_application_path(current_user)
       end
@@ -22,10 +22,6 @@ class LoginController < ApplicationController
 
   def destroy
     log_out if logged_in?
-    # session.delete(:user_id)
-    # session[:user_id] = 1
-    # @current_user = 1
-    # reset_session
     flash[:notice] = "ログアウトしました"
     redirect_to new_login_url
   end

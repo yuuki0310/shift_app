@@ -4,6 +4,8 @@
     <%= button_to '決定',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/3", method: :post %>
   <% elsif @shift_section.status == 3 %>
     <%= button_to '再編集',  "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/2", method: :post %>
+  <% elsif @shift_section.status == 0 %>
+    <%= link_to 'ストアスケジュール編集',  "/stores/#{params[:store_id]}/store_month_schedules/#{params[:beginning]}/new" %>
   <% elsif @shift_section.status == 1 %>
     <% @store.users.each do |member| %>
       <div>
@@ -30,7 +32,7 @@
       <% date_working_times(date).each do |dt| %>
         <% date_shifts = Shift.where(date: date, working_time_from: dt.working_time_from) %>
         <tr>
-          <td><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
+          <td class="working_time"><%= dt.working_time_from.strftime( "%H:%M" ) %></td>
           <td rowspan="2">
             <%= "#{dt.count}人" %><br>
             <% date_shifts.each do |date_shift| %>
@@ -44,7 +46,7 @@
           </td>
         </tr>
         <tr>
-          <td><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
+          <td class="working_time"><%= dt.working_time_to.strftime( "%H:%M" ) %></td>
         </tr>
       <% end %>
     </table>

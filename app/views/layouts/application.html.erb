@@ -13,7 +13,6 @@
 <%# <script src="js/jquery1.7.2.min.js"></script> %>
 <%# <script src="js/script.js"></script> %>
 <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-<%#= javascript_include_tag 'application' %>
 </head>
 <body>
 
@@ -23,7 +22,7 @@
       <!-- ロゴ -->
       <div class="logo">
       <% if logged_in? && current_user.store %>
-        <a href="<%= current_shift %>">シフト管理<br><span>shift_app</span></a>
+        <a href="<%= store_shift_section_index_path(current_user.store.id) %>">シフト管理<br><span>shift_app</span></a>
       <% else %>
         <a>シフト管理<br><span>shift_app</span></a>
       <% end %>
@@ -58,7 +57,6 @@
         </div>
       </nav>
       <!-- メインナビゲーション -->
-      
     </div>
   </div>
   <!-- / ヘッダー -->

@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
 
-  before_action :logged_in_user, :store_independent, :current_user_authenticate
+  before_action :current_user_authenticate, except: [:new, :create]
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :working_desirred_time, :store_id)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :working_desired_time, :store_id)
   end
 
   def new
@@ -13,7 +13,6 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @store = Store.find_by(id: @user.store_id)
-    # @affiliation_application = AffiliationApplication.find_by(user_id: )
   end
 
   def create

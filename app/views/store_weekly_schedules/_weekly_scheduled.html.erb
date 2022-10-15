@@ -9,7 +9,7 @@
     <th>土曜日</th>
     <th>日曜日</th>
   </tr>
-  <% @working_times.each_with_index do |working_time, i| %>
+  <% weekly_scheduled_times(StoreWeeklySchedule.where(store_id: params[:store_id])).each_with_index do |working_time, i| %>
     <tr>
       <th><%= working_time.strftime( "%H:%M" ) %></th>
       <% @weeklydays.each do |weeklyday| %>

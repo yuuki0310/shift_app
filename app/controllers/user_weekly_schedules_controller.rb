@@ -16,10 +16,10 @@ class UserWeeklySchedulesController < ApplicationController
   
   def create
     @user = User.find(params[:user_id])
-    shift_sections = ShiftSection.where(store_id: @user.store.id)
-    @shift_section = shift_sections.find_by(status: 1)
+    @weeklydays = Weeklyday.all
+    @shift_section = ShiftSection.find_by(store_id: @user.store.id, status: 1)
     @user_schedule = UserWeeklySchedule.new
-    weekly_scheduled
+    weekly_scheduled_times(UserWeeklySchedule.where(user_id: params[:user_id]))
     if params[:user_weekly_schedule][:weeklyday_id]
       params[:user_weekly_schedule][:weeklyday_id].each do |weeklyday_id|
         @user_schedule = UserWeeklySchedule.new(user_weekly_schedule_params.merge(weeklyday_id: weeklyday_id))

@@ -23,6 +23,7 @@ class StoreMonthSchedulesController < ApplicationController
   def create
     @store = Store.find(params[:store_id])
     @store_month_schedule = StoreMonthSchedule.new(storeMonthSchedule_params)
+    @store_shift_section = ShiftSection.find_by(store_id: params[:store_id], beginning: params[:beginning])
     if @store_month_schedule.save
       redirect_to "/stores/#{params[:store_id]}/store_month_schedules/#{params[:beginning]}/new"
     else

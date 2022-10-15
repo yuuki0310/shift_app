@@ -1,19 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   include LoginHelper
-  helper_method :current_shift
   require "date"
-
-  def current_shift
-    store_shift_sections = ShiftSection.where(store_id: current_user.store.id)
-    store_shift_sections.each do |store_shift_section|
-      if store_shift_section.beginning <= Date.today && Date.today <= store_shift_section.ending
-        return "/stores/#{current_user.store.id}/shifts/#{store_shift_section.beginning}"
-      else
-        return store_shift_section_index_path(current_user.store.id)
-      end
-    end
-  end
 
   private
   def logged_in_user
@@ -54,7 +42,7 @@ class ApplicationController < ActionController::Base
 
   def store_affiliation
     unless logged_in? && current_user.store_id.nil?
-      redirect_to current_shift
+      redirect_to store_shift_section_index_path(current_user.store.id)
     end
   end
 
