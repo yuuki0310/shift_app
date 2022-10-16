@@ -1,3 +1,4 @@
+<%= link_to "シフトに戻る", "/stores/#{params[:store_id]}/shifts/#{@shift_section.beginning}" %>
 <h1><%= "#{params[:date]} #{params[:working_time_from]} ~ #{@date_available_staff[:working_time_to].strftime( "%H:%M" )}" %></h1>
 <h2>勤務予定<%= "#{@date_available_staff[:count]}人" %>(クリックで削除)</h2>
 <% unless @shifts.blank? %>

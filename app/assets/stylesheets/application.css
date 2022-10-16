@@ -76,6 +76,17 @@ ul.menu_content {
 	position: absolute;
 }
 
+table.table td.shift_working_time {
+	width: 1%;
+	font-size: 0.7rem;
+	padding: 5px 1px;
+}
+
+img.guide_image {
+	width: 100%;
+	border: solid;
+}
+
 
 /* =Reset default browser CSS.
 Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html

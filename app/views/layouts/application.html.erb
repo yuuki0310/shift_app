@@ -32,8 +32,8 @@
       <!-- メインナビゲーション -->
       <nav id="mainNav">
         <div class="panel">
-          <% if logged_in? %>
-            <ul class="menu" id="menu">
+          <ul class="menu" id="menu">
+            <% if logged_in? %>
               <% if current_user.store %>
                 <li class="menu-list">
                   <%= link_to current_user.store.name, "/stores/#{current_user.store.id}/store_month_schedules" %>
@@ -52,8 +52,10 @@
                 </ul>
               </li>
               <li><%= link_to "ログアウト", logout_path, method: :delete %></li>
-            </ul>
-          <% end %>
+            <% else %>
+              <li><%= link_to "ログイン", new_login_path %></li>
+            <% end %>
+          </ul>
         </div>
       </nav>
       <!-- メインナビゲーション -->

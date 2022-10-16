@@ -26,10 +26,10 @@ class ShiftsController < ApplicationController
     @date_available_staff = store_date_available_staffs(params[:date].to_date).find { |a| a[:date] == params[:date].to_date && a[:working_time_from].strftime( "%H:%M" ) == params[:working_time_from] }
     @submission_user = []
     @store_user = []
-    shift_section = ShiftSection.where(store_id: @store.id).find { |a| (a.beginning..a.ending).cover?(params[:date].to_date) }
+    @shift_section = ShiftSection.where(store_id: @store.id).find { |a| (a.beginning..a.ending).cover?(params[:date].to_date) }
     Store.find(params[:store_id]).users.each do |user|
       @store_user.push(user)
-      if user.user_submissions.find_by(shift_section_id: shift_section.id)
+      if user.user_submissions.find_by(shift_section_id: @shift_section.id)
         @submission_user.push(user)
       end
     end
