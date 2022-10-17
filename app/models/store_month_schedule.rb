@@ -24,12 +24,12 @@ class StoreMonthSchedule < ApplicationRecord
     if working_time_from && working_time_to
       current_user_store = Store.find_by(id: store_id)
       store_schedule_dates = current_user_store.store_month_schedules.where(date: date)
-      if store_schedule_dates
-        store_schedule_dates.each do |store_schedule_date|
-          if store_schedule_date.working_time_from < working_time_from && working_time_from < store_schedule_date.working_time_to || \
-            store_schedule_date.working_time_from < working_time_to && working_time_to < store_schedule_date.working_time_to
-            errors.add(:date, "重複しています。可能な時間を設定するか、スケジュールを削除してからもう一度登録してください。")
-          end
+      # if store_schedule_dates
+      # end
+      store_schedule_dates&.each do |store_schedule_date|
+        if store_schedule_date.working_time_from < working_time_from && working_time_from < store_schedule_date.working_time_to || \
+          store_schedule_date.working_time_from < working_time_to && working_time_to < store_schedule_date.working_time_to
+          errors.add(:date, "重複しています。可能な時間を設定するか、スケジュールを削除してからもう一度登録してください。")
         end
       end
     end
