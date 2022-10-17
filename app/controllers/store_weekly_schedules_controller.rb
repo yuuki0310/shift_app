@@ -12,7 +12,7 @@ class StoreWeeklySchedulesController < ApplicationController
     @store = Store.find(params[:store_id])
     @store_schedule = StoreWeeklySchedule.new
     @weeklydays = Weeklyday.all
-    weekly_scheduled_times(StoreWeeklySchedule.where(store_id: params[:store_id]))
+    @weekly_scheduled_times = weekly_scheduled_times(StoreWeeklySchedule.where(store_id: params[:store_id]))
   end
   
   def create
