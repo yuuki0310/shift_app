@@ -19,6 +19,7 @@ class StoreWeeklySchedulesController < ApplicationController
     @store = Store.find(params[:store_id])
     @store_schedule = StoreWeeklySchedule.new
     @weeklydays = Weeklyday.all
+    @weekly_scheduled_times = weekly_scheduled_times(StoreWeeklySchedule.where(store_id: params[:store_id]))
     weekly_scheduled_times(StoreWeeklySchedule.where(store_id: params[:store_id]))
     if store_weekly_schedule_params[:weeklyday_id]
       store_weekly_schedule_params[:weeklyday_id].each do |weeklyday_id|
