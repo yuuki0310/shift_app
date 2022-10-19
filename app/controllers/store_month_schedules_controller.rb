@@ -5,7 +5,11 @@ class StoreMonthSchedulesController < ApplicationController
   include CalendarHelper
   helper_method :date_table
 
-  def storeMonthSchedule_params
+  include ActiveModel::Attributes
+  include ActiveRecord::AttributeAssignment
+  attribute :date, :date
+
+  def store_month_schedule_params
     params.require(:store_month_schedule).permit(:date, :working_time_from, :working_time_to, :count, :store_id).merge(store_id: @current_user.store.id)
   end
 
@@ -22,7 +26,7 @@ class StoreMonthSchedulesController < ApplicationController
   
   def create
     @store = Store.find(params[:store_id])
-    @store_month_schedule = StoreMonthSchedule.new(storeMonthSchedule_params)
+    @store_month_schedule = StoreMonthSchedule.new(store_month_schedule_params)
     @store_shift_section = ShiftSection.find_by(store_id: params[:store_id], beginning: params[:beginning])
     if @store_month_schedule.save
       redirect_to "/stores/#{params[:store_id]}/store_month_schedules/#{params[:beginning]}/new"

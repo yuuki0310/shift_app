@@ -16,12 +16,11 @@ class ShiftSection < ApplicationRecord
     if beginning && ending
       current_user_store = Store.find_by(id: store_id)
       shift_sections = current_user_store.shift_sections
-      # if shift_sections
-      # end
       shift_sections&.each do |shift_section|
-        if shift_section.beginning < beginning && beginning < shift_section.ending || \
-          shift_section.beginning < ending && ending < shift_section.ending
-          errors.add(:date, "重複しています。可能な時間を設定するか、スケジュールを削除してからもう一度登録してください。")
+        if shift_section.beginning <= beginning && beginning < shift_section.ending || \
+          shift_section.beginning < ending && ending <= shift_section.ending || \
+          shift_section.beginning == beginning && shift_section.ending == ending
+          errors.add(:date, "重複しています。可能な日付を設定してください。")
         end
       end
     end

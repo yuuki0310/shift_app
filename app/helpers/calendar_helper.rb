@@ -5,6 +5,12 @@ module CalendarHelper
     a.working_time_from == b.working_time_from && a.working_time_to == b.working_time_to
   end
 
+  def for_model_duplicate?(a)
+    a.working_time_from <= working_time_from && working_time_from < a.working_time_to || \
+    a.working_time_from < working_time_to && working_time_to <= a.working_time_to || \
+    a.working_time_from == working_time_from && a.working_time_to == working_time_to
+  end
+
   def subset?(a, b)
     a.working_time_from <= b.working_time_from && b.working_time_from < a.working_time_to && \
     a.working_time_from < b.working_time_to && b.working_time_from <= a.working_time_to || \

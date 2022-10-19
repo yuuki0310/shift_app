@@ -1,6 +1,7 @@
 class StoreWeeklySchedule < ApplicationRecord
+  include CalendarHelper
+
   belongs_to :store
-  # belongs_to :Weeklyday
 
   with_options presence: true do
     validates :store_id
@@ -26,8 +27,7 @@ class StoreWeeklySchedule < ApplicationRecord
       current_user_store = Store.find_by(id: store_id)
       store_schedule_weeklydays = current_user_store.store_weekly_schedules.where(weeklyday_id: weeklyday_id)
       store_schedule_weeklydays.each do |store_schedule_weeklyday|
-        if store_schedule_weeklyday.working_time_from < working_time_from && working_time_from < store_schedule_weeklyday.working_time_to || \
-          store_schedule_weeklyday.working_time_from < working_time_to && working_time_to < store_schedule_weeklyday.working_time_to
+        if for_model_duplicate?(store_schedule_weeklyday)
           errors.add(:weeklyday_id, "重複しています。可能な時間を設定するか、スケジュールを削除してからもう一度登録してください。")
         end
       end

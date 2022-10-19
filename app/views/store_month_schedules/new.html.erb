@@ -6,7 +6,7 @@
     </div>
   <% end %>
   <%= form_for [@store, @store_month_schedule], url: "/stores/#{params[:store_id]}/store_month_schedules?beginning=#{params[:beginning]}" do |f| %>
-    <%= f.date_select :date, {discard_year: true} %>
+    <%= f.date_select :date, {use_month_numbers: true} %>
     <h1>時間</h1>
     <div class="time">
       <%= f.time_field :working_time_from, class: "working_time" %>
@@ -17,6 +17,7 @@
       <%= f.submit "追加" %>
     </div>
   <% end %>
+  <br>
   <%= button_to 'スケジュールを決定', "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}/change_status/1" %>
 <% end %>
 
