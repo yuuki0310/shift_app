@@ -28,7 +28,6 @@
       <% end %>
       </div>
       <!-- / ロゴ -->
-      
       <!-- メインナビゲーション -->
       <nav id="mainNav">
         <div class="panel">
@@ -67,20 +66,28 @@
       </div>
 
       <nav class="globalMenuSp">
-          <ul>
+        <ul>
+          <% if logged_in? %>
+            <% if current_user.store %>
               <li><%= link_to current_user.store.name, "/stores/#{current_user.store.id}/store_month_schedules" %></li>
               <li><%= link_to "ストア情報", store_path(current_user.store) %></li>
               <li><%= link_to "シフト", store_shift_section_index_path(current_user.store) %></li>
               <li><%= link_to "ストアスケジュール", "/stores/#{current_user.store.id}/store_month_schedules" %></li>
               <br>
-              <li><%= link_to current_user.name, "/users/#{current_user.id}/user_unable_schedules" %></li>
-              <li><%= link_to "ユーザー情報", user_path(current_user) %></li>
-              <li><%= link_to "ユーザースケジュール", "/users/#{current_user.id}/user_unable_schedules" %></li>
-          </ul>
+            <% end %>
+            <li><%= link_to current_user.name, "/users/#{current_user.id}/user_unable_schedules" %></li>
+            <li><%= link_to "ユーザー情報", user_path(current_user) %></li>
+            <li><%= link_to "ユーザースケジュール", "/users/#{current_user.id}/user_unable_schedules" %></li>
+            <li><%= link_to "ログアウト", logout_path, method: :delete %></li>
+          <% else %>
+            <li><%= link_to "ログイン", new_login_path %></li>
+          <% end %>
+        </ul>
       </nav>
     </div>
   </div>
   <!-- / ヘッダー -->
+
   <div id="wrapper">
     <% if flash[:notice] %>
       <div class="flash">
