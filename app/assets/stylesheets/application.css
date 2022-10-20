@@ -88,7 +88,7 @@ img.guide_image {
 }
 
 .simple-calendar {
-	width: 970px;
+	width: 960px;
 }
 
 /*　ハンバーガーボタン　*/
@@ -530,6 +530,7 @@ font-weight:bold;
 	.hamburger {
 		display: none;
 	}
+
 	#wrapper,.inner{
 	width:940px;
 	padding:0;
@@ -596,7 +597,7 @@ font-weight:bold;
 
 
 /* モニター幅940px以下 */
-@media only screen and (max-width:940px){
+@media only screen and (max-width:960px){
 	*{
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
