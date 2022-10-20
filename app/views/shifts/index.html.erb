@@ -28,7 +28,7 @@
 <%= SimpleCalendar::BusinessWeekCalendar.new(self, {}).render do |date| %>
   <div class="date">
     <%= date.day %>
-    <table>
+    <table class="date_table">
       <% date_working_times(date).each do |dt| %>
         <% date_shifts = Shift.where(date: date, working_time_from: dt.working_time_from) %>
         <tr>

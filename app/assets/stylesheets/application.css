@@ -87,8 +87,8 @@ img.guide_image {
 	border: solid;
 }
 
-.simple-calendar {
-	width: 960px;
+.simple-calendar td {
+	width: auto;
 }
 
 /*　ハンバーガーボタン　*/
@@ -435,7 +435,6 @@ border:1px solid #1f1f1f;
 table.table th,table.table td{
 padding:5px;
 border:1px solid #1f1f1f;
-font-size: 1rem;
 }
 
 table.table th{
@@ -596,7 +595,7 @@ font-weight:bold;
 }
 
 
-/* モニター幅940px以下 */
+/* モニター幅960px以下 */
 @media only screen and (max-width:960px){
 	*{
     -webkit-box-sizing: border-box;
@@ -605,7 +604,7 @@ font-weight:bold;
         -ms-box-sizing: border-box;
             box-sizing: border-box;
 	}
-	
+
 	#header h1{text-align:center;}
 	
 	#header .logo,#footer .logo{
