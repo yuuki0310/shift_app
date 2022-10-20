@@ -23,3 +23,15 @@ $(function() {
 		$(this).find('.menu_content').stop().slideUp();
 	});
 })
+
+$(function() {
+	$('.hamburger').click(function() {
+			$(this).toggleClass('active');
+
+			if ($(this).hasClass('active')) {
+					$('.globalMenuSp').addClass('active');
+			} else {
+					$('.globalMenuSp').removeClass('active');
+			}
+	});
+});
