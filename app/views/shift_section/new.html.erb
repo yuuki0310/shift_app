@@ -6,8 +6,8 @@
   <% end %>
   <h1>シフトを新たに作成する</h1>
   <h2>期間</h2>
-    <%= f.date_select :beginning %>
+    <%= f.date_select :beginning, {use_month_numbers: true} %>
     <p>から</p>
-    <%= f.date_select :ending %>
+    <%= f.date_select :ending, {use_month_numbers: true} %>
     <%= f.submit "作成" %>
 <% end %>
