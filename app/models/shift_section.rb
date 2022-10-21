@@ -1,6 +1,8 @@
 class ShiftSection < ApplicationRecord
-  belongs_to :store
+  belongs_to :store,  optional: true
 
+  validates :beginning, uniqueness: { scope: [:store_id] }
+  validates :ending, uniqueness: { scope: [:store_id] }
   validates :status, inclusion: { in: 0..3 }
   with_options presence: true do
     validates :store_id
@@ -20,8 +22,8 @@ class ShiftSection < ApplicationRecord
     if beginning && ending
       shift_sections = Store.find_by(id: store_id).shift_sections
       shift_sections&.each do |shift_section|
-        if shift_section.beginning <= beginning && beginning <= shift_section.ending || \
-          shift_section.beginning <= ending && ending <= shift_section.ending
+        if shift_section.beginning < beginning && beginning <= shift_section.ending || \
+          shift_section.beginning <= ending && ending < shift_section.ending 
           errors.add(:beginning, "重複しています。可能な日付を設定してください。")
           return
         end

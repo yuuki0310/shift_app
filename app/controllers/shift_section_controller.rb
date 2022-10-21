@@ -14,7 +14,7 @@ class ShiftSectionController < ApplicationController
   def change_status
     shift_section = ShiftSection.find_by(store_id: params[:store_id], beginning: params[:beginning])
     shift_section.status = params[:status]
-    shift_section.save
+    shift_section.save!
     redirect_to "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}"
   end
 
