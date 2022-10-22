@@ -24,10 +24,6 @@ module LoginHelper
   end
 
   def store_staff?
-    # store_id = params[:store_id]
-    # if store_id.nil?
-    #   store_id = params[:id]
-    # end
     if params[:store_id]
       store_id = params[:store_id]
     elsif params[:id]

@@ -37,7 +37,11 @@
             <%= "#{dt.count}人" %><br>
             <% date_shifts.each do |date_shift| %>
               <% working_user = User.find(date_shift.user_id) %>
-              <%= working_user.name %><br>
+              <% if current_user?(working_user) %>
+                <font color="red"><%= working_user.name %></font>
+              <% else %>
+                <%= working_user.name %>
+              <% end %><br>
               <% @working_time_sum[working_user.id] += dt.working_time_to - dt.working_time_from if @working_time_sum[working_user.id] %>
             <% end %>
             <% if owner? && @shift_section.status == 2 %>
