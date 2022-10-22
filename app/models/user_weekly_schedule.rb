@@ -10,10 +10,12 @@ class UserWeeklySchedule < ApplicationRecord
     validates :working_time_from
     validates :working_time_to
   end
+  validates :working_time_to, uniqueness: { scope: [:user_id, :weeklyday_id] }
+  validates :working_time_from, uniqueness: { scope: [:user_id, :weeklyday_id] }
   validate :working_time, :duplicate
 
   def working_time
-    if working_time_from && working_time_to
+    if working_time_from && working_time_from
       if working_time_from > working_time_to
         errors.add(:working_time_from, "可能な時間に設定してください")
       end

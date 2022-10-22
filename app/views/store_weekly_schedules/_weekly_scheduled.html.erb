@@ -18,14 +18,14 @@
           <% if working_time_from_weeklyday && working_time_to_weeklyday %>
             <td>
               <%= "┿   #{working_time_from_weeklyday.count}人" %>
-              <% if owner? %>
+              <% if owner? && @shift_section_status_0 %>
                 <%= button_to '削除', store_store_weekly_schedule_path(@store, working_time_from_weeklyday), method: :delete %>
               <% end %>
             </td>
           <% elsif working_time_from_weeklyday %>
             <td style="border-top:1px solid #1f1f1f;">
               <%= "┯	  #{working_time_from_weeklyday.count}人" %>
-              <% if owner? %>
+              <% if owner? && @shift_section_status_0 %>
                 <%= button_to '削除', store_store_weekly_schedule_path(@store, working_time_from_weeklyday), method: :delete %>
               <% end %>
             </td>

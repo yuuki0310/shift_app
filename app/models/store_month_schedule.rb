@@ -9,8 +9,8 @@ class StoreMonthSchedule < ApplicationRecord
     validates :working_time_to
     validates :count
   end
-  validates :working_time_from, uniqueness: {scope: [:working_time_to, :working_time_from, :store_id, :date]}
-  validates :working_time_to, uniqueness: {scope: [:working_time_from, :working_time_from, :store_id, :date]}
+  validates :working_time_from, uniqueness: {scope: [:store_id, :date]}
+  validates :working_time_to, uniqueness: {scope: [:store_id, :date]}
   validate :working_time, :shift_section, :duplicate
 
   def working_time

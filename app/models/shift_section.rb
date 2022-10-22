@@ -10,7 +10,7 @@ class ShiftSection < ApplicationRecord
     validates :ending
     validates :status
   end
-  validate :date, :duplicate
+  validate :date, :duplicate, :multiple_creation
 
   def date
     if beginning && ending && beginning >= ending
@@ -27,6 +27,15 @@ class ShiftSection < ApplicationRecord
           errors.add(:beginning, "重複しています。可能な日付を設定してください。")
           return
         end
+      end
+    end
+  end
+
+  def multiple_creation
+    if beginning && ending
+      shift_section = ShiftSection.find_by(store_id: store_id, status: 1..2)
+      if shift_section
+        errors.add(:beginning, "他のシフトを完成させるか、削除してから新しいシフトを作成してください。")
       end
     end
   end

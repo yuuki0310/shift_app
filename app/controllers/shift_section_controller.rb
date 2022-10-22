@@ -14,7 +14,7 @@ class ShiftSectionController < ApplicationController
   def change_status
     shift_section = ShiftSection.find_by(store_id: params[:store_id], beginning: params[:beginning])
     shift_section.status = params[:status]
-    shift_section.save!
+    shift_section.save
     redirect_to "/stores/#{params[:store_id]}/shifts/#{params[:beginning]}"
   end
 
@@ -39,8 +39,8 @@ class ShiftSectionController < ApplicationController
   end
 
   def destroy
-    store_submission = ShiftSection.find_by(store_id: params[:store_id])
-    store_submission.destroy
-    redirect_to store_shifts_path(params[:store_id])
+    shift_section = ShiftSection.find(params[:id])
+    shift_section.destroy
+    redirect_to store_shift_section_index_path(params[:store_id])
   end
 end

@@ -13,6 +13,7 @@ class StoreWeeklySchedulesController < ApplicationController
     @store_schedule = StoreWeeklySchedule.new
     @weeklydays = Weeklyday.all
     @weekly_scheduled_times = weekly_scheduled_times(StoreWeeklySchedule.where(store_id: params[:store_id]))
+    @shift_section_status_0 = ShiftSection.find_by(store_id: params[:store_id], status: 0)
   end
   
   def create
