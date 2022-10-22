@@ -58,8 +58,6 @@ module CalendarHelper
     weekly_schedules.each do |wekkly_schedule|
       date_working_times.push(wekkly_schedule)
     end
-    # if month_schedules.present?
-    # end
     month_schedules&.each do |month_schedule|
       date_working_times.push(month_schedule)
       weekly_schedules.each do |wekkly_schedule|

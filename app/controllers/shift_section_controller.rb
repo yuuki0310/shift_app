@@ -26,6 +26,7 @@ class ShiftSectionController < ApplicationController
   def new
     @store = Store.find(params[:store_id])
     @shift_section = ShiftSection.new
+    @shift_section_status_012 = ShiftSection.find_by(store_id: @store.id, status: 0..2)
   end
 
   def create
