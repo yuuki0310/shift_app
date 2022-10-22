@@ -1,6 +1,15 @@
 <h1>シフト一覧</h1>
 <% @store_shift_sections.each do |store_shift_section| %>
   <%= link_to "#{store_shift_section.beginning}~#{store_shift_section.ending}", "/stores/#{params[:store_id]}/shifts/#{store_shift_section.beginning}" %>
+  <% if store_shift_section.status == 0 %>
+    <div class="inline">ストアスケジュール編集中</div>
+  <% elsif store_shift_section.status == 1 %>
+    <div class="inline">スタッフのシフト希望提出待ち</div>
+  <% elsif store_shift_section.status == 2 %>
+    <div class="inline">シフト作成中</div>
+  <% elsif store_shift_section.status == 3 %>
+    <div class="inline">完成</div>
+  <% end %>
   <% if owner? %>
     <%= button_to "削除", store_shift_section_path(@store, store_shift_section), method: :delete, data: {confirm: "シフトを削除しますか？"} %>
   <% end %>

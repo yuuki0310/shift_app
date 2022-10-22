@@ -124,6 +124,10 @@ img.guide_image {
   top: 30px;
 }
 
+.inline {
+	display: inline;
+}
+
 /* ナビ開いてる時のボタン */
 .hamburger.active span:nth-child(1) {
   top : 16px;
