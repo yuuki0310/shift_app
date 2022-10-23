@@ -30,7 +30,7 @@ module LoginHelper
       store_id = params[:id]
     end
     store = Store.find(store_id)
-    store.id == current_user.store_id
+    logged_in? && store.id == current_user.store_id
   end
 
   def owner?
