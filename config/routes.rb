@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  get 'top/index'
+  get 'privacy_policy/index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root 'top#index'
+  get "/privacy_policy" => "privacy_policy#index"
 
   resources :login, only: [:new, :create]
   delete '/logout',  to: 'login#destroy'

@@ -88,8 +88,8 @@
       </nav>
     </div>
   </div>
-  <!-- / ヘッダー -->
 
+  <!-- / ヘッダー -->
   <div id="wrapper">
     <% if flash[:notice] %>
       <div class="flash">
@@ -99,6 +99,7 @@
     <%= yield %>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9696023364391450"
      crossorigin="anonymous"></script>
+
     <!-- 記事下 -->
     <ins class="adsbygoogle"
         style="display:block"
@@ -110,5 +111,12 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
   </div>
+  
+  <!-- フッター -->
+  <footer>
+    <%= link_to "プライバシーポリシー", privacy_policy_index_path() %>
+    <%= link_to "instagram", "https://www.instagram.com/shift_creating/" %>
+    <%= link_to "お問い合わせ先", "https://www.instagram.com/shift_creating/" %>
+  </footer>
 </body>
 </html>

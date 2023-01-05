@@ -193,6 +193,20 @@ nav.globalMenuSp.active {
 	display: inline;
 }
 
+footer{
+	position: absolute;/* ←絶対位置 */
+	bottom: 0;
+	text-align: center;
+	left: 50%;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+}
+
+footer a {
+	margin-right: 10px;
+}
+
 
 /* =Reset default browser CSS.
 Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
@@ -216,6 +230,11 @@ font:12px verdana,"ヒラギノ丸ゴ ProN W4","Hiragino Maru Gothic ProN","メ�
 line-height:1.5;
 background:#fff;
 -webkit-text-size-adjust: none;
+min-height: 100vh; /* ←コンテンツの高さの最小値＝ブラウザの高さに指定 */
+position: relative;/* ←相対位置 */
+padding-bottom: 60px; /* ←フッターの高さを指定 */
+box-sizing: border-box;
+/* ↑ヘッダーやフッターを含むすべての要素の高さ＝min-height:100vhになるように指定 */
 }
 
 
