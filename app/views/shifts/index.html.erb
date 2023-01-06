@@ -1,3 +1,6 @@
+<% content_for :viewport do %>
+""
+<% end %>
 <%= link_to 'シフト一覧へ',  store_shift_section_index_path %><br>
 <% if owner? %>
   <% if @shift_section.status == 2 %>
@@ -56,7 +59,7 @@
     </table>
   </div>
 <% end %>
-<table class="table">
+<table class="table working_time_sum">
   <tr>
     <th>名前</th>
     <th>勤務希望時間</th>

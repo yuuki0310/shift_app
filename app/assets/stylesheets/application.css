@@ -19,7 +19,6 @@
 
 /* 追加CSS
 -------------------------------------------------------------- */
-
 #wrapper h1{
 	font-size: 25px;
 }
@@ -42,6 +41,11 @@
 .working_time{
 	display: inline;
 }
+
+/* .simple-calendar {
+	margin-left: calc(-50vw + 50%);
+	margin-right: calc(-50vw + 50%);
+} */
 
 .simple-calendar .prev-month{
 	background-color: #fff;
@@ -82,13 +86,20 @@ table.table td.shift_working_time {
 	padding: 5px 1px;
 }
 
+table.working_time_sum td {
+	text-align: center;
+	padding: 5px;
+}
+
 img.guide_image {
 	width: 100%;
 	border: solid;
 }
 
-.simple-calendar td {
+div.simple-calendar table td {
+	padding: 0.5vw;
 	width: auto;
+	text-align: center;
 }
 
 /*　ハンバーガーボタン　*/
@@ -250,7 +261,6 @@ a:active, a:focus{outline:0;}
 #wrapper{
 margin:0 auto;
 padding:0 1%;
-width:98%;
 position:relative;
 }
 
@@ -615,11 +625,18 @@ font-weight:bold;
 	
 	#gallery{margin-left:-10px;}
   #gallery .grid{width:220px;}	
+
+	.simple-calendar {
+		font-size: 0.001vw;
+	}
 }
 
 
 /* モニター幅960px以下 */
 @media only screen and (max-width:960px){
+	.simple-calendar {
+		font-size: 0.001vw;
+	}
 	*{
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
@@ -792,7 +809,7 @@ font-weight:bold;
 
 
 /* スマートフォン 縦(ポートレート) */
-@media only screen and (max-width:480px){
+/* @media only screen and (max-width:480px){
 	#mainBanner{margin-left:1px;}
 	#mainBanner h2,#mainBanner h3{font-size:75%;}
 	
@@ -809,4 +826,4 @@ font-weight:bold;
 	padding-bottom:3px;
 	margin-bottom:3px;
 	}
-}
+} */
