@@ -1,5 +1,6 @@
 class ShiftSection < ApplicationRecord
   belongs_to :store,  optional: true
+  has_many :user_submissions, dependent: :destroy
 
   validates :beginning, uniqueness: { scope: [:store_id] }
   validates :ending, uniqueness: { scope: [:store_id] }
